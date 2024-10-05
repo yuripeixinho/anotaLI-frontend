@@ -5,9 +5,7 @@ const Layout = () => {
     <div>
       <nav>
         <ul>
-          <li>
-          <Link to="/perfis/1/conta">Selecionar perfis</Link>
-          </li>
+
           <li>
             <Link to="/perfis/1/conta">Selecionar perfis</Link>
           </li>

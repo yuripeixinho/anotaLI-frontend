@@ -1,6 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-import About from './pages/about';
-import Contact from './pages/contact';
 import Layout from './components/layout/layout';
 import SelecionarPerfis from './pages/selecionarPerfis';
 
@@ -15,12 +13,8 @@ const router = createBrowserRouter([
         element: <SelecionarPerfis/>, // Rota para página Home
       },
       {
-        path: '/about',
-        element: <About />, // Rota para página About
-      },
-      {
-        path: '/contact',
-        element: <Contact />, // Rota para página Contact
+        path: "/contas/:perfilContaID/produtos",
+        element: <SelecionarPerfis/>, // Rota para página Home
       },
     ],
   },
