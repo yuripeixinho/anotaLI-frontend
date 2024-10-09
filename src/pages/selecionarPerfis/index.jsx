@@ -2,11 +2,14 @@ import { Avatar, Col, Row } from "antd";
 import DefaultRenderEmpty from "antd/es/config-provider/defaultRenderEmpty";
 import { useEffect, useState } from "react";
 import PerfilContaService from "../../services/perfilConta.service";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function SelecionarPerfis() {
   const { id } = useParams();
   const [perfisConta, setPerfisConta] = useState([]);
+
+  let navigate = useNavigate();
+
 
   useEffect(() => {
     debugger;
@@ -27,6 +30,7 @@ export default function SelecionarPerfis() {
           <Avatar
             size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
             icon={<DefaultRenderEmpty />}
+            onClick={() => navigate(`/home/perfil-conta/${perfil.id}/produtos`)}
           />
 
           <span>{perfil.nome}</span>

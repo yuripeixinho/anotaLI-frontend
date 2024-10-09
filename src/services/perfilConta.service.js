@@ -1,3 +1,4 @@
+import api from "./api.service";
 import CoreApiService from "./core-api.service";
 import PerfilContaSerializer from "./serializers/perfiConta.serializer";
 

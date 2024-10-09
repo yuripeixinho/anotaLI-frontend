@@ -5,12 +5,14 @@ const Layout = () => {
     <div>
       <nav>
         <ul>
-
           <li>
-            <Link to="/perfis/1/conta">Selecionar perfis</Link>
+            <Link to="/conta/2/perfis">Selecionar perfis</Link>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
+            <Link to="/home/2/produtos">Home Compartilhada</Link>
+          </li>
+          <li>
+            <Link to="/home/perfil-conta/5/produtos">Minha Home</Link>
           </li>
         </ul>
       </nav>
