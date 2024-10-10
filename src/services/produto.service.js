@@ -8,7 +8,6 @@ export default class ProdutoService extends CoreApiService {
   }
 
   async listByConta(parentId, queryOptions = null, isListView = null) {
-    debugger;
     const response = await api.get(
       `contas/${parentId}/produtos?${
         (queryOptions && queryOptions.toQueryString()) || ""
@@ -27,7 +26,6 @@ export default class ProdutoService extends CoreApiService {
   }
 
   async listByPerfilConta(parentId, queryOptions = null, isListView = null) {
-    debugger;
     const response = await api.get(
       `perfilcontas/${parentId}/produtos?${
         (queryOptions && queryOptions.toQueryString()) || ""

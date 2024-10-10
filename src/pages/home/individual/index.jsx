@@ -8,7 +8,6 @@ export default function HomeIndividual() {
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-    debugger;
     const _produtoService = new ProdutoService();
 
     async function init() {
@@ -36,7 +35,7 @@ export default function HomeIndividual() {
   return (
     <div>
         <h1>Home individual</h1>
-        <Table dataSource={produtos} columns={columns} />;
+        <Table dataSource={produtos} columns={columns} />
     </div>
   );
 }

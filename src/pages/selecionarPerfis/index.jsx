@@ -1,18 +1,16 @@
-import { Avatar, Col, Row } from "antd";
-import DefaultRenderEmpty from "antd/es/config-provider/defaultRenderEmpty";
+import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import PerfilContaService from "../../services/perfilConta.service";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import PerfilCard from "./perfilCard";
+import "./styles.scss";
 
 export default function SelecionarPerfis() {
   const { id } = useParams();
   const [perfisConta, setPerfisConta] = useState([]);
 
-  let navigate = useNavigate();
-
-
   useEffect(() => {
-    debugger;
     const _perfisContaService = new PerfilContaService();
 
     async function init() {
@@ -24,18 +22,16 @@ export default function SelecionarPerfis() {
   }, [id]);
 
   return (
-    <div>
-      {perfisConta.map((perfil) => (
-        <Col span={6}>
-          <Avatar
-            size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-            icon={<DefaultRenderEmpty />}
-            onClick={() => navigate(`/home/perfil-conta/${perfil.id}/produtos`)}
-          />
+    <>
+      <h1 className="titulo">Quem vai usar?</h1>
 
-          <span>{perfil.nome}</span>
-        </Col>
-      ))}
-    </div>
+      <Row justify={"space-between"} className="select-profile">
+        {perfisConta.map((perfil) => (
+          <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}>
+            <PerfilCard perfil={perfil} />
+          </Col>
+        ))}
+      </Row>
+    </>
   );
 }

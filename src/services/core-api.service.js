@@ -18,7 +18,6 @@ export default class CoreApiService {
     const response = await api.get(
       `${this.endpoint}?${(queryOptions && queryOptions.toQueryString()) || ""}`
     );
-    debugger;
 
     const data = response.data;
 
@@ -30,7 +29,6 @@ export default class CoreApiService {
   }
 
   async listSub(parentId, queryOptions = null, isListView = null) {
-    debugger;
     const response = await api.get(
       `${this.parentEndpoint}/${parentId}/${this.endpoint}?${
         (queryOptions && queryOptions.toQueryString()) || ""
