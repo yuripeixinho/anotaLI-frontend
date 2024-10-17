@@ -1,22 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom';
-import SelecionarPerfis from './pages/selecionarPerfis';
-import HomeCompartilhada from './pages/home/compartilhada';
-import HomeIndividual from './pages/home/individual';
+import HomeIndividual from './pages/perfis/individual';
 import LayoutApp from './components/layout/layout/layout';
+import Home from './pages/home';
+import Perfil from './pages/perfis';
 
 // Crie suas rotas usando o createBrowserRouter
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <LayoutApp />, // Layout vai ser o layout principal de todas as rotas
+    element: <LayoutApp />,
     children: [
       {
-        path: "/conta/:id/perfis",
-        element: <SelecionarPerfis/>, 
+        path: "/home",
+        element: <Home/>, 
       },
       {
-        path: "/home/:contaID/produtos",
-        element: <HomeCompartilhada/>, 
+        path: "/perfis",
+        element: <Perfil/>, 
       },
       {
         path: "/home/perfil-conta/:perfilContaID/produtos",
