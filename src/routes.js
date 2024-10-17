@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     element: <LayoutApp />,
     children: [
       {
-        path: "/home",
+        path: "/home/:contaID",
         element: <Home/>, 
       },
       {

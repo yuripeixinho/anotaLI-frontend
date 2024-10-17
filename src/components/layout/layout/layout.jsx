@@ -20,7 +20,7 @@ import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 
 const items = [
-  { key: "1", label: <Link to="/home">Home</Link>, icon: <HomeOutlined /> },
+  { key: "1", label: <Link to="/home/2">Home</Link>, icon: <HomeOutlined /> },
   {
     key: "2",
     label: <Link to="/perfis">Perfis</Link>,

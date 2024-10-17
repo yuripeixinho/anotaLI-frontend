@@ -2,8 +2,6 @@ import { Col, Row, Table } from "antd";
 
 export default function Perfil() {
   
- 
-
   return (
     <div>
       <h1>Espionar Perfil</h1>
