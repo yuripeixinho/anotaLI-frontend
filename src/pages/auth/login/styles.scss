@@ -1,0 +1,63 @@
+body {
+  overflow: hidden;
+  background: linear-gradient(
+    to right,
+    #fff 0%,
+    #ffffff 30%,
+    #ffffff 40%,
+    #f5feff 50%,
+    #f4fcff 60%,
+    #97cffd 100%
+  );
+}
+
+.login-form {
+  padding: 100px 0px 0 220px;
+  background-color: #fff;
+  height: 84vh;
+  max-width: 480px;
+}
+
+.btn-social-media {
+  padding: 18px;
+  border-radius: 20px;
+}
+
+.login-title {
+  font-size: 40px !important;
+  font-weight: 300 !important;
+  font-family: "Inter";
+}
+
+.login-subtitle {
+  font-size: 16px;
+  color: #bbbbbb;
+  font-weight: 400;
+  margin-bottom: 50px;
+  margin-top: -14px;
+}
+
+.divisor-font {
+  font-size: 12px;
+  color: #bbbb;
+}
+
+.label-input {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.login-submit {
+  width: 100%;
+  padding: 22px;
+  background-color: #74bade;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.input-text {
+  height: 50px;
+  border-radius: 100px;
+}

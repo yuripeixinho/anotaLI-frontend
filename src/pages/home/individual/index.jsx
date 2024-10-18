@@ -11,8 +11,8 @@ export default function HomeIndividual() {
     const _produtoService = new ProdutoService();
 
     async function init() {
-      const responsePerfilContaService = await _produtoService.listByPerfilConta(perfilContaID);
-      setProdutos(responsePerfilContaService);
+      // const responsePerfilContaService = await _produtoService.listByPerfilConta(perfilContaID);
+      // setProdutos(responsePerfilContaService);
     }
 
     init();
