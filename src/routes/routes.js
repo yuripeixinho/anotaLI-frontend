@@ -5,6 +5,7 @@ import HomeIndividual from "../pages/home/individual";
 import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";
 import Login from "../pages/auth/login";
+import Cadastro from "../pages/auth/cadastro";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/cadastro",
+    element: <Cadastro />,
   },
 ]);
 

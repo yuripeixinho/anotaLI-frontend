@@ -17,20 +17,36 @@ import logoMicrosoft from "../../../assets/logo/logo-microsoft.png";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function Cadastro() {
   return (
-    <Row className="login-container">
+    <Row className="container-cadastro">
       <Col span={12}>
+        <Lottie
+          loop={true}
+          autoplay={true}
+          style={{
+            width: "125%",
+            height: "100%",
+            marginLeft: "-10%",
+            marginTop: "-4%",
+          }} // ajuste o valor da margem conforme necessário
+          isClickToPauseDisabled={true}
+          translate=""
+          animationData={loginAnimation}
+        />
+      </Col>
+      <Col span={12}>
+        {" "}
         <div className="login-form">
           <Row style={{ flexDirection: "column" }}>
             <Col>
               <Title level={2} className="login-title">
-                Faça login na sua conta
+                Comece agora mesmo!
               </Title>
             </Col>
             <Col>
               <Typography className="login-subtitle">
-                Cadastre-se uma vez, se organize sempre.
+                Insira os seus dados e crie sua conta.
               </Typography>
             </Col>
           </Row>
@@ -46,7 +62,7 @@ export default function Login() {
                       width: "24px",
                     }}
                   />
-                  Entrar com o Google
+                  Cadastro com Google
                 </Button>
 
                 {/* Botão com logotipo do Microsoft */}
@@ -58,7 +74,7 @@ export default function Login() {
                       width: "24px",
                     }}
                   />
-                  Entrar com a Microsoft
+                  Cadastro com Microsoft
                 </Button>
               </Flex>
             </Col>
@@ -69,6 +85,21 @@ export default function Login() {
               </Divider>
             </Col>
 
+            <Col>
+              <Flex vertical gap={8}>
+                <label className="label-input">Nome</label>
+                <Input
+                  type="text"
+                  placeholder="Insira o seu nome"
+                  style={{
+                    width: "100%",
+                    marginBottom: "10px",
+                    paddingLeft: "18px",
+                  }}
+                  className="input-text"
+                />
+              </Flex>
+            </Col>
             <Col>
               <Flex vertical gap={8}>
                 <label className="label-input">E-mail</label>
@@ -111,24 +142,24 @@ export default function Login() {
             >
               <Checkbox />
               <label style={{ marginLeft: "6px", fontFamilt: "Inter" }}>
-                Manter conectado
+                Concordo com os <a href="/">Termos & Privacidade</a>
               </label>
             </Col>
 
             <Col style={{ marginBottom: "10px" }}>
               <Button style={{ width: "100%" }} className="login-submit">
-                Entrar
+                Cadastrar
               </Button>
             </Col>
 
             <Col>
               <label style={{ fontSize: "14px", fontFamily: "Inter" }}>
-                Não tem uma conta?{" "}
+                Já possui uma conta?{" "}
                 <Link
-                  to="/cadastro"
+                  to="/login"
                   style={{ color: "#007BFF", cursor: "pointer" }}
                 >
-                  Registre-se
+                  Login
                 </Link>
               </label>
             </Col>
@@ -156,21 +187,6 @@ export default function Login() {
             </Typography>
           </Col>
         </Row>
-      </Col>
-      <Col span={12}>
-        <Lottie
-          loop={true}
-          autoplay={true}
-          style={{
-            width: "125%",
-            height: "100%",
-            marginLeft: "-14%",
-            marginTop: "-4%",
-          }} // ajuste o valor da margem conforme necessário
-          isClickToPauseDisabled={true}
-          translate=""
-          animationData={loginAnimation}
-        />
       </Col>
     </Row>
   );

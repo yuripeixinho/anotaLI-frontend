@@ -2,23 +2,22 @@ body {
   overflow: hidden;
 }
 
-.login-container {
-  overflow: hidden;
+.container-cadastro {
   background: linear-gradient(
-    to right,
+    to left,
     #fff 0%,
     #ffffff 30%,
     #ffffff 40%,
-    #f5feff 50%,
-    #f4fcff 60%,
-    #97cffd 100%
-  );
+    #fffdf4 70%,
+    #fff8e2 80%,
+    #fff5c7 100%
+  ) !important;
   height: 100vh;
 }
+
 .login-form {
-  padding: 100px 0px 0 220px;
+  padding: 60px 0px 0 220px;
   background-color: #fff;
-  height: 84vh;
   max-width: 480px;
 }
 
