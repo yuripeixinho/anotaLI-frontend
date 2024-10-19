@@ -3,22 +3,21 @@ import { useParams } from "react-router-dom";
 import ProdutoService from "../../../services/produto.service";
 import { Col, Row, Table } from "antd";
 
-export default function HomeCompartilhada() {
-  const { contaID } = useParams();
+export default function HomeIndividual() {
+  const { perfilContaID } = useParams();
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
 
     async function init() {
-      const responsePerfilContaService = await _produtoService.listByConta(
-        contaID
-      );
+      const responsePerfilContaService =
+        await _produtoService.listByPerfilConta(perfilContaID);
       setProdutos(responsePerfilContaService);
     }
 
     init();
-  }, [contaID]);
+  }, [perfilContaID]);
 
   const columns = [
     {
@@ -31,11 +30,17 @@ export default function HomeCompartilhada() {
       dataIndex: "quantidade",
       key: "quantidade",
     },
+    {
+      title: "Unidade",
+      dataIndex: "unidade",
+      key: "unidade",
+    },
   ];
 
+  console.log(produtos);
   return (
     <div>
-      <h1>Home compartilhada</h1>
+      <h1>Home individual</h1>
 
       <Row>
         <Col xs={10} sm={10} md={10} lg={10} xl={10} xxl={10}>

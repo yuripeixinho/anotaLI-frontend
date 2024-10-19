@@ -8,6 +8,7 @@ export default class ProdutoSerializer {
         json.produtoID && { id: json.produtoID },
         json.nome && { nome: json.nome },
         json.quantidade && { quantidade: json.quantidade },
+        json.unidade && { unidade: json.unidade },
       );
   
       return conta;

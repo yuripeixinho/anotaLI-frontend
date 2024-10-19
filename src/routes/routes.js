@@ -6,6 +6,8 @@ import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";
 import Login from "../pages/auth/login";
 import Cadastro from "../pages/auth/cadastro";
+import Home from "../pages/home";
+import Perfil from "../pages/perfis";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -35,6 +37,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <HomeIndividual />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/home/:contaID",
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/perfis",
+        element: (
+          <ProtectedRoute>
+            <Perfil />
           </ProtectedRoute>
         ),
       },
