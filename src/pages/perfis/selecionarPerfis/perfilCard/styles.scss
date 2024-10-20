@@ -1,0 +1,29 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 0px 12px;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+
+  .edit-icon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #000000;
+    opacity: 0;
+    visibility: hidden; // O ícone estará invisível e não ocupará espaço
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s 0.3s; // Transição suave
+  }
+
+  &:hover .edit-icon {
+    opacity: 1; // Torna visível
+    visibility: visible; // Mostra o ícone
+    transform: scale(1.2); // Aumenta ligeiramente o ícone
+    transition: opacity 0.3s ease, transform 0.3s ease; // Transição suave ao mostrar
+  }
+}

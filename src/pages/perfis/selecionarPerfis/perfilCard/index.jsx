@@ -12,7 +12,7 @@ export default function PerfilCard({ perfil }) {
       <Avatar
         size={250}
         // icon={<avata />}
-        onClick={() => navigate(`/home/perfil-conta/${perfil.id}/produtos`)}
+        onClick={() => navigate("/home/perfil-conta/${perfil.id}/produtos")}
       />
 
       <h2>{perfil.nome}</h2>

@@ -1,13 +1,10 @@
-import { createBrowserRouter } from "react-router-dom";
-import SelecionarPerfis from "../pages/selecionarPerfis";
-import HomeCompartilhada from "../pages/home/compartilhada";
-import HomeIndividual from "../pages/home/individual";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import SelecionarPerfis from "../pages/perfis/selecionarPerfis";
 import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";
 import Login from "../pages/auth/login";
 import Cadastro from "../pages/auth/cadastro";
-import Home from "../pages/home";
-import Perfil from "../pages/perfis";
+import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editarPerfil";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -17,44 +14,20 @@ const router = createBrowserRouter([
     element: <LayoutApp />, // Layout vai ser o layout principal de todas as rotas
     children: [
       {
-        path: "/conta/:id/perfis",
-        element: (
-          <ProtectedRoute>
-            <SelecionarPerfis />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "/home/:contaID/produtos",
-        element: (
-          <ProtectedRoute>
-            <HomeCompartilhada />,
-          </ProtectedRoute>
-        ),
+        element: <ProtectedRoute>{/* <Home />, */}</ProtectedRoute>,
       },
       {
         path: "/home/perfil-conta/:perfilContaID/produtos",
-        element: (
-          <ProtectedRoute>
-            <HomeIndividual />
-          </ProtectedRoute>
-        ),
+        element: <ProtectedRoute>{/* <HomeIndividual /> */}</ProtectedRoute>,
       },
       {
         path: "/home/:contaID",
-        element: (
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        ),
+        element: <ProtectedRoute>{/* <Home /> */}</ProtectedRoute>,
       },
       {
         path: "/perfis",
-        element: (
-          <ProtectedRoute>
-            <Perfil />
-          </ProtectedRoute>
-        ),
+        element: <ProtectedRoute>{/* <Perfil /> */}</ProtectedRoute>,
       },
     ],
   },
@@ -65,6 +38,30 @@ const router = createBrowserRouter([
   {
     path: "/cadastro",
     element: <Cadastro />,
+  },
+  {
+    path: "/conta/:id/perfis",
+    element: (
+      // <ProtectedRoute>
+      <SelecionarPerfis />
+      // </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/perfil-conta/:id/alterar-perfil",
+    element: (
+      // <ProtectedRoute>
+      <SelecionarPerfis />
+      // </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/editar-perfil/:perfilId",
+    element: (
+      // <ProtectedRoute>
+      <EditarPerfil />
+      // </ProtectedRoute>
+    ),
   },
 ]);
 
