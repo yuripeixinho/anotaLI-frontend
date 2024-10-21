@@ -1,12 +1,38 @@
 .select-profile {
   margin: 0 auto;
-  gap: 1px;
 }
 
 .edit-icon {
   font-size: 24px;
-  color: #1890ff;
+  color: #696969;
+
   &:hover {
-    color: #40a9ff;
+    color: #000000;
   }
+}
+
+.titulo {
+  text-align: center;
+  font-family: "Inter" !important;
+  font-size: 60px !important;
+  font-weight: 400 !important;
+}
+
+.container-gerenciar-perfil {
+  justify-content: center;
+}
+
+.container-perfis {
+  margin: 0 auto;
+}
+
+.btn-gerenciar-perfil {
+  width: 15%;
+  padding: 18px;
+  background-color: #74bade;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 18px;
 }

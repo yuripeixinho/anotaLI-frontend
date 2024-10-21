@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Flex, Row } from "antd";
 import { useEffect, useState } from "react";
 import PerfilContaService from "../../../services/perfilConta.service";
 import { useParams, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { EditOutlined } from "@ant-design/icons"; // ícone de edição
 import PerfilCard from "./perfilCard";
 import "./styles.scss";
 import Title from "antd/es/typography/Title";
+import NovoPerfil from "./novoPerfil";
 
 export default function SelecionarPerfis() {
   const { id } = useParams();
@@ -13,7 +14,6 @@ export default function SelecionarPerfis() {
   const [perfisConta, setPerfisConta] = useState([
     { nome: "Marcelo", perfilId: "1" },
     { nome: "Gih", perfilId: "1" },
-    { nome: "Lucas", perfilId: "1" },
     { nome: "Lucas", perfilId: "1" },
   ]);
   const [isEditing, setIsEditing] = useState(false); // controla a exibição do ícone de edição
@@ -33,22 +33,16 @@ export default function SelecionarPerfis() {
     setIsEditing(!isEditing); // Alterna o estado de edição
   };
 
-  const handleEditClick = (perfilId) => {
-    // Redireciona para a página de edição do perfil com o perfilId
-    navigate(`/editar-perfil/${perfilId}`);
-  };
-
   return (
     <>
-      <Row
-        align={"middle"}
-        style={{ flexDirection: "column" }}
-      >
+      <Row align={"middle"} style={{ gap: "0px", height: "80vh" }}>
         <Col span={24}>
-          <Title className="titulo">Quem vai usar?</Title>
+          <Title className="titulo">
+            {!isEditing ? "Quem está usando?" : "Gerenciar perfis:"}
+          </Title>
         </Col>
 
-        <Col span={24}>
+        <Col span={14} className="container-perfis">
           <Row justify={"space-between"} className="select-profile">
             {perfisConta.map((perfil) => (
               <Col
@@ -60,22 +54,24 @@ export default function SelecionarPerfis() {
                 xxl={6}
                 key={perfil.perfilId}
               >
-                <PerfilCard perfil={perfil} />
-                {isEditing && (
-                  <EditOutlined
-                    className="edit-icon"
-                    onClick={() => handleEditClick(perfil.perfilId)}
-                    style={{ cursor: "pointer", marginTop: "10px" }}
-                  />
-                )}
+                <PerfilCard perfil={perfil} isEditing={isEditing} />
               </Col>
             ))}
+            <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}>
+              <NovoPerfil isEditing={isEditing} />
+            </Col>
           </Row>
         </Col>
-        <Col span={24}>
-          <label onClick={handleManageClick} style={{ cursor: "pointer" }}>
-            Gerenciar perfil
-          </label>
+        <Col span={24} className="container-gerenciar-perfil">
+          <Flex justify="center">
+            <button
+              onClick={handleManageClick}
+              style={{ cursor: "pointer" }}
+              className="btn-gerenciar-perfil"
+            >
+              {!isEditing ? "Gerenciar perfil" : "Concluído"}
+            </button>
+          </Flex>
         </Col>
       </Row>
     </>

@@ -1,0 +1,24 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  flex-direction: column;
+}
+
+.avatar-container {
+  position: relative;
+  width: 250px;
+  height: 250px;
+
+
+  .new-profile {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    cursor: pointer;
+    color: #000000;
+    transition: transform 0.3s ease;
+  }
+}
