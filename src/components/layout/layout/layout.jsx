@@ -1,8 +1,9 @@
 import { Link, Outlet } from "react-router-dom";
 
-import { Avatar, Breadcrumb, Layout, Menu, theme } from "antd";
+import { Avatar, Badge, Breadcrumb, Layout, Menu, theme } from "antd";
 import {
   AppstoreOutlined,
+  FieldBinaryOutlined,
   HomeFilled,
   HomeOutlined,
   MailOutlined,
@@ -18,26 +19,35 @@ import { Button } from "antd/es/radio";
 import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
-
-const items = [
-  { key: "1", label: <Link to="/home/2">Home</Link>, icon: <HomeOutlined /> },
-  {
-    key: "2",
-    label: <Link to="/perfis">Perfis</Link>,
-    icon: <ProfileFilled />,
-  },
-  {
-    key: "3",
-    label: <Link to="/feiras">Feira</Link>,
-    icon: <UploadOutlined />,
-  },
-];
+import { useAuth } from "../../../context/anotaLiAuthContext";
 
 function LayoutApp() {
+  const { logout, usuario } = useAuth(); // Usa o hook de autenticação para acessar a função login
+
   const [collapsed, setCollapsed] = useState(false);
-  // const {
-  //   token: { colorBgContainer, borderRadiusLG },
-  // } = theme.useToken();
+
+  const items = [
+    {
+      key: "1",
+      label: <Link to={`home/${usuario?.id}`}>Home</Link>,
+      icon: <HomeOutlined />,
+    },
+    {
+      key: "2",
+      label: <Link to="/meus-itens/2">Meus Itens</Link>,
+      icon: <FieldBinaryOutlined />,
+    },
+    {
+      key: "3",
+      label: <Link to="/perfis">Perfis</Link>,
+      icon: <ProfileFilled />,
+    },
+    {
+      key: "4",
+      label: <Link to="/feiras">Feira</Link>,
+      icon: <UploadOutlined />,
+    },
+  ];
 
   return (
     <Layout>
@@ -67,18 +77,25 @@ function LayoutApp() {
             AnotaLI
           </span>
         </div>
-
         <Menu
           mode="inline"
           style={{ backgroundColor: "#F6F7F9" }}
           defaultSelectedKeys={["1"]}
           items={items}
         />
-
         <Button
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setCollapsed(!collapsed)}
+          style={{
+            fontSize: "16px",
+            width: 20,
+            height: 20,
+          }}
+        />
+        <Button
+          type="text"
+          onClick={() => logout()}
           style={{
             fontSize: "16px",
             width: 20,

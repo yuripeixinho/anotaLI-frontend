@@ -36,7 +36,6 @@ export default function Cadastro() {
         />
       </Col>
       <Col span={12}>
-        {" "}
         <div className="login-form">
           <Row style={{ flexDirection: "column" }}>
             <Col>
@@ -56,8 +55,8 @@ export default function Cadastro() {
               <Flex gap={10}>
                 <Button style={{ width: "100%" }} className="btn-social-media">
                   <Image
-                    src={logoGoogle} // URL do logotipo do Google
-                    preview={false} // Desabilita o preview ao clicar na imagem
+                    src={logoGoogle} 
+                    preview={false} 
                     style={{
                       width: "24px",
                     }}
@@ -65,10 +64,9 @@ export default function Cadastro() {
                   Cadastro com Google
                 </Button>
 
-                {/* Botão com logotipo do Microsoft */}
                 <Button style={{ width: "100%" }} className="btn-social-media">
                   <Image
-                    src={logoMicrosoft} // URL do logotipo do Google
+                    src={logoMicrosoft} 
                     preview={false}
                     style={{
                       width: "24px",

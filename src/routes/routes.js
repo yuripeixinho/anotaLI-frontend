@@ -5,6 +5,7 @@ import ProtectedRoute from "./protectedRoute";
 import Login from "../pages/auth/login";
 import Cadastro from "../pages/auth/cadastro";
 import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editarPerfil";
+import Home from "../pages/home";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -14,8 +15,8 @@ const router = createBrowserRouter([
     element: <LayoutApp />, // Layout vai ser o layout principal de todas as rotas
     children: [
       {
-        path: "/home/:contaID/produtos",
-        element: <ProtectedRoute>{/* <Home />, */}</ProtectedRoute>,
+        path: "/home/:contaID",
+        element: <ProtectedRoute>{<Home />}</ProtectedRoute>,
       },
       {
         path: "/home/perfil-conta/:perfilContaID/produtos",
@@ -33,11 +34,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <ProtectedRoute publicRoute>
+        <Login />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/cadastro",
-    element: <Cadastro />,
+    element: (
+      <ProtectedRoute publicRoute>
+        <Cadastro />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/conta/:id/perfis",
