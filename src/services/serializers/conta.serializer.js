@@ -1,12 +1,13 @@
 export default class ContaSerializer {
-
     fromJson(json) {
       const conta = {};
       
       Object.assign(
         conta,
-        json.contaID && { id: json.contaID },
+        json.id && { contaID: json.id },
         json.email && { email: json.email },
+        json.token && { token: json.token },
+
       );
   
       return conta;
@@ -17,7 +18,9 @@ export default class ContaSerializer {
   
       Object.assign(
         contaToJson,
-
+        conta.id && { contaID: conta.id },
+        conta.email && { email: conta.email },
+        conta.senha && { senha: conta.senha },
       );
   
       return contaToJson;
