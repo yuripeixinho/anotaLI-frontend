@@ -1,8 +1,6 @@
 import { Col, Flex, Row } from "antd";
 import { useEffect, useState } from "react";
-import PerfilContaService from "../../../services/perfilConta.service";
-import { useParams, useNavigate } from "react-router-dom";
-import { EditOutlined } from "@ant-design/icons"; // ícone de edição
+import { useParams } from "react-router-dom";
 import PerfilCard from "./perfilCard";
 import "./styles.scss";
 import Title from "antd/es/typography/Title";
@@ -10,8 +8,8 @@ import NovoPerfil from "./novoPerfil";
 
 export default function SelecionarPerfis() {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [perfisConta, setPerfisConta] = useState([
+  // const navigate = useNavigate();
+  const [perfisConta] = useState([
     { nome: "Marcelo", perfilId: "1" },
     { nome: "Gih", perfilId: "1" },
     { nome: "Lucas", perfilId: "1" },
@@ -19,7 +17,7 @@ export default function SelecionarPerfis() {
   const [isEditing, setIsEditing] = useState(false); // controla a exibição do ícone de edição
 
   useEffect(() => {
-    const _perfisContaService = new PerfilContaService();
+    // const _perfisContaService = new PerfilContaService();
 
     async function init() {
       // const responsePerfilContaService = await _perfisContaService.listSub(id);

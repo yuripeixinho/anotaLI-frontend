@@ -5,7 +5,6 @@ import {
   Divider,
   Flex,
   Image,
-  Input,
   Row,
   Typography,
 } from "antd";
