@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import SelecionarPerfis from "../pages/perfis/selecionarPerfis";
 import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";

@@ -1,6 +1,8 @@
-import { Col, Row, Button, Avatar, Carousel } from "antd";
+import { LeftCircleOutlined } from "@ant-design/icons";
+import { Col, Row, Button, Avatar, Carousel, Flex, Typography } from "antd";
 import { useParams } from "react-router-dom";
-// import "./styles.scss";
+import userPicture from "../../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
+import "./styles.scss";
 
 export default function EditarPerfil() {
   const { perfilId } = useParams();
@@ -15,21 +17,37 @@ export default function EditarPerfil() {
     "avatar-veiaco-card-3.png",
     "avatar-veiaco-card-4.png",
     "avatar-veiaco-card-5.png",
+    "avatar-veiaco-card-6.png",
   ];
 
   return (
-    <>
-      <h1 className="titulo">Editar Perfil - {perfilId}</h1>
+    <div style={{ padding: "14px 40px" }}>
+      <Row gutter={[40, 40]}>
+        <Col span={24}>
+          <Flex justify="space-between" align="center">
+            <Flex gap={50}>
+              <LeftCircleOutlined
+                style={{ fontSize: "40px", cursor: "pointer" }}
+              />
+              <h1 className="titulo">Escolha o avatar</h1>
+            </Flex>
 
-      <Row style={{ padding: "20px" }}>
+            <Flex justify="space-between" align="center" gap={10}>
+              <Avatar src={userPicture} size={50} />
+              <Typography className="usuario-nome">Yago Peixinho</Typography>
+            </Flex>
+          </Flex>
+        </Col>
+      </Row>
+
+      <Row style={{ padding: "24px 0" }}>
         <Row>
           <Col>
             <Col>
-              <h2>Nossos genéricos</h2>
+              <h2>Destaques</h2>
             </Col>
             <Col>
               <Carousel
-                autoplay
                 dots={false}
                 slidesToShow={6}
                 slidesToScroll={1}
@@ -44,7 +62,7 @@ export default function EditarPerfil() {
                         <Avatar
                           src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
                           alt={`Foto ${index + 1}`}
-                          size={300}
+                          size={260}
                           className="profile-photo"
                           onClick={() => handleSelecionarFoto(foto)}
                           style={{ cursor: "pointer" }}
@@ -59,11 +77,10 @@ export default function EditarPerfil() {
 
           <Col>
             <Col>
-              <h2>Escolha sua foto de perfil</h2>
+              <h2>Nossos avatares </h2>
             </Col>
             <Col>
               <Carousel
-                autoplay
                 dots={false}
                 slidesToShow={6}
                 slidesToScroll={1}
@@ -78,7 +95,7 @@ export default function EditarPerfil() {
                         <Avatar
                           src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
                           alt={`Foto ${index + 1}`}
-                          size={300}
+                          size={260}
                           className="profile-photo"
                           onClick={() => handleSelecionarFoto(foto)}
                           style={{ cursor: "pointer" }}
@@ -90,10 +107,13 @@ export default function EditarPerfil() {
               </Carousel>
             </Col>
           </Col>
+          <Col span={24} style={{ textAlign: "center" }}>
+            <Button className="btn-editar-perfil" type="primary">
+              Salvar Alterações
+            </Button>
+          </Col>
         </Row>
       </Row>
-
-      <Button type="primary">Salvar Alterações</Button>
-    </>
+    </div>
   );
 }

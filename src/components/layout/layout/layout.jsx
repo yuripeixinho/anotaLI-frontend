@@ -1,22 +1,16 @@
 import { Link, Outlet } from "react-router-dom";
 
-import { Avatar, Badge, Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import {
-  AppstoreOutlined,
   FieldBinaryOutlined,
-  HomeFilled,
   HomeOutlined,
-  MailOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   ProfileFilled,
-  SettingOutlined,
   UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd/es/radio";
-import { Content, Header } from "antd/es/layout/layout";
+import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";

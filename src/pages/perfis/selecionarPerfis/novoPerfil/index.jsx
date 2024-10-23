@@ -1,17 +1,9 @@
 import { Avatar, Flex } from "antd";
-import { useNavigate } from "react-router-dom";
 
 import "./styles.scss";
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function NovoPerfil({ isEditing }) {
-  let navigate = useNavigate();
-
-  const handleEditClick = (perfilId) => {
-    // Redireciona para a página de edição do perfil com o perfilId
-    navigate(`/editar-perfil/${perfilId}`);
-  };
-
   return (
     <>
       <Flex gap="middle" vertical className="profile-card">

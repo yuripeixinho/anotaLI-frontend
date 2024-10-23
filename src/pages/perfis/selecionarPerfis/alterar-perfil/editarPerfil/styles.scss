@@ -1,0 +1,27 @@
+body {
+  overflow: auto !important;
+}
+
+.btn-editar-perfil {
+  width: 14%;
+  padding: 24px;
+  background-color: #74bade;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.usuario-nome {
+  font-size: 18px;
+}
+
+/* Estilizando os dots */
+.slick-dots li button {
+  background-color: red !important; /* Cor padrão dos dots */
+}
+
+.slick-dots li.slick-active button {
+  background-color: green !important; /* Cor dos dots ativos */
+}
