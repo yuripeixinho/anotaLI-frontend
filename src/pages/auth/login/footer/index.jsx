@@ -16,7 +16,7 @@ export default function LoginFooter() {
             fontSize: "12px",
             color: "#888",
             justifyContent: "center",
-            fontFamily: "Inter",
+            fontFamily: "Poppins",
             letterSpacing: "0.6px",
           }}
         >

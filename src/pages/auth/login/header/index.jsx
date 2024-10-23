@@ -1,5 +1,6 @@
 import { Col, Row, Typography } from "antd";
 import Title from "antd/es/typography/Title";
+import "./styles.scss";
 
 export default function LoginHeader() {
   return (

@@ -189,7 +189,7 @@ export default function Cadastro() {
                     }}
                   >
                     <Checkbox />
-                    <label style={{ marginLeft: "6px", fontFamilt: "Inter" }}>
+                    <label style={{ marginLeft: "6px", fontFamilt: "Poppins" }}>
                       Concordo com os <a href="/">Termos & Privacidade</a>
                     </label>
                   </Col>
@@ -206,7 +206,7 @@ export default function Cadastro() {
                     <div
                       style={{
                         fontSize: "14px",
-                        fontFamily: "Inter",
+                        fontFamily: "Poppins",
                         marginTop: "15px",
                       }}
                     >
@@ -240,7 +240,7 @@ export default function Cadastro() {
                 fontSize: "12px",
                 color: "#888",
                 justifyContent: "center",
-                fontFamily: "Inter",
+                fontFamily: "Poppins",
                 letterSpacing: "0.6px",
               }}
             >

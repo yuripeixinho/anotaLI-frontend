@@ -1,0 +1,46 @@
+.login-title {
+  font-size: 38px !important;
+  font-weight: 400 !important;
+  font-family: "Poppins";
+}
+
+.login-subtitle {
+  font-size: 16px;
+  color: #bbbbbb;
+  font-weight: 400;
+  margin-bottom: 30px;
+  margin-top: -14px;
+}
+
+.divisor-font {
+  font-size: 12px;
+  color: #bbbb;
+}
+
+.label-input {
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.login-submit {
+  width: 100%;
+  padding: 22px;
+  background-color: #74bade;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 1300px) {
+  .login-title {
+    font-size: 26px !important;
+    font-weight: 400 !important;
+    font-family: "Poppins";
+  }
+
+  .login-subtitle {
+    margin-bottom: 14px !important;
+    font-size: 14px !important;
+  }
+}

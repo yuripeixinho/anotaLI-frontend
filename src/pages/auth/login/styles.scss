@@ -22,22 +22,6 @@ body {
 //   max-width: 480px;
 // }
 
-
-
-.login-title {
-  font-size: 40px !important;
-  font-weight: 300 !important;
-  font-family: "Inter";
-}
-
-.login-subtitle {
-  font-size: 16px;
-  color: #bbbbbb;
-  font-weight: 400;
-  margin-bottom: 50px;
-  margin-top: -14px;
-}
-
 .divisor-font {
   font-size: 12px;
   color: #bbbb;
@@ -58,3 +42,32 @@ body {
   cursor: pointer;
 }
 
+.input-text-field-login {
+  margin-bottom: 30px;
+  padding-left: 18px;
+}
+
+@media (max-width: 1300px) {
+  .btn-social-media {
+    padding: 20px 8px !important;
+
+    img {
+      width: 24px !important;
+    }
+  }
+
+  .input-text-field-login {
+    margin-bottom: 0px;
+    padding-left: 18px;
+    height: 44px;
+  }
+
+  .label-input-text-field {
+    font-size: 16px !important;
+    margin-left: 10px !important;
+  }
+
+  .cadastro-label {
+    font-size: 12px !important;
+  }
+}

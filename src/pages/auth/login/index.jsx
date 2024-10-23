@@ -116,7 +116,10 @@ export default function Login() {
                 <Form className="auth-form">
                   <Col>
                     <Flex vertical gap={8}>
-                      <label className="label-input" htmlFor="email">
+                      <label
+                        className="label-input label-input-text-field"
+                        htmlFor="email"
+                      >
                         Email
                       </label>
 
@@ -124,29 +127,24 @@ export default function Login() {
                         name="email"
                         type="email"
                         placeholder="Email@dominio.com.br"
-                        className="input-text"
-                        style={{
-                          marginBottom: "30px",
-                          paddingLeft: "18px",
-                        }}
+                        className="input-text input-text-field-login"
                       />
                     </Flex>
                   </Col>
 
                   <Col>
                     <Flex vertical gap={8}>
-                      <label className="label-input" htmlFor="senha">
+                      <label
+                        className="label-input label-input-text-field"
+                        htmlFor="senha"
+                      >
                         Senha
                       </label>
                       <Field
                         name="senha"
                         type="password"
                         placeholder="Senha"
-                        className="input-text"
-                        style={{
-                          marginBottom: "10px",
-                          paddingLeft: "18px",
-                        }}
+                        className="input-text input-text-field-login"
                       />
                     </Flex>
                   </Col>
@@ -160,7 +158,7 @@ export default function Login() {
                     }}
                   >
                     <Checkbox />
-                    <label style={{ marginLeft: "6px", fontFamilt: "Inter" }}>
+                    <label style={{ marginLeft: "6px", fontFamilt: "Poppins" }}>
                       Manter conectado
                     </label>
                   </Col>
@@ -176,11 +174,14 @@ export default function Login() {
                     <div
                       style={{
                         fontSize: "14px",
-                        fontFamily: "Inter",
+                        fontFamily: "Poppins",
                         marginTop: "15px",
                       }}
                     >
-                      <label style={{ fontSize: "14px", fontFamily: "Inter" }}>
+                      <label
+                        style={{ fontSize: "14px", fontFamily: "Poppins" }}
+                        className='cadastro-label'
+                      >
                         Não tem uma conta?{" "}
                         <Link
                           to="/cadastro"
