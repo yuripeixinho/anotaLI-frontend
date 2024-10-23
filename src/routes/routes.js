@@ -6,6 +6,7 @@ import Login from "../pages/auth/login";
 import Cadastro from "../pages/auth/cadastro";
 import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editarPerfil";
 import Home from "../pages/home";
+import PerfilUsuario from "../pages/perfis/individual";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -19,12 +20,12 @@ const router = createBrowserRouter([
         element: <ProtectedRoute>{<Home />}</ProtectedRoute>,
       },
       {
-        path: "/home/perfil-conta/:perfilContaID/produtos",
-        element: <ProtectedRoute>{/* <HomeIndividual /> */}</ProtectedRoute>,
-      },
-      {
-        path: "/home/:contaID",
-        element: <ProtectedRoute>{/* <Home /> */}</ProtectedRoute>,
+        path: "/meus-itens/:contaID/:perfilContaID",
+        element: (
+          <ProtectedRoute>
+            <PerfilUsuario />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/perfis",
@@ -67,9 +68,9 @@ const router = createBrowserRouter([
   {
     path: "/editar-perfil/:perfilId",
     element: (
-      // <ProtectedRoute>
-      <EditarPerfil />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <EditarPerfil />
+      </ProtectedRoute>
     ),
   },
 ]);

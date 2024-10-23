@@ -10,25 +10,29 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { Button } from "antd/es/radio";
-import { Content } from "antd/es/layout/layout";
+import { Content, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
+import AvatarDropdown from "../avatarDropdown";
 
 function LayoutApp() {
-  const { logout, usuario } = useAuth(); // Usa o hook de autenticação para acessar a função login
+  const { usuario, perfilId } = useAuth();
 
   const [collapsed, setCollapsed] = useState(false);
 
+  console.log(perfilId);
   const items = [
     {
-      key: "1",
+      key: "2",
       label: <Link to={`home/${usuario?.id}`}>Home</Link>,
       icon: <HomeOutlined />,
     },
     {
-      key: "2",
-      label: <Link to="/meus-itens/2">Meus Itens</Link>,
+      key: "1",
+      label: (
+        <Link to={`meus-itens/${usuario?.id}/${perfilId}`}>Meus Itens</Link>
+      ),
       icon: <FieldBinaryOutlined />,
     },
     {
@@ -71,43 +75,39 @@ function LayoutApp() {
             AnotaLI
           </span>
         </div>
+
         <Menu
           mode="inline"
           style={{ backgroundColor: "#F6F7F9" }}
           defaultSelectedKeys={["1"]}
           items={items}
         />
-        <Button
-          type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: "16px",
-            width: 20,
-            height: 20,
-          }}
-        />
-        <Button
-          type="text"
-          onClick={() => logout()}
-          style={{
-            fontSize: "16px",
-            width: 20,
-            height: 20,
-          }}
-        />
+
+        {/* Ícone para abrir/fechar colocado aqui, na parte inferior */}
+        <div style={{ position: "absolute", bottom: 20, left: 10 }}>
+          {collapsed ? (
+            <MenuUnfoldOutlined
+              onClick={() => setCollapsed(false)}
+              style={{
+                fontSize: "24px",
+                cursor: "pointer",
+              }}
+            />
+          ) : (
+            <MenuFoldOutlined
+              onClick={() => setCollapsed(true)}
+              style={{
+                fontSize: "24px",
+                cursor: "pointer",
+              }}
+            />
+          )}
+        </div>
       </Sider>
       <Layout>
-        {/* <Header
-          style={{
-            paddingTop: 20,
-            background: "#fff",
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Avatar size={45} icon={<UserOutlined />} />
-        </Header> */}
+        <div className="profile-dropdown">
+          <AvatarDropdown />
+        </div>
 
         <Content
           style={{

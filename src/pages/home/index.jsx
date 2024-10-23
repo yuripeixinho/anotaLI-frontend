@@ -1,12 +1,15 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row, Table } from "antd";
 import GraficoHome1 from "./graficos/graficohome1";
 import GraficoHome2 from "./graficos/graficohome2";
+import ProdutoService from "../../services/produto.service";
 
 import "./styles.scss";
+import { useParams } from "react-router-dom";
 
 export default function Home() {
-  const [produtos, ] = useState([]);
+  const { contaID } = useParams();
+  const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
     const _produtoService = new ProdutoService();

@@ -5,61 +5,61 @@ import PerfilCard from "./perfilCard";
 import "./styles.scss";
 import Title from "antd/es/typography/Title";
 import NovoPerfil from "./novoPerfil";
+import PerfilContaService from "../../../services/perfilConta.service";
 
 export default function SelecionarPerfis() {
-  const { id } = useParams();
-  // const navigate = useNavigate();
-  const [perfisConta] = useState([
-    { nome: "Marcelo", perfilId: "1" },
-    { nome: "Gih", perfilId: "1" },
-    { nome: "Lucas", perfilId: "1" },
-  ]);
+  const { contaID } = useParams();
+  const [perfilConta, setPerfilConta] = useState([]);
+
+  // const [perfisConta] = useState([
+  //   { nome: "Marcelo", perfilId: "1" },
+  //   { nome: "Gih", perfilId: "1" },
+  //   { nome: "Lucas", perfilId: "1" },
+  // ]);
   const [isEditing, setIsEditing] = useState(false); // controla a exibição do ícone de edição
 
   useEffect(() => {
-    // const _perfisContaService = new PerfilContaService();
+    const _perfisContaService = new PerfilContaService();
 
     async function init() {
-      // const responsePerfilContaService = await _perfisContaService.listSub(id);
-      // setPerfisConta(responsePerfilContaService);
+      const responsePerfilContaService = await _perfisContaService.listSub(
+        contaID
+      );
+      setPerfilConta(responsePerfilContaService);
     }
 
+    console.log(perfilConta);
+
     init();
-  }, [id]);
+  }, [contaID]);
 
   const handleManageClick = () => {
     setIsEditing(!isEditing); // Alterna o estado de edição
   };
 
+  // console.log(perfilConta);
+
   return (
     <>
-      <Row align={"middle"} style={{ gap: "0px", height: "80vh" }}>
-        <Col span={24}>
-          <Title className="titulo">
-            {!isEditing ? "Quem está usando?" : "Gerenciar perfis:"}
-          </Title>
-        </Col>
-
+      <Row align={"middle"}>
         <Col span={14} className="container-perfis">
+          <h1 className="titulo">
+            {!isEditing ? "Quem está usando?" : "Gerenciar perfis:"}
+          </h1>
+
           <Row justify={"space-between"} className="select-profile">
-            {perfisConta.map((perfil) => (
-              <Col
-                xs={6}
-                sm={6}
-                md={6}
-                lg={6}
-                xl={6}
-                xxl={6}
-                key={perfil.perfilId}
-              >
+            {perfilConta.map((perfil) => (
+              <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} key={perfil.id}>
                 <PerfilCard perfil={perfil} isEditing={isEditing} />
               </Col>
             ))}
+
             <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}>
               <NovoPerfil isEditing={isEditing} />
             </Col>
           </Row>
         </Col>
+
         <Col span={24} className="container-gerenciar-perfil">
           <Flex justify="center">
             <button
