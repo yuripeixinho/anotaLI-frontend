@@ -11,7 +11,7 @@ import { useAuth } from "../../../context/anotaLiAuthContext";
 import { useNavigate } from "react-router-dom";
 
 const AvatarDropdown = () => {
-  const { logout, usuario, perfilId } = useAuth();
+  const { logout, usuario } = useAuth();
 
   var navigate = useNavigate();
 

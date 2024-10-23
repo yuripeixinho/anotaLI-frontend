@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Logout, performLogout } from "../pages/auth/logout";
+import { performLogout } from "../pages/auth/logout";
 
 
 const api = axios.create({

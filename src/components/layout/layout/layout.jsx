@@ -9,8 +9,7 @@ import {
   ProfileFilled,
   UploadOutlined,
 } from "@ant-design/icons";
-import { Button } from "antd/es/radio";
-import { Content, Header } from "antd/es/layout/layout";
+import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
