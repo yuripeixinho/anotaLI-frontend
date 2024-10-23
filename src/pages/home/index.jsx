@@ -6,24 +6,23 @@ import GraficoHome1 from "./graficos/graficohome1";
 import GraficoHome2 from "./graficos/graficohome2";
 
 import "./styles.scss";
-import { useAuth } from "../../context/anotaLiAuthContext";
 
 export default function Home() {
   const { contaID } = useParams();
   const [produtos, setProdutos] = useState([]);
 
-  // useEffect(() => {
-  //   const _produtoService = new ProdutoService();
+  useEffect(() => {
+    const _produtoService = new ProdutoService();
 
-  //   async function init() {
-  //     const responsePerfilContaService = await _produtoService.listByConta(
-  //       contaID
-  //     );
-  //     setProdutos(responsePerfilContaService);
-  //   }
+    async function init() {
+      const responsePerfilContaService = await _produtoService.listByConta(
+        contaID
+      );
+      setProdutos(responsePerfilContaService);
+    }
 
-  //   init();
-  // }, [contaID]);
+    init();
+  }, [contaID]);
 
   const columns = [
     {

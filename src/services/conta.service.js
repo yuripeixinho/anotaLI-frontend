@@ -14,4 +14,12 @@ export default class ContaService extends CoreApiService {
 
     return this.serializer.fromJson(data);
   }
+
+  async cadastro(item) {
+    const response = await api.post("registrar", this.serializer.toJson(item));
+
+    const data = response.data;
+
+    return this.serializer.fromJson(data);
+  }
 }

@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/anotaLiAuthContext";
 
 const ProtectedRoute = ({ children, publicRoute = false }) => {
-  debugger;
   const { isAuthenticated, loading, usuario } = useAuth();
 
   if (loading) {

@@ -49,19 +49,19 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/conta/:id/perfis",
+    path: "/:contaID/perfis",
     element: (
-      // <ProtectedRoute>
-      <SelecionarPerfis />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <SelecionarPerfis />
+      </ProtectedRoute>
     ),
   },
   {
-    path: "/perfil-conta/:id/alterar-perfil",
+    path: "/perfil-conta/:contaID/alterar-perfil",
     element: (
-      // <ProtectedRoute>
-      <SelecionarPerfis />
-      // </ProtectedRoute>
+      <ProtectedRoute>
+        <SelecionarPerfis />
+      </ProtectedRoute>
     ),
   },
   {

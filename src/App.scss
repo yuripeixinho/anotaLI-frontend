@@ -1,10 +1,40 @@
 body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
+  font-family: "Inter", sans-serif;
+  margin: 0;
 }
 
-
 .ant-layout {
-    height: 100vh;
-    background-color: #fff;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.input-text {
+  height: 50px;
+  border-radius: 100px;
+  background: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+}
+
+.error-message {
+  text-align: right;
+  color: #bb0000;
+}
+
+.auth-form-container {
+  min-width: 50%;
+  max-width: 50%;
+  margin: 15% auto;
+
+  .auth-form {
+    display: flex;
+    gap: 1.2rem;
+    flex-direction: column;
+  }
+}
+
+.btn-social-media {
+  padding: 30px 15px;
+  border-radius: 100%;
 }

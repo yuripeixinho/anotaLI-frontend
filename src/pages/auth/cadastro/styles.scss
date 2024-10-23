@@ -15,16 +15,12 @@ body {
   height: 100vh;
 }
 
-.login-form {
-  padding: 60px 0px 0 220px;
-  background-color: #fff;
-  max-width: 480px;
-}
 
-.btn-social-media {
-  padding: 18px;
-  border-radius: 20px;
-}
+
+// .btn-social-media {
+//   padding: 18px;
+//   border-radius: 20px;
+// }
 
 .login-title {
   font-size: 40px !important;
@@ -58,9 +54,4 @@ body {
   border: none;
   border-radius: 20px;
   cursor: pointer;
-}
-
-.input-text {
-  height: 50px;
-  border-radius: 100px;
 }

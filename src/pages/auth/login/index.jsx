@@ -1,11 +1,11 @@
 import {
+  Alert,
   Button,
   Checkbox,
   Col,
   Divider,
   Flex,
   Image,
-  Input,
   Row,
   Typography,
 } from "antd";
@@ -20,14 +20,17 @@ import LoginFooter from "./footer";
 import { Field, Form, Formik } from "formik";
 import ContaService from "../../../services/conta.service";
 import { useAuth } from "../../../context/anotaLiAuthContext";
+import { useState } from "react";
 
 export default function Login() {
-  const { login } = useAuth(); // Usa o hook de autenticação para acessar a função login
+  const { login } = useAuth();
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const initialValues = {
     email: "",
     senha: "",
   };
+
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
@@ -43,42 +46,44 @@ export default function Login() {
 
         login(res.token, usuario);
 
-        navigate(`/home/${res.contaID}`);
+        navigate(`/${res.contaID}/perfis`);
       })
       .catch((err) => {
-        alert(err.msg);
+        const message =
+          err?.response?.data?.Message ||
+          "Credenciais inválidas. Tente novamente";
+
+        setErrorMsg(message);
       });
   };
 
   return (
     <Row className="login-container">
       <Col span={12}>
-        <div className="login-form">
+        <div className="auth-form-container">
           <LoginHeader />
 
           <Row gutter={[0, 15]} style={{ flexDirection: "column" }}>
             <Col>
               <Flex gap={10}>
-                <Button style={{ width: "100%" }} className="btn-social-media">
+                <Button className="btn-social-media">
                   <Image
                     src={logoGoogle}
                     preview={false}
                     style={{
-                      width: "24px",
+                      width: "30px",
                     }}
                   />
-                  Entrar com o Google
                 </Button>
 
-                <Button style={{ width: "100%" }} className="btn-social-media">
+                <Button className="btn-social-media">
                   <Image
                     src={logoMicrosoft}
                     preview={false}
                     style={{
-                      width: "24px",
+                      width: "30px",
                     }}
                   />
-                  Entrar com a Microsoft
                 </Button>
               </Flex>
             </Col>
@@ -89,15 +94,26 @@ export default function Login() {
               </Divider>
             </Col>
 
+            {errorMsg && (
+              <Col style={{ marginBottom: "15px" }}>
+                <Alert
+                  message={errorMsg}
+                  type="error"
+                  showIcon
+                  closable
+                  onClose={() => setErrorMsg(null)}
+                />
+              </Col>
+            )}
+
             <Formik
               initialValues={initialValues}
               onSubmit={async (values) => {
                 handleLogin(values);
               }}
             >
-              {({ values }) => (
-                <Form>
-                  {JSON.stringify(values)}
+              {(props) => (
+                <Form className="auth-form">
                   <Col>
                     <Flex vertical gap={8}>
                       <label className="label-input" htmlFor="email">
@@ -110,8 +126,7 @@ export default function Login() {
                         placeholder="Email@dominio.com.br"
                         className="input-text"
                         style={{
-                          width: "100%",
-                          marginBottom: "10px",
+                          marginBottom: "30px",
                           paddingLeft: "18px",
                         }}
                       />
@@ -129,7 +144,6 @@ export default function Login() {
                         placeholder="Senha"
                         className="input-text"
                         style={{
-                          width: "100%",
                           marginBottom: "10px",
                           paddingLeft: "18px",
                         }}
@@ -151,7 +165,7 @@ export default function Login() {
                     </label>
                   </Col>
 
-                  <Col style={{ marginBottom: "10px" }}>
+                  <Col>
                     <Button
                       style={{ width: "100%" }}
                       className="login-submit"
@@ -159,18 +173,23 @@ export default function Login() {
                     >
                       Entrar
                     </Button>
-                  </Col>
-
-                  <Col>
-                    <label style={{ fontSize: "14px", fontFamily: "Inter" }}>
-                      Não tem uma conta?{" "}
-                      <Link
-                        to="/cadastro"
-                        style={{ color: "#007BFF", cursor: "pointer" }}
-                      >
-                        Registre-se
-                      </Link>
-                    </label>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontFamily: "Inter",
+                        marginTop: "15px",
+                      }}
+                    >
+                      <label style={{ fontSize: "14px", fontFamily: "Inter" }}>
+                        Não tem uma conta?{" "}
+                        <Link
+                          to="/cadastro"
+                          style={{ color: "#007BFF", cursor: "pointer" }}
+                        >
+                          Registre-se
+                        </Link>
+                      </label>
+                    </div>
                   </Col>
                 </Form>
               )}
