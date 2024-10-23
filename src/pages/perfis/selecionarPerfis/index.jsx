@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PerfilCard from "./perfilCard";
 import "./styles.scss";
-import Title from "antd/es/typography/Title";
 import NovoPerfil from "./novoPerfil";
 import PerfilContaService from "../../../services/perfilConta.service";
 
@@ -31,7 +30,7 @@ export default function SelecionarPerfis() {
     console.log(perfilConta);
 
     init();
-  }, [contaID]);
+  }, [contaID, perfilConta]);
 
   const handleManageClick = () => {
     setIsEditing(!isEditing); // Alterna o estado de edição

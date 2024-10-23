@@ -1,4 +1,4 @@
-import { Col, Row, Table } from "antd";
+import { Col, Row } from "antd";
 
 export default function Perfil() {
   
