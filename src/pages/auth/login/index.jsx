@@ -179,7 +179,6 @@ export default function Login() {
                       }}
                     >
                       <label
-                        style={{ fontSize: "14px", fontFamily: "Poppins" }}
                         className='cadastro-label'
                       >
                         Não tem uma conta?{" "}
