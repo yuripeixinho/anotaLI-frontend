@@ -1,0 +1,19 @@
+.login-footer {
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    #fff 0%,
+    #ffffff 30%,
+    #ffffff 40%,
+    #f5feff 50%,
+    #f4fcff 60%,
+    #97cffd 100%
+  );
+
+  span {
+    font-size: 12px;
+    color: #888;
+    justify-content: center;
+    letter-spacing: 0.6px;
+  }
+}

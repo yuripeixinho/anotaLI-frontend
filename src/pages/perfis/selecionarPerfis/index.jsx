@@ -27,10 +27,8 @@ export default function SelecionarPerfis() {
       setPerfilConta(responsePerfilContaService);
     }
 
-    console.log(perfilConta);
-
     init();
-  }, [contaID, perfilConta]);
+  }, [contaID]);
 
   const handleManageClick = () => {
     setIsEditing(!isEditing); // Alterna o estado de edição

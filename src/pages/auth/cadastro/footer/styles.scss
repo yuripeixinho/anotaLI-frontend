@@ -1,0 +1,19 @@
+.cadastro-footer {
+  text-align: center;
+  background: linear-gradient(
+    to left,
+    #fff 0%,
+    #ffffff 30%,
+    #ffffff 40%,
+    #fffdf4 70%,
+    #fff8e2 80%,
+    #fff5c7 100%
+  );
+  
+  span {
+    font-size: 12px;
+    color: #888;
+    justify-content: center;
+    letter-spacing: 0.6px;
+  }
+}

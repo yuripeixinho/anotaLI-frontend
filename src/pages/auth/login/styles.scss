@@ -1,9 +1,4 @@
-body {
-  overflow: hidden;
-}
-
 .login-container {
-  overflow: hidden;
   background: linear-gradient(
     to right,
     #fff 0%,
@@ -13,66 +8,83 @@ body {
     #f4fcff 60%,
     #97cffd 100%
   );
-  height: 100vh;
-}
-// .login-form {
-//   padding: 100px 0px 0 220px;
-//   background-color: #fff;
-//   height: 84vh;
-//   max-width: 480px;
-// }
 
-.divisor-font {
-  font-size: 12px;
-  color: #bbbb;
-}
+  .left-container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.label-input {
-  font-size: 18px;
-  margin-left: 10px;
-}
+    .auth-left-container {
+      .auth-form-container {
+        .fast-acess-container {
+          padding-top: 2.5rem;
+        }
 
-.login-submit {
-  width: 100%;
-  padding: 22px;
-  background-color: #74bade;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
+        .divisor-font {
+          font-size: 12px;
+          color: #bbbb;
+        }
 
-.input-text-field-login {
-  margin-bottom: 30px;
-  padding-left: 18px;
-}
+        .auth-form {
+          display: flex;
+          gap: 1.2rem;
+          flex-direction: column;
 
-.cadastro-label {
-  font-size: 14px;
-  font-family: 'Poppins';
-}
-
-@media (max-width: 1300px) {
-  .btn-social-media {
-    padding: 20px 8px !important;
-
-    img {
-      width: 24px !important;
+          .login-submit {
+            width: 100%;
+            padding: 22px;
+            background-color: #74bade;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
+}
 
-  .input-text-field-login {
-    margin-bottom: 0px;
-    padding-left: 18px;
-    height: 44px;
+/* Extra Small (xs) - para telas pequenas, como dispositivos móveis */
+@media (max-width: 575.98px) {
+  .login-container {
+    height: 100vh;
   }
 
-  .label-input-text-field {
-    font-size: 16px !important;
-    margin-left: 10px !important;
+  .lottie-container {
+    display: none;
+  }
+}
+
+/* Small (sm) - para dispositivos móveis maiores */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .login-container {
+    height: 100vh;
+  }
+  .lottie-container {
+    display: none;
+  }
+}
+
+/* Medium (md) - para tablets em modo retrato */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .login-container {
+    height: 100vh;
   }
 
-  .cadastro-label {
-    font-size: 12px !important;
+  .lottie-container {
+    display: none;
   }
+}
+
+/* Large (lg) - para tablets em modo paisagem e notebooks menores */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+/* Extra Large (xl) - para desktops e laptops maiores */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+}
+
+/* Extra Extra Large (xxl) - para telas de desktop grandes e monitores ultra-wide */
+@media (min-width: 1600px) {
 }

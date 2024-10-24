@@ -1,11 +1,11 @@
 .login-title {
-  font-size: 38px !important;
-  font-weight: 400 !important;
-  font-family: "Poppins";
+  font-size: 39px;
+  font-weight: 400;
+  margin: 0;
 }
 
 .login-subtitle {
-  font-size: 16px;
+  font-size: 18px;
   color: #bbbbbb;
   font-weight: 400;
   margin-bottom: 30px;
@@ -22,29 +22,12 @@
   margin-left: 10px;
 }
 
-.login-submit {
-  width: 100%;
-  padding: 22px;
-  background-color: #74bade;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-@media (max-width: 1400px) {
-  .login-title {
-    font-size: 26px !important;
-    font-weight: 400 !important;
-    font-family: "Poppins";
-  }
-
-  .login-subtitle {
-    margin-bottom: 14px !important;
-    font-size: 14px !important;
-  }
-  
-  .auth-form-container .auth-form {
-    gap: 0 !important;
-  }
-}
+// .login-submit {
+//   width: 100%;
+//   padding: 22px;
+//   background-color: #74bade;
+//   color: white;
+//   border: none;
+//   border-radius: 20px;
+//   cursor: pointer;
+// }

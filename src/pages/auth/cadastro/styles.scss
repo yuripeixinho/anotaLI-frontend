@@ -1,8 +1,4 @@
-body {
-  overflow: hidden;
-}
-
-.container-cadastro {
+.cadastro-container {
   background: linear-gradient(
     to left,
     #fff 0%,
@@ -11,42 +7,84 @@ body {
     #fffdf4 70%,
     #fff8e2 80%,
     #fff5c7 100%
-  ) !important;
-  height: 100vh;
+  );
+
+  .left-container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .auth-left-container {
+      .auth-form-container {
+        .fast-acess-container {
+          padding-top: 2.5rem;
+        }
+
+        .divisor-font {
+          font-size: 12px;
+          color: #bbbb;
+        }
+
+        .auth-form {
+          display: flex;
+          gap: 1.2rem;
+          flex-direction: column;
+
+          .login-submit {
+            width: 100%;
+            padding: 22px;
+            background-color: #74bade;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }
 
+/* Extra Small (xs) - para telas pequenas, como dispositivos móveis */
+@media (max-width: 575.98px) {
+  .cadastro-container {
+    height: 100vh;
+  }
 
-
-// .btn-social-media {
-//   padding: 18px;
-//   border-radius: 20px;
-// }
-
-
-.login-subtitle {
-  font-size: 16px;
-  color: #bbbbbb;
-  font-weight: 400;
-  margin-bottom: 50px;
-  margin-top: -14px;
+  .lottie-container {
+    display: none;
+  }
 }
 
-.divisor-font {
-  font-size: 12px;
-  color: #bbbb;
+/* Small (sm) - para dispositivos móveis maiores */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .cadastro-container {
+    height: 100vh;
+  }
+  .lottie-container {
+    display: none;
+  }
 }
 
-.label-input {
-  font-size: 18px;
-  margin-left: 10px;
+/* Medium (md) - para tablets em modo retrato */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .cadastro-container {
+    height: 100vh;
+  }
+
+  .lottie-container {
+    display: none;
+  }
 }
 
-.login-submit {
-  width: 100%;
-  padding: 22px;
-  background-color: #74bade;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
+/* Large (lg) - para tablets em modo paisagem e notebooks menores */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+/* Extra Large (xl) - para desktops e laptops maiores */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+}
+
+/* Extra Extra Large (xxl) - para telas de desktop grandes e monitores ultra-wide */
+@media (min-width: 1600px) {
 }
