@@ -3,7 +3,7 @@ import { performLogout } from "../pages/auth/logout";
 
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "https://localhost:5022/",
+  baseURL: "https://localhost:44353/",
   headers: {
     "Content-Type": "application/json",
   },

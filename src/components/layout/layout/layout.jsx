@@ -39,11 +39,6 @@ function LayoutApp() {
       label: <Link to="/perfis">Perfis</Link>,
       icon: <ProfileFilled />,
     },
-    {
-      key: "4",
-      label: <Link to="/feiras">Feira</Link>,
-      icon: <UploadOutlined />,
-    },
   ];
 
   return (
