@@ -61,12 +61,12 @@ export default function SelecionarPerfis() {
         <Col justify="center" style={{ width: "100%" }}>
           <Row justify={"center"} className="select-profile">
             {perfilConta.map((perfil) => (
-              <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4} key={perfil.id}>
+              <Col xs={24} sm={9} md={8} lg={6} xl={5} xxl={4} key={perfil.id}>
                 <PerfilCard perfil={perfil} isEditing={isEditing} />
               </Col>
             ))}
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4}>
+            <Col xs={24} sm={9} md={8} lg={6} xl={5} xxl={4}>
               <NovoPerfil isEditing={isEditing} />
             </Col>
           </Row>

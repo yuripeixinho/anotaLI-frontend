@@ -7,7 +7,7 @@
 .avatar-container {
   position: relative;
   width: 250px;
-  height: 250px;
+  height: 200px !important;
   margin: 0 auto;
   text-align: center;
 
@@ -25,7 +25,7 @@
 
   .edit-icon {
     position: absolute;
-    top: 42%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 50px;

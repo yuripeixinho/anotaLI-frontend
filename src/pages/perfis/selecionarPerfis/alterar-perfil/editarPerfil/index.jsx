@@ -44,16 +44,17 @@ export default function EditarPerfil() {
 
       <Row>
         <Col span={24} style={{ paddingBottom: "16px" }}>
-          <Flex justify="space-between" align="center">
-            <Flex gap={50}>
+          <Row justify={"space-between"} align={"middle"}>
+            <Col>
               <h1 className="titulo-editar-perfil">Escolha o avatar</h1>
-            </Flex>
-
-            <Flex justify="space-between" align="center" gap={10}>
-              <Typography className="usuario-nome">Yago Peixinho</Typography>
-              <Avatar src={userPicture} size={50} />
-            </Flex>
-          </Flex>
+            </Col>
+            <Col>
+              <Flex justify="space-between" align="center" gap={10}>
+                <Typography className="usuario-nome">Yago Peixinho</Typography>
+                <Avatar src={userPicture} size={50} />
+              </Flex>
+            </Col>
+          </Row>
         </Col>
 
         <Col>

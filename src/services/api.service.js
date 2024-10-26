@@ -1,9 +1,8 @@
 import axios from "axios";
 import { performLogout } from "../pages/auth/logout";
 
-
 const api = axios.create({
-  baseURL: "https://localhost:44353/",
+  baseURL: "http://localhost:5022/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -15,7 +14,7 @@ api.interceptors.request.use(
     const usuarioStorage = localStorage.getItem("usuario");
     const token = localStorage.getItem("token");
 
-    if (usuarioStorage) { 
+    if (usuarioStorage) {
       const usuario = JSON.parse(usuarioStorage);
 
       if (usuario && token) {
@@ -34,9 +33,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-
       if (error.response.status === 401) {
-        performLogout(); 
+        performLogout();
       }
     }
     return Promise.reject(error);

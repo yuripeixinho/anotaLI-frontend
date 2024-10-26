@@ -7,7 +7,7 @@ export default function NovoPerfil({ isEditing }) {
   return (
     <>
       <Flex gap="middle" vertical className="profile-card">
-        <div className="avatar-container">
+        <div className="avatar-container-novo">
           <Avatar
             size={220}
             icon={
@@ -16,6 +16,7 @@ export default function NovoPerfil({ isEditing }) {
                 // onClick={() => handleEditClick(perfil.perfilId)}
               />
             }
+            style={{ width: "200px", height: "204px" }}
             className={"icon-novo-perfil"}
           />
         </div>
