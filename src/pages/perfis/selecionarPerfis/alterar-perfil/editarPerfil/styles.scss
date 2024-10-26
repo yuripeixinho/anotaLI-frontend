@@ -2,6 +2,14 @@ body {
   overflow: auto !important;
 }
 
+.editar-perfil-container {
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .btn-editar-perfil {
   width: 14%;
   padding: 24px;
@@ -24,4 +32,14 @@ body {
 
 .slick-dots li.slick-active button {
   background-color: green !important; /* Cor dos dots ativos */
+}
+
+.titulo-editar-perfil {
+  font-size: 50px;
+  font-weight: 500;
+}
+
+.subtitulo-avatares {
+  font-size: 20px;
+  font-weight: 500;
 }

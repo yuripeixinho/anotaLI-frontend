@@ -35,7 +35,7 @@ export default function Login() {
 
   const handleLogin = async (values) => {
     const _contaService = new ContaService();
-
+    debugger;
     await _contaService
       .login(values)
       .then((res) => {
@@ -49,9 +49,11 @@ export default function Login() {
         navigate(`/${res.contaID}/perfis`);
       })
       .catch((err) => {
+        debugger;
+
         const message =
           err?.response?.data?.Message ||
-          "Credenciais inválidas. Tente novamente";
+          "Erro interno. Tente novamente mais tarde.";
 
         setErrorMsg(message);
       });

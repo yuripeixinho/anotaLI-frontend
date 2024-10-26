@@ -1,5 +1,15 @@
 .select-profile {
   margin: 0 auto;
+  gap: 20px;
+}
+
+.row-selecionar-perfil {
+  height: 74vh;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .edit-icon {
@@ -7,13 +17,13 @@
   color: #696969;
 
   &:hover {
-    color: #000000;
+    color: #74bade;
   }
 }
 
 .titulo {
   text-align: center;
-  font-size: 70px !important;
+  font-size: 70px;
   font-weight: 500 !important;
 }
 
@@ -26,12 +36,17 @@
 }
 
 .btn-gerenciar-perfil {
-  width: 15%;
-  padding: 18px;
+  width: 180px;
+  padding: 12px;
   background-color: #74bade;
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
+}
+
+.nome-perfil {
+  font-size: 24px;
+  font-weight: 500;
 }

@@ -38,35 +38,38 @@ export default function SelecionarPerfis() {
 
   return (
     <>
-      <Row align={"middle"}>
-        <Col span={14} className="container-perfis">
-          <h1 className="titulo">
-            {!isEditing ? "Quem está usando?" : "Gerenciar perfis:"}
-          </h1>
-
-          <Row justify={"space-between"} className="select-profile">
-            {perfilConta.map((perfil) => (
-              <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6} key={perfil.id}>
-                <PerfilCard perfil={perfil} isEditing={isEditing} />
-              </Col>
-            ))}
-
-            <Col xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}>
-              <NovoPerfil isEditing={isEditing} />
-            </Col>
-          </Row>
-        </Col>
-
-        <Col span={24} className="container-gerenciar-perfil">
-          <Flex justify="center">
+      <Row>
+        <Col span={24}>
+          <Flex justify="right" style={{ padding: "20px" }}>
             <button
               onClick={handleManageClick}
               style={{ cursor: "pointer" }}
               className="btn-gerenciar-perfil"
             >
-              {!isEditing ? "Gerenciar perfil" : "Concluído"}
+              {!isEditing ? "Gerenciar perfil" : "Cancelar"}
             </button>
           </Flex>
+        </Col>
+      </Row>
+      <Row align={"middle"} className="row-selecionar-perfil">
+        <Col className="container-perfis" style={{ width: "100%" }}>
+          <h1 className="titulo">
+            {!isEditing ? "Quem está usando?" : "Gerenciando perfis"}
+          </h1>
+        </Col>
+
+        <Col justify="center" style={{ width: "100%" }}>
+          <Row justify={"center"} className="select-profile">
+            {perfilConta.map((perfil) => (
+              <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4} key={perfil.id}>
+                <PerfilCard perfil={perfil} isEditing={isEditing} />
+              </Col>
+            ))}
+
+            <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4}>
+              <NovoPerfil isEditing={isEditing} />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>

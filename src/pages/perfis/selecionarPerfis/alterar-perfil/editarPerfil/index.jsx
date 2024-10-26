@@ -21,98 +21,98 @@ export default function EditarPerfil() {
   ];
 
   return (
-    <div style={{ padding: "14px 40px" }}>
-      <Row gutter={[40, 40]}>
+    <div className='editar-perfil-container'>
+      <Row>
         <Col span={24}>
-          <Flex justify="space-between" align="center">
-            <Flex gap={50}>
-              <LeftCircleOutlined
-                style={{ fontSize: "40px", cursor: "pointer" }}
-              />
-              <h1 className="titulo">Escolha o avatar</h1>
-            </Flex>
-
-            <Flex justify="space-between" align="center" gap={10}>
-              <Avatar src={userPicture} size={50} />
-              <Typography className="usuario-nome">Yago Peixinho</Typography>
-            </Flex>
+          <Flex justify="right">  
+            <button
+              style={{ cursor: "pointer" }}
+              className="btn-gerenciar-perfil"
+            >
+              Voltar
+            </button>
           </Flex>
         </Col>
       </Row>
 
-      <Row style={{ padding: "24px 0" }}>
-        <Row>
+      <Row>
+        <Col span={24}>
+          <Flex justify="space-between" align="center">
+            <Flex gap={50}>
+              <h1 className="titulo-editar-perfil">Escolha o avatar</h1>
+            </Flex>
+
+            <Flex justify="space-between" align="center" gap={10}>
+              <Typography className="usuario-nome">Yago Peixinho</Typography>
+              <Avatar src={userPicture} size={50} />
+            </Flex>
+          </Flex>
+        </Col>
+
+        <Col>
           <Col>
-            <Col>
-              <h2>Destaques</h2>
-            </Col>
-            <Col>
-              <Carousel
-                dots={false}
-                slidesToShow={6}
-                slidesToScroll={1}
-                arrows={true}
-                infinite
-                style={{ marginBottom: "20px" }}
-              >
-                {fotos.map((foto, index) => (
-                  <div key={index}>
-                    <Row justify="center">
-                      <Col>
-                        <Avatar
-                          src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
-                          alt={`Foto ${index + 1}`}
-                          size={260}
-                          className="profile-photo"
-                          onClick={() => handleSelecionarFoto(foto)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                ))}
-              </Carousel>
-            </Col>
+            <h2 className="subtitulo-avatares">Destaques</h2>
           </Col>
 
           <Col>
-            <Col>
-              <h2>Nossos avatares </h2>
-            </Col>
-            <Col>
-              <Carousel
-                dots={false}
-                slidesToShow={6}
-                slidesToScroll={1}
-                arrows={true}
-                infinite
-                style={{ marginBottom: "20px" }}
-              >
-                {fotos.map((foto, index) => (
-                  <div key={index}>
-                    <Row justify="center">
-                      <Col>
-                        <Avatar
-                          src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
-                          alt={`Foto ${index + 1}`}
-                          size={260}
-                          className="profile-photo"
-                          onClick={() => handleSelecionarFoto(foto)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </Col>
-                    </Row>
-                  </div>
-                ))}
-              </Carousel>
-            </Col>
+            <Carousel
+              dots={false}
+              slidesToShow={6}
+              slidesToScroll={1}
+              arrows={true}
+              infinite
+            >
+              {fotos.map((foto, index) => (
+                <div key={index}>
+                  <Row justify="center">
+                    <Col>
+                      <Avatar
+                        src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
+                        alt={`Foto ${index + 1}`}
+                        size={320}
+                        className="profile-photo"
+                        onClick={() => handleSelecionarFoto(foto)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Col>
+                  </Row>
+                </div>
+              ))}
+            </Carousel>
           </Col>
-          <Col span={24} style={{ textAlign: "center" }}>
-            <Button className="btn-editar-perfil" type="primary">
-              Salvar Alterações
-            </Button>
+        </Col>
+
+        <Col>
+          <Col>
+            <h2 className="subtitulo-avatares">Destaques</h2>
           </Col>
-        </Row>
+          <Col>
+            <Carousel
+              dots={false}
+              slidesToShow={6}
+              slidesToScroll={1}
+              arrows={true}
+              infinite
+            >
+              {fotos.map((foto, index) => (
+                <div key={index}>
+                  <Row justify="center">
+                    <Col>
+                      <Avatar
+                        src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
+                        alt={`Foto ${index + 1}`}
+                        size={320}
+                        className="profile-photo"
+                        onClick={() => handleSelecionarFoto(foto)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </Col>
+                  </Row>
+                </div>
+              ))}
+            </Carousel>
+          </Col>
+        </Col>
       </Row>
     </div>
   );

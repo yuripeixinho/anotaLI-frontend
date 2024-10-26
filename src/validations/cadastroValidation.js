@@ -1,6 +1,9 @@
 import * as Yup from "yup";
 
 export const cadastroValidationSchema = Yup.object().shape({
+  perfilConta: Yup.object().shape({
+    nome: Yup.string().required("O nome é obrigatório"),
+  }),
   email: Yup.string().email("Email inválido").required("Email é obrigatório"),
   senha: Yup.string()
     .min(6, "A senha deve ter pelo menos 6 caracteres")

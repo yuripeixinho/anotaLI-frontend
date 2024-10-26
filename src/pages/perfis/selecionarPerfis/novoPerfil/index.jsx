@@ -9,7 +9,7 @@ export default function NovoPerfil({ isEditing }) {
       <Flex gap="middle" vertical className="profile-card">
         <div className="avatar-container">
           <Avatar
-            size={250}
+            size={220}
             icon={
               <PlusOutlined
                 className="new-profile"
@@ -19,7 +19,7 @@ export default function NovoPerfil({ isEditing }) {
             className={"icon-novo-perfil"}
           />
         </div>
-        <h2>Adicionar Perfil</h2>
+        <h2 className="nome-perfil">Novo</h2>
       </Flex>
     </>
   );

@@ -10,6 +10,7 @@ h5 {
 
 body {
   margin: 0;
+  height: 100vh;
 }
 
 .ant-layout {
@@ -130,18 +131,18 @@ body {
 
 @media (min-width: 1200px) and (max-width: 1600px) {
   h1 {
-    font-size: 2.625rem; /* 42px */
+    font-size: 2.625rem !important; /* 42px */
   }
 
   h2 {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem !important; /* 32px */
   }
 
   p {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem !important; /* 18px */
   }
 
   label {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem !important; /* 16px */
   }
 }

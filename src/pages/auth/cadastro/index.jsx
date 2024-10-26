@@ -29,6 +29,7 @@ export default function Cadastro() {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const initialValues = {
+    perfilConta: { nome: "" },
     email: "",
     senha: "",
   };
@@ -37,12 +38,14 @@ export default function Cadastro() {
 
   const handleCadastro = async (values) => {
     const _contaService = new ContaService();
+    console.log(values);
 
     await _contaService
       .cadastro(values)
       .then((res) => {
         const usuario = {
           id: res.contaID,
+          perfilConta: { nome: res.nome },
           email: res.email,
         };
 
@@ -142,8 +145,29 @@ export default function Cadastro() {
                   handleCadastro(values);
                 }}
               >
-                {({ errors, touched }) => (
+                {({ values, errors, touched }) => (
                   <Form className="auth-form">
+                    <Col>
+                      <Flex vertical gap={8}>
+                        <label className="label-input">Nome</label>
+                        <Field
+                          name="perfilConta.nome"
+                          type="text"
+                          placeholder="Insira seu nome"
+                          className="input-text"
+                          style={{
+                            paddingLeft: "18px",
+                          }}
+                        />
+                        {errors?.perfilConta?.nome &&
+                          touched.perfilConta.nome && (
+                            <div className="error-message">
+                              {errors.perfilConta.nome}
+                            </div>
+                          )}
+                      </Flex>
+                    </Col>
+
                     <Col>
                       <Flex vertical gap={8}>
                         <label className="label-input">Email</label>
