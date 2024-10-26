@@ -20,7 +20,6 @@ function LayoutApp() {
 
   const [collapsed, setCollapsed] = useState(false);
 
-  console.log(perfilId);
   const items = [
     {
       key: "2",
@@ -38,11 +37,6 @@ function LayoutApp() {
       key: "3",
       label: <Link to="/perfis">Perfis</Link>,
       icon: <ProfileFilled />,
-    },
-    {
-      key: "4",
-      label: <Link to="/feiras">Feira</Link>,
-      icon: <UploadOutlined />,
     },
   ];
 

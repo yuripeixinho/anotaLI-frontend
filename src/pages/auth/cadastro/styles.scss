@@ -48,8 +48,26 @@
 /* Extra Small (xs) - para telas pequenas, como dispositivos móveis */
 @media (max-width: 575.98px) {
   .cadastro-container {
-    height: 100vh;
+    .left-container-login {
+      height: 100vh;
+      .auth-left-container {
+        padding-top: 2rem;
+        width: 85%;
+        .auth-form-container {
+          .fast-acess-container {
+            padding-top: 2.5rem;
+
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
+  // .cadastro-container {
+  //   height: 100vh;
+  // }
 
   .lottie-container {
     display: none;
