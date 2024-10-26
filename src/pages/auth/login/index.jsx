@@ -21,6 +21,7 @@ import { Field, Form, Formik } from "formik";
 import ContaService from "../../../services/conta.service";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import { useState } from "react";
+import AuthService from "../../../services/auth.service";
 
 export default function Login() {
   const { login } = useAuth();
@@ -34,9 +35,10 @@ export default function Login() {
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
-    const _contaService = new ContaService();
+    const _authService = new AuthService();
     debugger;
-    await _contaService
+
+    await _authService
       .login(values)
       .then((res) => {
         const usuario = {

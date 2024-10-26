@@ -18,10 +18,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { Field, Formik, Form } from "formik";
 import { useState } from "react";
 import { cadastroValidationSchema } from "../../../validations/cadastroValidation";
-import ContaService from "../../../services/conta.service";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import CadastroHeader from "./header";
 import CadastroFooter from "./footer";
+import AuthService from "../../../services/auth.service";
 
 export default function Cadastro() {
   const { login } = useAuth();
@@ -37,10 +37,9 @@ export default function Cadastro() {
   const navigate = useNavigate();
 
   const handleCadastro = async (values) => {
-    const _contaService = new ContaService();
-    console.log(values);
+    const _authService = new AuthService();
 
-    await _contaService
+    await _authService
       .cadastro(values)
       .then((res) => {
         const usuario = {
