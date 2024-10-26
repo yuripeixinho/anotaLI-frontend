@@ -29,7 +29,6 @@ export default class CoreApiService {
   }
 
   async listSub(parentId, queryOptions = null, isListView = null) {
-    debugger;
     const response = await api.get(
       `${this.parentEndpoint}/${parentId}/${this.endpoint}?${
         (queryOptions && queryOptions.toQueryString()) || ""

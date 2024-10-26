@@ -8,7 +8,6 @@ export default class ContaService extends CoreApiService {
   }
 
   async login(item) {
-    // debugger;
     const response = await api.post("login", this.serializer.toJson(item));
 
     const data = response.data;

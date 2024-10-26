@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { Col, Row, Table } from "antd";
-import GraficoHome2 from "./graficos/graficohome2";
-import ProdutoService from "../../services/produto.service";
+import { Col, Row } from "antd";
 
 import "./styles.scss";
 import { useParams } from "react-router-dom";
-import Calendario from "./calendar";
-import MeuCalendario from "./calendar";
-import GraficoPerfis from "./graficos/GraficoPerfis";
+import ProdutoService from "../../../services/produto.service";
+import GraficoPerfis from "../graficos/GraficoPerfis";
 
-export default function Home() {
+export default function Feiras() {
   const { contaID } = useParams();
   const [produtos, setProdutos] = useState([]);
 
@@ -46,7 +43,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Feira atual</h1>
 
       <Row gutter={80}>
         <Col xs={19} sm={19} md={19} lg={19} xl={19}>
@@ -55,13 +52,9 @@ export default function Home() {
               <GraficoPerfis />
             </Col>
 
-            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}>
-              <GraficoHome2 />
-            </Col>
+            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}></Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <MeuCalendario />
-
               {/* <Table dataSource={produtos} columns={columns} /> */}
             </Col>
           </Row>

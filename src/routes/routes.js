@@ -7,6 +7,7 @@ import Cadastro from "../pages/auth/cadastro";
 import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editarPerfil";
 import Home from "../pages/home";
 import PerfilUsuario from "../pages/perfis/individual";
+import Feiras from "../pages/home/feiras";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: "/home/:contaID",
         element: <ProtectedRoute>{<Home />}</ProtectedRoute>,
+      },
+      {
+        path: "/home/:contaID/:feiraID",
+        element: <ProtectedRoute>{<Feiras />}</ProtectedRoute>,
       },
       {
         path: "/meus-itens/:contaID/:perfilContaID",

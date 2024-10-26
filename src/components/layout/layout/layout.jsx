@@ -20,7 +20,6 @@ function LayoutApp() {
 
   const [collapsed, setCollapsed] = useState(false);
 
-  console.log(perfilId);
   const items = [
     {
       key: "2",
