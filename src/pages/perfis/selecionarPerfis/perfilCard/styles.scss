@@ -39,3 +39,25 @@
   font-size: 24px;
   font-weight: 500;
 }
+
+.nome-perfil-input.editable-h2 {
+  font-size: 24px;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  padding: 0;
+  width: 86%;
+  color: inherit;
+  cursor: text;
+  text-align: center;
+}
+
+.nome-perfil-input.editable-h2 {
+  outline: none;
+  border-bottom: 1px solid #aaaaaa; // Borda sutil ao focar, se desejado
+}
+
+.nome-perfil {
+  font-size: 24px;
+  font-weight: 500;
+}
