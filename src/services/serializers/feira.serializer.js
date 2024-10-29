@@ -15,12 +15,15 @@ export default class FeiraSerializer {
 
   toJson(conta) {
     const contaToJson = {};
-
+    debugger;
     Object.assign(
       contaToJson,
       conta.id && { contaID: conta.id },
       conta.email && { email: conta.email },
-      conta.senha && { senha: conta.senha }
+      conta.senha && { senha: conta.senha },
+      conta.nome && { nome: conta.nome },
+      conta.dataFim && { dataFim: new Date(conta.dataFim) },
+      conta.dataInicio && { dataInicio: new Date(conta.dataInicio) }
     );
 
     return contaToJson;

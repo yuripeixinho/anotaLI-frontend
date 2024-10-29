@@ -20,7 +20,6 @@ export default class ContaSerializer {
       conta.id && { contaID: conta.id },
       conta.email && { email: conta.email },
       conta.senha && { senha: conta.senha },
-      conta.perfilConta.nome && { perfilConta: conta.perfilConta }
     );
 
     return contaToJson;

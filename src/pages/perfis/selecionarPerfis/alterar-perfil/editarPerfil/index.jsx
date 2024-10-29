@@ -1,6 +1,6 @@
 import { LeftCircleOutlined } from "@ant-design/icons";
 import { Col, Row, Button, Avatar, Carousel, Flex, Typography } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import userPicture from "../../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import "./styles.scss";
 import { useAuth } from "../../../../../context/anotaLiAuthContext";
@@ -8,6 +8,11 @@ import { useAuth } from "../../../../../context/anotaLiAuthContext";
 export default function EditarPerfil() {
   const { perfilId } = useParams();
   const { usuario } = useAuth();
+
+  // Dentro do seu componente EditarPerfil
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  const nome = query.get("nome");
 
   const navigate = useNavigate();
 
@@ -44,16 +49,17 @@ export default function EditarPerfil() {
 
       <Row>
         <Col span={24} style={{ paddingBottom: "16px" }}>
-          <Flex justify="space-between" align="center">
-            <Flex gap={50}>
+          <Row justify={"space-between"} align={"middle"}>
+            <Col>
               <h1 className="titulo-editar-perfil">Escolha o avatar</h1>
-            </Flex>
-
-            <Flex justify="space-between" align="center" gap={10}>
-              <Typography className="usuario-nome">Yago Peixinho</Typography>
-              <Avatar src={userPicture} size={50} />
-            </Flex>
-          </Flex>
+            </Col>
+            <Col>
+              <Flex justify="space-between" align="center" gap={10}>
+                <Typography className="usuario-nome">{nome}</Typography>
+                <Avatar src={userPicture} size={50} />
+              </Flex>
+            </Col>
+          </Row>
         </Col>
 
         <Col>
@@ -67,6 +73,7 @@ export default function EditarPerfil() {
               slidesToShow={6}
               slidesToScroll={1}
               arrows={true}
+              draggable={true}
               infinite
               responsive={[
                 {
@@ -126,6 +133,7 @@ export default function EditarPerfil() {
               slidesToScroll={1}
               arrows={true}
               infinite
+              draggable={true}
               responsive={[
                 {
                   breakpoint: 1750, // Large screens

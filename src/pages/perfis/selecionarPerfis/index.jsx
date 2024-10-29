@@ -9,13 +9,7 @@ import PerfilContaService from "../../../services/perfilConta.service";
 export default function SelecionarPerfis() {
   const { contaID } = useParams();
   const [perfilConta, setPerfilConta] = useState([]);
-
-  // const [perfisConta] = useState([
-  //   { nome: "Marcelo", perfilId: "1" },
-  //   { nome: "Gih", perfilId: "1" },
-  //   { nome: "Lucas", perfilId: "1" },
-  // ]);
-  const [isEditing, setIsEditing] = useState(false); // controla a exibição do ícone de edição
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const _perfisContaService = new PerfilContaService();
@@ -32,9 +26,48 @@ export default function SelecionarPerfis() {
 
   const handleManageClick = () => {
     setIsEditing(!isEditing); // Alterna o estado de edição
+
+    if (isEditing) {
+      const updatedPerfis = perfilConta.filter((item) => !(item.nome === ""));
+      setPerfilConta(updatedPerfis); // Atualiza o estado com a nova lista filtrada
+    }
   };
 
-  // console.log(perfilConta);
+  // Função para adicionar novo perfil
+  const handleAddNewProfile = () => {
+    const newProfile = {
+      id: Date.now(), // ID temporário
+      nome: "", // Nome em branco para edição
+      novoPerfil: true,
+      // Adicione outros campos necessários aqui, como 'email', 'foto', etc.
+    };
+    setPerfilConta([...perfilConta, newProfile]);
+    setIsEditing(true); // Ativa o modo de edição
+  };
+
+  const updateProfileList = (updatedProfile) => {
+    setPerfilConta((prev) => {
+      // Remove perfis temporários que estão sendo criados
+      const filteredProfiles = prev.filter(
+        (perfil) => !(perfil.novoPerfil && perfil.nome === "")
+      );
+
+      // Verifica se o perfil atualizado já existe na lista
+      const existingProfileIndex = filteredProfiles.findIndex(
+        (p) => p.id === updatedProfile.id
+      );
+
+      if (existingProfileIndex >= 0) {
+        // Se o perfil já existir, atualiza-o
+        const newPerfis = [...filteredProfiles];
+        newPerfis[existingProfileIndex] = updatedProfile;
+        return newPerfis;
+      } else {
+        // Caso contrário, adiciona o novo perfil
+        return [...filteredProfiles, updatedProfile];
+      }
+    });
+  };
 
   return (
     <>
@@ -46,11 +79,12 @@ export default function SelecionarPerfis() {
               style={{ cursor: "pointer" }}
               className="btn-gerenciar-perfil"
             >
-              {!isEditing ? "Gerenciar perfil" : "Cancelar"}
+              {!isEditing ? "Gerenciar perfil" : "Concluir"}
             </button>
           </Flex>
         </Col>
       </Row>
+
       <Row align={"middle"} className="row-selecionar-perfil">
         <Col className="container-perfis" style={{ width: "100%" }}>
           <h1 className="titulo">
@@ -61,13 +95,21 @@ export default function SelecionarPerfis() {
         <Col justify="center" style={{ width: "100%" }}>
           <Row justify={"center"} className="select-profile">
             {perfilConta.map((perfil) => (
-              <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4} key={perfil.id}>
-                <PerfilCard perfil={perfil} isEditing={isEditing} />
+              <Col xs={24} sm={9} md={8} lg={6} xl={5} xxl={4} key={perfil.id}>
+                <PerfilCard
+                  perfil={perfil}
+                  isEditing={isEditing}
+                  updateProfileList={updateProfileList}
+                  setIsEditing={setIsEditing}
+                />
               </Col>
             ))}
 
-            <Col xs={24} sm={24} md={8} lg={8} xl={5} xxl={4}>
-              <NovoPerfil isEditing={isEditing} />
+            <Col xs={24} sm={9} md={8} lg={6} xl={5} xxl={4}>
+              <NovoPerfil
+                isEditing={isEditing}
+                onAddNewProfile={handleAddNewProfile}
+              />
             </Col>
           </Row>
         </Col>
