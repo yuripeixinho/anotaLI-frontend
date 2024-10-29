@@ -111,4 +111,20 @@ export default class CoreApiService {
       }
     }
   }
+
+  // convertData(data = null, meta = null) {
+  //   if (meta) {
+  //     const items = data.items.map((item) => this.serializer.fromJson(item));
+  //     const _meta = this.metaSerializer.fromJson(meta);
+  //     return { items: items, meta: _meta };
+  //   } else {
+  //     if (data.items) {
+  //       const items = data.items.map((item) => this.serializer.fromJson(item));
+  //       return items;
+  //     } else {
+  //       const items = data.map((item) => this.serializer.fromJson(item));
+  //       return items;
+  //     }
+  //   }
+  // }
 }

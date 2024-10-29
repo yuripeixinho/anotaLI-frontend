@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import avatarGeneric from "../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import "./styles.scss";
-import { EditOutlined } from "@ant-design/icons";
 import { useAuth } from "../../../../context/anotaLiAuthContext";
 
 export default function PerfilCard({ perfil, isEditing }) {

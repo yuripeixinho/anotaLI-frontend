@@ -56,6 +56,11 @@ body {
   padding-left: 18px;
 }
 
+.ant-table-cell-row-hover {
+  background-color: transparent !important; /* Remove a cor de fundo */
+  color: inherit !important; /* Mantém a cor do texto */
+}
+
 /* Media Queries para ajuste de responsividade */
 @media (max-width: 576px) {
   h1 {

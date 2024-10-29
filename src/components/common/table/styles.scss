@@ -1,0 +1,106 @@
+.tabela-feira {
+  width: 100%;
+
+  .ant-avatar {
+    margin-right: 10px;
+  }
+
+  .produto-container {
+    display: flex;
+    align-items: center;
+
+    .produto-info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+
+      .nome-produto {
+        font-size: 20px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .descricao-produto {
+        font-size: 14px;
+        color: #959595;
+      }
+    }
+  }
+  .unidade-container {
+    font-size: 17px;
+    font-weight: 500;
+    color: #333;
+  }
+  .ant-table-thead > tr > th {
+    font-size: 21px;
+    font-weight: normal;
+    color: #94918a;
+    background-color: transparent;
+    border: none;
+  }
+  :where(.css-dev-only-do-not-override-ccdg5a)
+    .ant-table-wrapper
+    .ant-table-thead
+    > tr
+    > th:not(:last-child):not(.ant-table-selection-column):not(
+      .ant-table-row-expand-icon-cell
+    ):not([colspan])::before,
+  :where(.css-dev-only-do-not-override-ccdg5a)
+    .ant-table-wrapper
+    .ant-table-thead
+    > tr
+    > td:not(:last-child):not(.ant-table-selection-column):not(
+      .ant-table-row-expand-icon-cell
+    ):not([colspan])::before {
+    background-color: transparent; /* Torna a linha transparente */
+  }
+
+  .categoria-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .categoria-tag {
+      background-color: #e5edff;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 10px;
+      color: #4b6ae3;
+      font-weight: bold;
+    }
+
+    .categoria-more-icon {
+        cursor: pointer;
+    }
+  }
+
+  .ant-table-cell {
+    vertical-align: top;
+    border: none !important;
+  }
+
+  .acoes {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+  }
+
+  .more-vert-icon {
+    color: #959595;
+    font-size: 20px;
+  }
+
+  .botao-adicionar {
+    color: #94918a;
+    display: flex !important;
+    justify-content: flex-start;
+    border-style: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: transparent; 
+    color: inherit; 
+  }
+}
+

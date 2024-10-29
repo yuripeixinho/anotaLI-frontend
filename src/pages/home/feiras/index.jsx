@@ -1,45 +1,29 @@
 import { useEffect, useState } from "react";
-import { Col, Row } from "antd";
+import { Col, Row, Table } from "antd";
 
 import "./styles.scss";
 import { useParams } from "react-router-dom";
 import ProdutoService from "../../../services/produto.service";
 import GraficoPerfis from "../graficos/GraficoPerfis";
+import TabelaFeira from "../../../components/common/table";
 
 export default function Feiras() {
-  const { contaID } = useParams();
+  const { contaID, feiraID } = useParams();
   const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
 
     async function init() {
-      const responsePerfilContaService = await _produtoService.listByConta(
-        contaID
+      const responsePerfilContaService = await _produtoService.listByFeira(
+        contaID,
+        feiraID
       );
       setProdutos(responsePerfilContaService);
     }
 
     init();
   }, [contaID]);
-
-  const columns = [
-    {
-      title: "Nome",
-      dataIndex: "nome",
-      key: "nome",
-    },
-    {
-      title: "Quantidade",
-      dataIndex: "quantidade",
-      key: "quantidade",
-    },
-    {
-      title: "Unidade",
-      dataIndex: "unidade",
-      key: "unidade",
-    },
-  ];
 
   return (
     <div>
@@ -55,7 +39,11 @@ export default function Feiras() {
             <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}></Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              {/* <Table dataSource={produtos} columns={columns} /> */}
+              <div className="tabela-feira-header">
+                <h1>Visão Geral</h1>
+              </div>
+
+              <TabelaFeira data={produtos} />
             </Col>
           </Row>
         </Col>
