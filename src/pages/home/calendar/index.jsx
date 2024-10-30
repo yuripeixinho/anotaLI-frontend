@@ -108,7 +108,7 @@ export default function MeuCalendario() {
         onEventDrop={moveEvent}
         onDropFromOutside={onDropFromOutside}
         onSelectEvent={(ev) => navigate(`/home/${contaID}/${ev.id}`)}
-        style={{ height: 500 }}
+        style={{ height: 700 }}
         messages={{
           today: "Hoje",
           previous: "Anterior",
