@@ -13,7 +13,6 @@ export default class PerfilContaSerializer {
   }
 
   toJson(conta) {
-    debugger;
     const contaToJson = {};
 
     Object.assign(contaToJson, conta.nome && { nome: conta.nome });

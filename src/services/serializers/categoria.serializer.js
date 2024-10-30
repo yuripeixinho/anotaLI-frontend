@@ -1,7 +1,6 @@
 export default class CategoriaSerializer {
 
     fromJson(json) {
-    debugger;
       const conta = {};
   
       Object.assign(
@@ -15,6 +14,7 @@ export default class CategoriaSerializer {
     }
   
     toJson(conta) {
+      debugger;
       const contaToJson = {};
   
       Object.assign(

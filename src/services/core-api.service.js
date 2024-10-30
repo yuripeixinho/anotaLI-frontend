@@ -57,7 +57,6 @@ export default class CoreApiService {
   }
 
   async createSub(item, isFormData = false) {
-    debugger;
     const response = await api.post(
       `${this.parentEndpoint}/${item.parentId}/${this.endpoint}`,
       isFormData
@@ -65,9 +64,7 @@ export default class CoreApiService {
         : this.serializer.toJson(item)
     );
 
-    debugger;
     const data = response.data;
-    debugger;
 
     return this.serializer.fromJson(data);
   }

@@ -25,6 +25,7 @@ export default function Feiras() {
     init();
   }, [contaID]);
 
+
   return (
     <div>
       <h1>Feira atual</h1>

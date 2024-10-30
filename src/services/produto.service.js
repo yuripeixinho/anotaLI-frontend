@@ -61,4 +61,20 @@ export default class ProdutoService extends CoreApiService {
       return this.convertData(data);
     }
   }
+
+  async criarProduto(item, contaID, isFormData = false) {
+    debugger
+    const response = await api.post(
+      `contas/${contaID}/${this.endpoint}`,
+      isFormData
+        ? this.serializer.toFormData(item)
+        : this.serializer.toJson(item)
+    );
+    debugger
+
+    const data = response.data;
+
+    return this.serializer.fromJson(data);
+  }
+
 }

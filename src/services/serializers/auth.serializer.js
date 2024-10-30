@@ -14,7 +14,6 @@ export default class AuthSerializer {
 
   toJson(conta) {
     const contaToJson = {};
-    debugger;
     Object.assign(
       contaToJson,
       conta.id && { contaID: conta.id },

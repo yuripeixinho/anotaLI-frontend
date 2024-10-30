@@ -36,7 +36,6 @@ export default function Login() {
 
   const handleLogin = async (values) => {
     const _authService = new AuthService();
-    debugger;
 
     await _authService
       .login(values)
@@ -51,7 +50,6 @@ export default function Login() {
         navigate(`/${res.contaID}/perfis`);
       })
       .catch((err) => {
-        debugger;
 
         const message =
           err?.response?.data?.Message ||

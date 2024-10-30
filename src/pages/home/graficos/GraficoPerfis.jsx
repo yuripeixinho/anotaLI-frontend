@@ -27,7 +27,6 @@ export default function GraficoPerfis() {
     init();
   }, [contaID]);
 
-  console.log(perfis);
 
   return (
     <Row className="grafico-perfis">

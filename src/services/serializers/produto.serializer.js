@@ -6,28 +6,41 @@ export default class ProdutoSerializer {
   }
 
   fromJson(json) {
-    const conta = {};
+    const produto = {};
+    debugger;
 
     Object.assign(
-      conta,
+      produto,
       json.produtoID && { id: json.produtoID },
       json.nome && { nome: json.nome },
       json.quantidade && { quantidade: json.quantidade },
       json.unidade && { unidade: json.unidade },
-
+      json.feiraID && { feiraID: json.feiraID },
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       }
     );
 
-    return conta;
+    return produto;
   }
 
-  toJson(conta) {
-    const contaToJson = {};
+  toJson(produto) {
+    debugger;
+    const produtoToJson = {};
 
-    Object.assign(contaToJson);
+    Object.assign(
+      produtoToJson,
+      // produto.id && { contaID: produto.id },
+      produto.nome && { nome: produto.nome },
+      produto.quantidade && { quantidade: produto.quantidade },
+      produto.unidade && { unidade: produto.unidade },
+      produto.perfilID && { perfilContaID: produto.perfilID },
+      produto.categoriaID && { categoriaID: produto.categoriaID },
+      produto.feiraID && { feiraID: produto.feiraID },
 
-    return contaToJson;
+    
+    );
+
+    return produtoToJson;
   }
 }
