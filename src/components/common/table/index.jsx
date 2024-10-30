@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 
 export default function TabelaFeira({ data }) {
-  const { perfilId  } = useAuth();
+  const { perfilId } = useAuth();
   const { contaID, feiraID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
@@ -90,7 +90,8 @@ export default function TabelaFeira({ data }) {
   const columns = [
     {
       title: "Produto",
-      dataIndex: "nome",
+      // dataIndex: ["produto", "descricao"],
+      key: "action",
       width: "25%",
       formItemProps: (form, { rowIndex }) => {
         return {
@@ -101,13 +102,14 @@ export default function TabelaFeira({ data }) {
       // editable: (text, record, index) => {
       //   return console.log(text);
       // },
-      render: (produto) => (
+      render: (record) => (
         <div className="produto-container">
+          {console.log(record)}
           <Avatar size="large" icon={<UserOutlined />} />
 
           <div className="produto-info">
-            <span className="nome-produto">{produto}</span>
-            <span className="descricao-produto">preto e carioca</span>
+            <span className="nome-produto">{record.nome}</span>
+            <span className="descricao-produto">{record.descricao}</span>
           </div>
         </div>
       ),
