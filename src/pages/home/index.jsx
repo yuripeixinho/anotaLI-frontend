@@ -51,12 +51,14 @@ export default function Home() {
       <Row gutter={80}>
         <Col xs={19} sm={19} md={19} lg={19} xl={19}>
           <Row gutter={[40, 48]}>
-            <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+            {/* <Col xs={16} sm={16} md={16} lg={16} xl={16}>
               <GraficoPerfis />
-            </Col>
+            </Col> */}
 
-            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}>
-              <GraficoHome2 />
+            <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
+              {/* <GraficoHome2 /> */}
+
+              <h1>Olá, Yago! Não temos nada agendado para hoje.</h1>
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>

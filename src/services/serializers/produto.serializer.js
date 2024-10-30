@@ -37,8 +37,6 @@ export default class ProdutoSerializer {
       produto.perfilID && { perfilContaID: produto.perfilID },
       produto.categoriaID && { categoriaID: produto.categoriaID },
       produto.feiraID && { feiraID: produto.feiraID },
-
-    
     );
 
     return produtoToJson;
