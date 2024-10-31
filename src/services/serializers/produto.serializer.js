@@ -16,6 +16,9 @@ export default class ProdutoSerializer {
       json.quantidade && { quantidade: json.quantidade },
       json.unidade && { unidade: json.unidade },
       json.feiraID && { feiraID: json.feiraID },
+      json.perfilContaID && { perfilID: json.perfilContaID },
+      json.categoriaID && { categoriaID: json.categoriaID },
+      json.feiraID && { feiraID: json.feiraID },
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       }
@@ -36,7 +39,7 @@ export default class ProdutoSerializer {
       produto.unidade && { unidade: produto.unidade },
       produto.perfilID && { perfilContaID: produto.perfilID },
       produto.categoriaID && { categoriaID: produto.categoriaID },
-      produto.feiraID && { feiraID: produto.feiraID },
+      produto.feiraID && { feiraID: produto.feiraID }
     );
 
     return produtoToJson;
