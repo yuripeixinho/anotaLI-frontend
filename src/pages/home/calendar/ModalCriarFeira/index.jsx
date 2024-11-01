@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -12,13 +12,21 @@ import {
   Carousel,
   Card,
   Row,
+  Flex,
 } from "antd";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import FeiraService from "../../../../services/feira.service";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { ShoppingCartOutlined } from "@ant-design/icons";
+import {
+  LeftOutlined,
+  RightOutlined,
+  ShoppingCartOutlined,
+} from "@ant-design/icons";
+import ProdutoService from "../../../../services/produto.service";
+import "./styles.scss";
+import { useAuth } from "../../../../context/anotaLiAuthContext";
 
 const { RangePicker } = DatePicker;
 const { Meta } = Card;
@@ -30,39 +38,55 @@ export default function ModalCriarFeira({
 }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const { contaID } = useParams();
+  const { perfilID } = useAuth();
   const [isDiaInteiro, setIsDiaInteiro] = useState(false);
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
+  const [produtosRecomendados, setProdutosRecomendados] = useState([]);
 
-  const produtosRecomendados = [
-    {
-      nome: "Produto A",
-      preco: "R$ 10,00",
-      unidade: "kg",
-      quantidade: 10,
-      imagem: "https://via.placeholder.com/150",
-      perfilID: "m3Fz6kQp1W",
-      categoriaID: 9,
-    },
-    {
-      nome: "Produto B",
-      preco: "R$ 5,00",
-      quantidade: 10,
-      unidade: "unidade",
-      imagem: "https://via.placeholder.com/150",
-      perfilID: "m3Fz6kQp1W",
-      categoriaID: 9,
-    },
-    {
-      nome: "Produto C",
-      preco: "R$ 7,50",
-      quantidade: 10,
-      unidade: "litro",
-      perfilID: "m3Fz6kQp1W",
-      imagem: "https://via.placeholder.com/150",
-      categoriaID: 9,
-    },
-    // Adicione mais produtos conforme necessário
-  ];
+  // const produtosRecomendados = [
+  //   {
+  //     nome: "Produto A",
+  //     preco: "R$ 10,00",
+  //     unidade: "kg",
+  //     quantidade: 10,
+  //     imagem: "https://via.placeholder.com/150",
+  //     perfilID: "m3Fz6kQp1W",
+  //     categoriaID: 9,
+  //   },
+  //   {
+  //     nome: "Produto B",
+  //     preco: "R$ 5,00",
+  //     quantidade: 10,
+  //     unidade: "unidade",
+  //     imagem: "https://via.placeholder.com/150",
+  //     perfilID: "m3Fz6kQp1W",
+  //     categoriaID: 9,
+  //   },
+  //   {
+  //     nome: "Produto C",
+  //     preco: "R$ 7,50",
+  //     quantidade: 10,
+  //     unidade: "litro",
+  //     perfilID: "m3Fz6kQp1W",
+  //     imagem: "https://via.placeholder.com/150",
+  //     categoriaID: 9,
+  //   },
+  //   // Adicione mais produtos conforme necessário
+  // ];
+
+  useEffect(() => {
+    const _produtoService = new ProdutoService();
+
+    async function init() {
+      const responsePerfilContaService = await _produtoService.listByConta(
+        contaID
+      );
+
+      setProdutosRecomendados(responsePerfilContaService);
+    }
+
+    init();
+  }, [contaID]);
 
   const initialValues = {
     nome: "",
@@ -180,11 +204,22 @@ export default function ModalCriarFeira({
 
   return (
     <Modal
-      title="Nova Feira"
+      title={
+        <h1
+          style={{
+            fontFamily: "Poppins",
+            fontWeight: "500",
+            fontSize: 40,
+          }}
+        >
+          Criando nova feira
+        </h1>
+      }
       open={modalCriarFeiraAberto}
+      footer={false}
       onCancel={handleCancel}
-      footer={null}
       width="90%"
+      style={{ height: "800px" }} // Definindo a altura aqui
     >
       {errorMsg && (
         <Alert
@@ -197,8 +232,8 @@ export default function ModalCriarFeira({
         />
       )}
       <Row gutter={24}>
-        {JSON.stringify(produtosSelecionados)}
-        <Col span={8}>
+        {/* {JSON.stringify(produtosSelecionados)} */}
+        <Col span={6}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -206,158 +241,282 @@ export default function ModalCriarFeira({
           >
             {({ setFieldValue }) => (
               <Form>
-                <Col>
-                  <Typography className="label-input">Nome da Feira</Typography>
-                  <Field
-                    name="nome"
-                    placeholder="Nome da feira"
-                    className="input-text"
-                  />
-                  <ErrorMessage
-                    name="nome"
-                    component="div"
-                    style={{ color: "red" }}
-                  />
-                </Col>
-
-                <Col>
-                  <Typography className="label-input">
-                    Período da Feira
-                  </Typography>
-                  <RangePicker
-                    format="YYYY-MM-DD"
-                    onChange={(dates) => {
-                      setFieldValue("dataInicio", dates ? dates[0] : null);
-                      setFieldValue("dataFim", dates ? dates[1] : null);
-                    }}
-                    style={{ width: "100%" }}
-                  />
-                  <ErrorMessage
-                    name="dataInicio"
-                    component="div"
-                    style={{ color: "red" }}
-                  />
-                  <ErrorMessage
-                    name="dataFim"
-                    component="div"
-                    style={{ color: "red" }}
-                  />
-                </Col>
-
-                <Col>
-                  <Checkbox
-                    checked={isDiaInteiro}
-                    onChange={(e) => {
-                      setIsDiaInteiro(e.target.checked);
-                      setFieldValue("horaInicio", null);
-                      setFieldValue("horaFim", null);
-                    }}
-                  >
-                    Dia Inteiro
-                  </Checkbox>
-                </Col>
-
-                {!isDiaInteiro && (
-                  <Col>
-                    <Typography className="label-input">Horário</Typography>
-                    <TimePicker.RangePicker
-                      format="HH:mm"
-                      onChange={(times) => {
-                        setFieldValue(
-                          "horaInicio",
-                          times ? times[0].format("HH:mm") : null
-                        );
-                        setFieldValue(
-                          "horaFim",
-                          times ? times[1].format("HH:mm") : null
-                        );
-                      }}
-                      style={{ width: "100%" }}
+                <Row gutter={[0, 16]} style={{ marginTop: "12px" }}>
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+                    <Typography className="label-input">
+                      Nome da Feira
+                    </Typography>
+                    <Field
+                      name="nome"
+                      placeholder="Quinzenal"
+                      className="input-text"
+                      style={{ width: "100%", padding: "0 0 0 14px" }}
                     />
                     <ErrorMessage
-                      name="horaInicio"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                    <ErrorMessage
-                      name="horaFim"
+                      name="nome"
                       component="div"
                       style={{ color: "red" }}
                     />
                   </Col>
-                )}
 
-                <Divider />
-                <Col>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ width: "100%" }}
+                  <Row justify="space-between" align={"middle"}>
+                    <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                      <Typography className="label-input">
+                        Período da Feira
+                      </Typography>
+                      <RangePicker
+                        format="DD-MM-YYYY"
+                        className="input-text"
+                        placeholder={["Data Início", "Data Fim"]}
+                        onChange={(dates) => {
+                          setFieldValue("dataInicio", dates ? dates[0] : null);
+                          setFieldValue("dataFim", dates ? dates[1] : null);
+                        }}
+                        style={{ width: "100%" }}
+                      />
+                      <ErrorMessage
+                        name="dataInicio"
+                        component="div"
+                        style={{ color: "red" }}
+                      />
+                      <ErrorMessage
+                        name="dataFim"
+                        component="div"
+                        style={{ color: "red" }}
+                      />
+                    </Col>
+                    <Col
+                      xs={8}
+                      sm={8}
+                      md={8}
+                      lg={8}
+                      xl={12}
+                      xxl={7}
+                      style={{ marginTop: "28px" }}
+                    >
+                      <Checkbox
+                        checked={isDiaInteiro}
+                        onChange={(e) => {
+                          setIsDiaInteiro(e.target.checked);
+                          setFieldValue("horaInicio", null);
+                          setFieldValue("horaFim", null);
+                        }}
+                      >
+                        Dia Inteiro
+                      </Checkbox>
+                    </Col>
+                  </Row>
+
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    xl={24}
+                    xxl={24}
+                    style={{ paddingRight: "8px" }}
                   >
-                    Criar Feira
-                  </Button>
-                </Col>
+                    {/* <Checkbox
+                      checked={isDiaInteiro}
+                      onChange={(e) => {
+                        setIsDiaInteiro(e.target.checked);
+                        setFieldValue("horaInicio", null);
+                        setFieldValue("horaFim", null);
+                      }}
+                    >
+                      Dia Inteiro
+                    </Checkbox> */}
+                    {!isDiaInteiro && (
+                      <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                        <Typography className="label-input">Horário</Typography>
+                        <TimePicker.RangePicker
+                          className="input-text"
+                          placeholder={["Hora Início", "Hora Fim"]}
+                          format="HH:mm"
+                          onChange={(times) => {
+                            setFieldValue(
+                              "horaInicio",
+                              times ? times[0].format("HH:mm") : null
+                            );
+                            setFieldValue(
+                              "horaFim",
+                              times ? times[1].format("HH:mm") : null
+                            );
+                          }}
+                          style={{ width: "100%" }}
+                        />
+                        <ErrorMessage
+                          name="horaInicio"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                        <ErrorMessage
+                          name="horaFim"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                      </Col>
+                    )}
+                  </Col>
+
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+                    {" "}
+                    <Flex justify="right">
+                      <Col>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          style={{ width: "100%" }}
+                        >
+                          Cancelar
+                        </Button>
+                      </Col>
+                      <Col>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          style={{ width: "100%" }}
+                        >
+                          Criar Feira
+                        </Button>
+                      </Col>
+                    </Flex>
+                  </Col>
+
+                  {produtosSelecionados.length > 0 && (
+                    <div>
+                      <Typography.Title level={4}>
+                        Produtos Selecionados
+                      </Typography.Title>
+                      <ul>
+                        {produtosSelecionados.map((produto, index) => (
+                          <li key={index}>
+                            {produto.nome}{" "}
+                            <Button
+                              type="link"
+                              onClick={() => removerProduto(produto)}
+                              style={{ color: "red" }}
+                            >
+                              Remover
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </Row>
               </Form>
             )}
           </Formik>
         </Col>
 
         {/* Carrossel de Produtos Recomendados */}
-        <Col span={16}>
-          <Typography.Title level={4}>Produtos Recomendados</Typography.Title>
-          <Carousel
-            autoplay
-            dotPosition="bottom"
-            className="carousel-produtos"
-            slidesToShow={4} // Ajuste para mostrar múltiplos itens
-            slidesToScroll={1}
-            style={{ gap: "20px" }} // Espaçamento entre os cartões
-          >
-            {produtosRecomendados.map((produto, index) => (
-              <div key={index} style={{ padding: "0 10px" }}>
-                <Card
-                  cover={<img alt={produto.nome} src={produto.imagem} />}
-                  actions={[
-                    <Button
-                      type="link"
-                      icon={<ShoppingCartOutlined />}
+        <Col span={18}>
+          <Row gutter={[0, 30]} align={"middle"} justify={"center"}>
+            <Col span={20}>
+              <Typography.Title
+                level={1}
+                style={{ fontFamily: "Poppins", fontWeight: 400 }}
+              >
+                Produtos que podem te interessar...
+              </Typography.Title>
+              <Carousel
+                dots={false}
+                arrows={true}
+                className="carousel-produtos"
+                slidesToShow={5}
+                slidesToScroll={1}
+                autoplay={true} // Desabilita o autoplay
+              >
+                {produtosRecomendados.map((produto, index) => (
+                  <div key={index} style={{ padding: "0 10px" }}>
+                    <Card
                       onClick={() => adicionarProduto(produto)}
+                      bordered={false}
+                      cover={
+                        <img
+                          alt={produto.nome}
+                          src={"https://via.placeholder.com/150"}
+                        />
+                      }
+                      style={{ marginRight: "20px" }} // Define o espaçamento entre os cartões
                     >
-                      Adicionar ao Carrinho
-                    </Button>,
-                  ]}
-                >
-                  <Meta
-                    title={produto.nome}
-                    description={`Preço: ${produto.preco} / Unidade: ${produto.unidade}`}
-                  />
-                </Card>
-              </div>
-            ))}
-          </Carousel>
+                      <Flex vertical>
+                        <label
+                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                        >
+                          {produto.nome}
+                        </label>
+                        <label
+                          style={{
+                            fontFamily: "Poppins",
+                            fontWeight: "600",
+                            color: "#ABABAB",
+                            fontSize: 12,
+                          }}
+                        >
+                          {produto.unidade}
+                        </label>
+                      </Flex>
+                    </Card>
+                  </div>
+                ))}
+              </Carousel>
+            </Col>
+
+            <Col span={20}>
+              <Typography.Title
+                level={1}
+                style={{ fontFamily: "Poppins", fontWeight: 400 }}
+              >
+                Outros produtos...
+              </Typography.Title>
+              <Carousel
+                dots={false}
+                arrows={true}
+                className="carousel-produtos"
+                slidesToShow={5}
+                slidesToScroll={1}
+                autoplay={true} // Desabilita o autoplay
+              >
+                {produtosRecomendados.map((produto, index) => (
+                  <div key={index} style={{ padding: "0 10px" }}>
+                    <Card
+                      onClick={() => adicionarProduto(produto)}
+                      bordered={false}
+                      cover={
+                        <img
+                          alt={produto.nome}
+                          src={"https://via.placeholder.com/150"}
+                        />
+                      }
+                      style={{ marginRight: "20px" }} // Define o espaçamento entre os cartões
+                    >
+                      <Flex vertical>
+                        <label
+                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                        >
+                          {produto.nome}
+                        </label>
+                        <label
+                          style={{
+                            fontFamily: "Poppins",
+                            fontWeight: "600",
+                            color: "#ABABAB",
+                            fontSize: 12,
+                          }}
+                        >
+                          {produto.unidade}
+                        </label>
+                      </Flex>
+                    </Card>
+                  </div>
+                ))}
+              </Carousel>
+            </Col>
+          </Row>
         </Col>
       </Row>
-
-      {/* Lista de Produtos Selecionados */}
-      {produtosSelecionados.length > 0 && (
-        <div>
-          <Typography.Title level={4}>Produtos Selecionados</Typography.Title>
-          <ul>
-            {produtosSelecionados.map((produto, index) => (
-              <li key={index}>
-                {produto.nome}{" "}
-                <Button
-                  type="link"
-                  onClick={() => removerProduto(produto)}
-                  style={{ color: "red" }}
-                >
-                  Remover
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </Modal>
   );
 }
