@@ -19,11 +19,6 @@
         font-weight: 500;
         color: #333;
       }
-
-      .descricao-produto {
-        font-size: 14px;
-        color: #959595;
-      }
     }
   }
   .unidade-container {
@@ -70,7 +65,7 @@
     }
 
     .categoria-more-icon {
-        cursor: pointer;
+      cursor: pointer;
     }
   }
 
@@ -99,8 +94,7 @@
   }
 
   &:hover {
-    background-color: transparent; 
-    color: inherit; 
+    background-color: transparent;
+    color: inherit;
   }
 }
-

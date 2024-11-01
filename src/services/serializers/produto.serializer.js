@@ -15,6 +15,7 @@ export default class ProdutoSerializer {
       json.nome && { nome: json.nome },
       json.descricao && { descricao: json.descricao },
       json.quantidade && { quantidade: json.quantidade },
+      json.quantidadeUnidade && { quantidadeUnidade: json.quantidadeUnidade },
       json.unidade && { unidade: json.unidade },
       json.feiraID && { feiraID: json.feiraID },
       json.categoria && {

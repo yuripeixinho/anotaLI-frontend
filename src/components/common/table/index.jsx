@@ -1,4 +1,4 @@
-import { SmileOutlined, UserOutlined } from "@ant-design/icons";
+import { SearchOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
 import { EditableProTable } from "@ant-design/pro-components";
 import {
   Avatar,
@@ -43,15 +43,28 @@ export default function TabelaFeira({ data }) {
   };
 
   async function handleCriarProduto(values) {
-    debugger;
+    var item = values[values.length - 1];
+
     const _produtoService = new ProdutoService();
 
-    values.perfilID = perfilId;
-    values.feiraID = feiraID;
+    item.perfilID = perfilId;
+    item.feiraID = feiraID;
 
     await _produtoService
-      .criarProduto(values, contaID)
-      .then((res) => {})
+      .criarProduto(item, contaID)
+      .then((res) => {
+        debugger;
+        setDataSource((prevData) => [
+          ...prevData,
+          {
+            ...item,
+            id: res.id,
+            categoria: categoriaSelect.find(
+              (cat) => cat.categoriaID === item.categoriaID
+            ),
+          },
+        ]);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -90,52 +103,80 @@ export default function TabelaFeira({ data }) {
   const columns = [
     {
       title: "Produto",
-      // dataIndex: ["produto", "descricao"],
-      key: "action",
-      width: "25%",
+      key: "nome",
+      dataIndex: "nome",
+      width: "20%",
       formItemProps: (form, { rowIndex }) => {
         return {
-          rules:
-            rowIndex > 1 ? [{ required: true, message: "obrigatorio" }] : [],
+          rules: [
+            { required: true, message: "Campo obrigatório" },
+            { max: 30, message: "Campo deve ter no máximo 30 caracteres" },
+          ],
         };
       },
-      // editable: (text, record, index) => {
-      //   return console.log(text);
-      // },
-      render: (record) => (
+      render: (nome) => (
         <div className="produto-container">
-          {console.log(record)}
           <Avatar size="large" icon={<UserOutlined />} />
-
           <div className="produto-info">
-            <span className="nome-produto">{record.nome}</span>
-            <span className="descricao-produto">{record.descricao}</span>
+            <span className="nome-produto">{nome}</span>
           </div>
         </div>
       ),
-
       renderFormItem: (item, { value, onChange }) => {
         return (
           <Input
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Digite o nome"
+            placeholder="Nome do produto"
           />
         );
       },
     },
     {
-      title: "Detalhes",
+      title: "Descrição",
+      dataIndex: "descricao",
+      key: "descricao",
+      render: (descricao) => (
+        <span className="descricao-produto">{descricao}</span>
+      ),
+      width: "15%",
+      formItemProps: () => ({
+        rules: [{ max: 60, message: "Campo deve ter no máximo 60 caracteres" }],
+      }),
+      renderFormItem: (item, { value, onChange }) => {
+        return (
+          <Input
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            placeholder="Descrição"
+          />
+        );
+      },
+    },
+    {
+      title: "Quantidade",
       dataIndex: "quantidade",
       key: "quantidade",
       render: (quantidade) => (
         <div className="unidade-container">{quantidade}</div>
       ),
       width: "10%",
-
+      formItemProps: () => ({
+        rules: [
+          { required: true, message: "Campo obrigatório" },
+          {
+            type: "number",
+            min: 1,
+            message: "A quantidade deve ser maior que zero",
+          },
+        ],
+      }),
       renderFormItem: (item, { value, onChange }) => {
         return (
           <InputNumber
+            style={{
+              width: "100%",
+            }}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             placeholder="Quantidade"
@@ -144,12 +185,14 @@ export default function TabelaFeira({ data }) {
       },
     },
     {
-      title: "",
+      title: "Unidade",
       dataIndex: "unidade",
       key: "unidade",
       render: (unidade) => <div className="unidade-container">{unidade}</div>,
-      width: "15%",
-
+      width: "10%",
+      formItemProps: () => ({
+        rules: [{ max: 10, message: "Campo deve ter no máximo 10 caracteres" }],
+      }),
       renderFormItem: (item, { value, onChange }) => {
         return (
           <Input
@@ -164,30 +207,40 @@ export default function TabelaFeira({ data }) {
       title: "Categoria",
       key: "categoriaID",
       dataIndex: "categoria",
-      render: (text, record, _, action) => (
-        <div className="categoria-wrapper">
-          <span className="categoria-tag">{record?.categoria?.nome}</span>
-
+      render: (categoria) => (
+        <div className="unidade-container">
+          {categoria ? categoria.nome : "N/A"}
+        </div>
+      ),
+      renderFormItem: (item, { value, onChange }) => {
+        return (
+          <Select
+            showSearch
+            value={value ? value.categoriaID : undefined} // Use o ID da categoria
+            optionFilterProp="label"
+            onChange={(val) => onChange?.(val)}
+            placeholder="Selecione a categoria"
+            options={categoriaSelect}
+          />
+        );
+      },
+    },
+    {
+      title: "",
+      dataIndex: "",
+      key: "",
+      width: "5%",
+      render: (text, record, _, action) => {
+        return (
           <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
             <a onClick={(e) => e.preventDefault()}>
               <MoreVertIcon className="more-vert-icon categoria-more-icon" />
             </a>
           </Dropdown>
-        </div>
-      ),
-
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Select
-            value={value}
-            onChange={(val) => onChange?.(val)}
-            placeholder="Selecione a categoria"
-            options={categoriaSelect.map((cat) => ({
-              label: cat.nome,
-              value: cat.categoriaID,
-            }))}
-          />
         );
+      },
+      renderFormItem: (item, { value, onChange }) => {
+        return null;
       },
     },
     {
@@ -205,17 +258,19 @@ export default function TabelaFeira({ data }) {
         position: "bottom",
         creatorButtonText: "Novo Produto",
         className: "botao-adicionar",
+
         record: () => ({ id: Date.now() }),
       }}
       loading={false}
       columns={columns}
       value={dataSource}
-      onChange={setDataSource}
+      onChange={(data) => handleCriarProduto(data)}
       editable={{
         type: "multiple",
         editableKeys,
         onSave: async (rowKey, data, row) => {
-          handleCriarProduto(data);
+          // handleCriarProduto(data);
+          console.log(data);
         },
         onChange: setEditableRowKeys,
         saveText: "Salvar",
