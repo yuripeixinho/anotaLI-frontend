@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import ProdutoService from "../../../services/produto.service";
 import GraficoPerfis from "../graficos/GraficoPerfis";
 import TabelaFeira from "../../../components/common/table";
+import ptBR from "antd/es/locale/pt_BR";
+import { ConfigProvider } from "antd";
 
 export default function Feiras() {
   const { contaID, feiraID } = useParams();
@@ -25,7 +27,6 @@ export default function Feiras() {
     init();
   }, [contaID]);
 
-
   return (
     <div>
       <h1>Feira atual</h1>
@@ -43,8 +44,9 @@ export default function Feiras() {
               <div className="tabela-feira-header">
                 <h1>Visão Geral</h1>
               </div>
-
-              <TabelaFeira data={produtos} />
+              <ConfigProvider locale={ptBR}>
+                <TabelaFeira data={produtos} />
+              </ConfigProvider>
             </Col>
           </Row>
         </Col>

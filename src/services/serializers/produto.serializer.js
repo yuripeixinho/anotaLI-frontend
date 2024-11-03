@@ -35,7 +35,7 @@ export default class ProdutoSerializer {
 
     Object.assign(
       produtoToJson,
-      // produto.id && { contaID: produto.id },
+      produto.id && { produtoID: produto.id },
       produto.nome && { nome: produto.nome },
       produto.descricao && { descricao: produto.descricao },
       produto.quantidade && { quantidade: produto.quantidade },

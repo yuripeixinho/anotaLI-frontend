@@ -25,6 +25,8 @@ export default function TabelaFeira({ data }) {
   const [dataSource, setDataSource] = useState(data || []);
   const [categoriaSelect, setCategoriaSelect] = useState([]);
 
+  const _produtoService = new ProdutoService();
+
   useEffect(() => {
     const _categoriaService = new CategoriaService();
 
@@ -43,24 +45,20 @@ export default function TabelaFeira({ data }) {
   };
 
   async function handleCriarProduto(values) {
-    var item = values[values.length - 1];
-
-    const _produtoService = new ProdutoService();
-
-    item.perfilID = perfilId;
-    item.feiraID = feiraID;
+    values.perfilID = perfilId;
+    values.feiraID = feiraID;
 
     await _produtoService
-      .criarProduto(item, contaID)
+      .criarProduto(values, contaID)
       .then((res) => {
         debugger;
         setDataSource((prevData) => [
           ...prevData,
           {
-            ...item,
+            ...values,
             id: res.id,
             categoria: categoriaSelect.find(
-              (cat) => cat.categoriaID === item.categoriaID
+              (cat) => cat.categoriaID === values.categoriaID
             ),
           },
         ]);
@@ -70,10 +68,45 @@ export default function TabelaFeira({ data }) {
       });
   }
 
-  // Função de deleção
+  async function handleEditarProduto(values) {
+    values.perfilID = perfilId;
+    values.feiraID = feiraID;
+    
+    delete values.categoria
+   
+    await _produtoService
+      .editarProduto(contaID, values.id, values)
+      .then((res) => {
+        setDataSource((prevData) =>
+          prevData.map((item) =>
+            item.id === res.id
+              ? {
+                  ...item,
+                  ...values,
+                  categoria: categoriaSelect.find(
+                    (cat) => cat.categoriaID === values.categoriaID
+                  ),
+                }
+              : item
+          )
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   const handleDelete = (record) => {
-    console.log("Deletar item:", record);
-    setDataSource(dataSource.filter((item) => item.id !== record.id));
+    _produtoService
+      .deleteProduto(record.id, contaID)
+      .then((res) => {
+        setDataSource((prevData) =>
+          prevData.filter((item) => item.id !== record.id)
+        );
+      })
+      .catch((err) => {
+        console.error("Erro ao deletar o produto:", err);
+      });
   };
 
   const menu = (text, record, _, action, categoria) => (
@@ -264,13 +297,25 @@ export default function TabelaFeira({ data }) {
       loading={false}
       columns={columns}
       value={dataSource}
-      onChange={(data) => handleCriarProduto(data)}
+      onChange={(props, data) => {
+        console.log(props, data);
+      }}
       editable={{
         type: "multiple",
         editableKeys,
+        deletePopconfirmMessage: "Deletar este item?",
+
+        onDelete: async (row, data) => {
+          handleDelete(data);
+        },
         onSave: async (rowKey, data, row) => {
-          // handleCriarProduto(data);
-          console.log(data);
+          debugger;
+
+          if (data.categoria) {
+            return handleEditarProduto(data);
+          } else {
+            handleCriarProduto(data);
+          }
         },
         onChange: setEditableRowKeys,
         saveText: "Salvar",
