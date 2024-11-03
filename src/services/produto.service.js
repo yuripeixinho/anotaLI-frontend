@@ -43,8 +43,13 @@ export default class ProdutoService extends CoreApiService {
     }
   }
 
-  
-  async listByFeira(contaID, feiraID, parentId, queryOptions = null, isListView = null) {
+  async listByFeira(
+    contaID,
+    feiraID,
+    parentId,
+    queryOptions = null,
+    isListView = null
+  ) {
     const response = await api.get(
       `contas/${contaID}/feiras/${feiraID}/produtos?${
         (queryOptions && queryOptions.toQueryString()) || ""
@@ -63,18 +68,36 @@ export default class ProdutoService extends CoreApiService {
   }
 
   async criarProduto(item, contaID, isFormData = false) {
-    debugger
+    debugger;
     const response = await api.post(
       `contas/${contaID}/${this.endpoint}`,
       isFormData
         ? this.serializer.toFormData(item)
         : this.serializer.toJson(item)
     );
-    debugger
 
     const data = response.data;
 
     return this.serializer.fromJson(data);
   }
 
+  async editarProduto(contaID, id = null, item) {
+    debugger;
+    const ref = id ? id : item.id;
+
+    const response = await api.put(
+      `contas/${contaID}/${this.endpoint}/${ref}`,
+      this.serializer.toJson(item)
+    );
+
+    const data = response.data;
+    return this.serializer.fromJson(data);
+  }
+
+  async deleteProduto(id, contaID) {
+    const response = await api.delete(
+      `contas/${contaID}/${this.endpoint}/${id}`
+    );
+    return response;
+  }
 }
