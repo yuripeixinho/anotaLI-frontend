@@ -1,0 +1,100 @@
+/* Define uma fonte moderna e ajusta o tamanho do calendário */
+.rbc-calendar {
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9fb;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 4px;
+  overflow: hidden;
+}
+
+/* Cabeçalho (dias da semana) */
+.rbc-header {
+  color: #333;
+  background-color: #fafafa;
+  padding: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Botões de navegação e título */
+.rbc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.rbc-toolbar button {
+  color: #333;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.rbc-toolbar button:hover {
+  background-color: #ddd;
+}
+
+.rbc-toolbar label {
+  font-size: 1.2em;
+  color: #555;
+}
+
+/* Estilo dos eventos */
+.rbc-event {
+  background-color: #376bdb;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+
+.rbc-event:hover {
+  background-color: #627ed8;
+}
+
+/* Estilo para o dia atual */
+.rbc-today {
+  background-color: #e9eafe !important;
+  font-weight: bold;
+}
+
+/* Realça os dias de fim de semana */
+.rbc-day-bg:nth-child(7n + 1),
+.rbc-day-bg:nth-child(7n) {
+  background-color: #f5f5f5;
+}
+
+/* Estilos para as views (dia, semana, mês) */
+.rbc-time-content {
+  border-top: 1px solid #ddd;
+}
+
+.rbc-time-gutter {
+  background-color: #e9e9f0;
+  font-weight: 500;
+}
+
+.rbc-agenda-content {
+  color: #555;
+}
+
+.rbc-month-view {
+  border: 1px solid #ddd;
+}
+
+.rbc-off-range-bg {
+  background-color: #ffffff;
+  color: #999;
+}
+
+/* Quando um evento está sendo arrastado */
+.rbc-addons-dnd .rbc-event {
+  opacity: 0.8;
+  cursor: move;
+}

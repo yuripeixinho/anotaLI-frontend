@@ -1,6 +1,70 @@
 .right-container {
-  width: 100%;
   height: 90vh;
   border-radius: 15px;
+  // box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
+}
+
+.titulo-agendamento {
+  font-size: 30px;
+  font-family: 'Poppins';
+  font-weight: 400;
+}
+
+.grafico-proximas-feiras {
+  width: 100%;
+  border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
+
+  .proximas-feiras-title {
+    font-size: 22px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+  }
+
+  .proximas-feiras-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .proximas-feiras-card {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 12px;
+    padding: 12px;
+    background: linear-gradient(
+      145deg,
+      #d4e0fc,
+      #e6f0ff
+    ); // Cores em degradê suave
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    .titulo-proximas-feiras {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .data-feira {
+      font-size: 14px;
+      color: #747474;
+      font-family: "Roboto", sans-serif;
+    }
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon-feiras {
+      font-size: 22px;
+      color: #787e85; // Azul mais moderno
+    }
+  }
 }

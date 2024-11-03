@@ -8,7 +8,7 @@ export default class FeiraSerializer {
 
   fromJson(json) {
     const feira = {};
-
+    debugger;
     Object.assign(
       feira,
       json.feiraID && { id: json.feiraID },
@@ -18,6 +18,11 @@ export default class FeiraSerializer {
       },
       json.dataInicio && {
         start: moment.utc(json.dataInicio).toDate(), // Interpreta a data em UTC
+      },  
+      json.produtos && {
+        produtos: json.produtos.map((item) =>
+          this._produtoSerializer.fromJson(item)
+        ),
       }
     );
 

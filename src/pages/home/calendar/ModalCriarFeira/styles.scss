@@ -5,3 +5,30 @@
 .ant-modal {
   top: 30px;
 }
+
+.btn-modal-feira {
+  width: 180px;
+  padding: 20px 24px;
+  background-color: #74bade;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-cancelar-feira {
+  width: 180px;
+  padding: 20px 24px;
+  background-color: #e0e0e000;
+  color: rgb(0, 0, 0);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.label-input-produtos-selecionados {
+  font-size: 22px;
+  font-weight: 500;
+  font-family: 'Poppins';
+}

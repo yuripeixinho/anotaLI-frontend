@@ -8,7 +8,6 @@ export default class ProdutoSerializer {
   fromJson(json) {
     const produto = {};
     debugger;
-
     Object.assign(
       produto,
       json.produtoID && { id: json.produtoID },
