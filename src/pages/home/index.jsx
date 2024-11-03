@@ -110,41 +110,13 @@ export default function Home() {
     return Object.values(categorias); // Converte o objeto para um array
   };
 
-  // Função para contar quantas feiras estão agendadas para hoje
-  const contarFeirasHoje = () => {
-    const dataHoje = new Date();
-    dataHoje.setHours(0, 0, 0, 0); // Define a hora para 00:00:00 para ignorar o horário
-    const dataHojeStr = dataHoje.toISOString().split("T")[0]; // Obtém a data em formato YYYY-MM-DD
-
-    return feiras.filter((feira) => {
-      const dataFeira = new Date(feira.start);
-      dataFeira.setHours(0, 0, 0, 0); // Também define a hora para 00:00:00
-      const dataFeiraStr = dataFeira.toISOString().split("T")[0]; // Obtém a data em formato YYYY-MM-DD
-      return dataFeiraStr === dataHojeStr; // Compara apenas as partes da data
-    }).length;
-  };
-
-  const numeroFeirasHoje = contarFeirasHoje();
-
   const dadosCategorias = calcularDadosCategorias(feiras);
 
   return (
     <Row gutter={[0, 30]}>
       <h1>Calendário</h1>
       <Row gutter={[0, 20]}>
-        <Row>
-          {numeroFeirasHoje === 0 ? (
-            <h1 className="titulo-agendamento">
-              Olá! Não temos nenhuma feira agendada para hoje.
-            </h1>
-          ) : (
-            <h1 className="titulo-agendamento">
-              Olá! Vamos ao mercado? Temos {numeroFeirasHoje} feira
-              {numeroFeirasHoje > 1 ? "s" : ""} agendada
-              {numeroFeirasHoje > 1 ? "s" : ""} para hoje.
-            </h1>
-          )}
-        </Row>
+
         <Row justify={"space-between"} gutter={[24]}>
           <Col xs={19} sm={19} md={19} lg={19} xl={18}>
             <Row gutter={[0, 4]}>
