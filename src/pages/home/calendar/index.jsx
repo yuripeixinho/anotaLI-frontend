@@ -7,7 +7,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import FeiraService from "../../../services/feira.service";
 import ModalCriarFeira from "./ModalCriarFeira";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-
+import "./styles.scss";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import TodayIcon from "@mui/icons-material/Today";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CalendarViewWeekIcon from "@mui/icons-material/CalendarViewWeek";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 moment.locale("pt-br");
 const localizer = momentLocalizer(moment);
 
@@ -19,8 +25,6 @@ export default function MeuCalendario() {
   const [feiras, setFeiras] = useState([]);
   const [draggedEvent, setDraggedEvent] = useState(null);
   const navigate = useNavigate();
-
-  console.log(feiras);
 
   useEffect(() => {
     const _feiraService = new FeiraService();
@@ -111,12 +115,12 @@ export default function MeuCalendario() {
         style={{ height: 700 }}
         messages={{
           today: "Hoje",
-          previous: "Anterior",
-          next: "Próximo",
-          month: "Mês",
-          week: "Semana",
-          day: "Dia",
-          agenda: "Agenda",
+          previous: <ArrowBackIosIcon />,
+          next: <ArrowForwardIosIcon />,
+          month: <CalendarMonthIcon></CalendarMonthIcon>,
+          week: <CalendarViewWeekIcon></CalendarViewWeekIcon>,
+          day: <TodayIcon></TodayIcon>,
+          agenda: <EventNoteIcon></EventNoteIcon>,
         }}
       />
     </div>

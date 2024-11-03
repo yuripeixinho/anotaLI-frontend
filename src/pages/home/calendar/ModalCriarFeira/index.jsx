@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
@@ -13,6 +13,7 @@ import {
   Card,
   Row,
   Flex,
+  List,
 } from "antd";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -20,6 +21,7 @@ import FeiraService from "../../../../services/feira.service";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import {
+  DeleteOutlined,
   LeftOutlined,
   RightOutlined,
   ShoppingCartOutlined,
@@ -42,6 +44,7 @@ export default function ModalCriarFeira({
   const [isDiaInteiro, setIsDiaInteiro] = useState(false);
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
   const [produtosRecomendados, setProdutosRecomendados] = useState([]);
+  const formikRef = useRef(); // Crie uma referência para o Formik
 
   // const produtosRecomendados = [
   //   {
@@ -238,85 +241,87 @@ export default function ModalCriarFeira({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleOk}
+            innerRef={formikRef} // Passa a referência do Formik
           >
-            {({ setFieldValue }) => (
+            {({ setFieldValue, values }) => (
               <Form>
-                <Row gutter={[0, 16]} style={{ marginTop: "12px" }}>
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
-                    <Typography className="label-input">
-                      Nome da Feira
-                    </Typography>
-                    <Field
-                      name="nome"
-                      placeholder="Quinzenal"
-                      className="input-text"
-                      style={{ width: "100%", padding: "0 0 0 14px" }}
-                    />
-                    <ErrorMessage
-                      name="nome"
-                      component="div"
-                      style={{ color: "red" }}
-                    />
-                  </Col>
-
-                  <Row justify="space-between" align={"middle"}>
-                    <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
-                      <Typography className="label-input">
-                        Período da Feira
-                      </Typography>
-                      <RangePicker
-                        format="DD-MM-YYYY"
-                        className="input-text"
-                        placeholder={["Data Início", "Data Fim"]}
-                        onChange={(dates) => {
-                          setFieldValue("dataInicio", dates ? dates[0] : null);
-                          setFieldValue("dataFim", dates ? dates[1] : null);
-                        }}
-                        style={{ width: "100%" }}
-                      />
-                      <ErrorMessage
-                        name="dataInicio"
-                        component="div"
-                        style={{ color: "red" }}
-                      />
-                      <ErrorMessage
-                        name="dataFim"
-                        component="div"
-                        style={{ color: "red" }}
-                      />
-                    </Col>
-                    <Col
-                      xs={8}
-                      sm={8}
-                      md={8}
-                      lg={8}
-                      xl={12}
-                      xxl={7}
-                      style={{ marginTop: "28px" }}
-                    >
-                      <Checkbox
-                        checked={isDiaInteiro}
-                        onChange={(e) => {
-                          setIsDiaInteiro(e.target.checked);
-                          setFieldValue("horaInicio", null);
-                          setFieldValue("horaFim", null);
-                        }}
+                <Row gutter={[0, 40]} style={{ marginTop: "12px" }}>
+                  <Col>
+                    <Row gutter={[0, 14]} justify="space-between" align={"middle"}>
+                      <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+                        <Typography className="label-input">
+                          Nome da Feira
+                        </Typography>
+                        <Field
+                          name="nome"
+                          placeholder="Quinzenal"
+                          className="input-text"
+                          style={{ width: "100%", padding: "0 0 0 14px" }}
+                        />
+                        <ErrorMessage
+                          name="nome"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                      </Col>
+                      <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                        <Typography className="label-input">
+                          Período da Feira
+                        </Typography>
+                        <RangePicker
+                          format="DD-MM-YYYY"
+                          className="input-text"
+                          placeholder={["Data Início", "Data Fim"]}
+                          onChange={(dates) => {
+                            setFieldValue(
+                              "dataInicio",
+                              dates ? dates[0] : null
+                            );
+                            setFieldValue("dataFim", dates ? dates[1] : null);
+                          }}
+                          style={{ width: "100%" }}
+                        />
+                        <ErrorMessage
+                          name="dataInicio"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                        <ErrorMessage
+                          name="dataFim"
+                          component="div"
+                          style={{ color: "red" }}
+                        />
+                      </Col>
+                      <Col
+                        xs={8}
+                        sm={8}
+                        md={8}
+                        lg={8}
+                        xl={12}
+                        xxl={7}
+                        style={{ marginTop: "28px" }}
                       >
-                        Dia Inteiro
-                      </Checkbox>
-                    </Col>
-                  </Row>
-
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={24}
-                    xl={24}
-                    xxl={24}
-                    style={{ paddingRight: "8px" }}
-                  >
-                    {/* <Checkbox
+                        <Checkbox
+                          checked={isDiaInteiro}
+                          onChange={(e) => {
+                            setIsDiaInteiro(e.target.checked);
+                            setFieldValue("horaInicio", null);
+                            setFieldValue("horaFim", null);
+                          }}
+                        >
+                          Dia Inteiro
+                        </Checkbox>
+                      </Col>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={24}
+                        lg={24}
+                        xl={24}
+                        xxl={24}
+                        style={{ paddingRight: "8px" }}
+                      >
+                        {/* <Checkbox
                       checked={isDiaInteiro}
                       onChange={(e) => {
                         setIsDiaInteiro(e.target.checked);
@@ -326,84 +331,120 @@ export default function ModalCriarFeira({
                     >
                       Dia Inteiro
                     </Checkbox> */}
-                    {!isDiaInteiro && (
-                      <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
-                        <Typography className="label-input">Horário</Typography>
-                        <TimePicker.RangePicker
-                          className="input-text"
-                          placeholder={["Hora Início", "Hora Fim"]}
-                          format="HH:mm"
-                          onChange={(times) => {
-                            setFieldValue(
-                              "horaInicio",
-                              times ? times[0].format("HH:mm") : null
-                            );
-                            setFieldValue(
-                              "horaFim",
-                              times ? times[1].format("HH:mm") : null
-                            );
-                          }}
-                          style={{ width: "100%" }}
-                        />
-                        <ErrorMessage
-                          name="horaInicio"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
-                        <ErrorMessage
-                          name="horaFim"
-                          component="div"
-                          style={{ color: "red" }}
-                        />
+                        {!isDiaInteiro && (
+                          <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                            <Typography className="label-input">
+                              Horário
+                            </Typography>
+                            <TimePicker.RangePicker
+                              className="input-text"
+                              placeholder={["Hora Início", "Hora Fim"]}
+                              format="HH:mm"
+                              onChange={(times) => {
+                                setFieldValue(
+                                  "horaInicio",
+                                  times ? times[0].format("HH:mm") : null
+                                );
+                                setFieldValue(
+                                  "horaFim",
+                                  times ? times[1].format("HH:mm") : null
+                                );
+                              }}
+                              style={{ width: "100%" }}
+                            />
+                            <ErrorMessage
+                              name="horaInicio"
+                              component="div"
+                              style={{ color: "red" }}
+                            />
+                            <ErrorMessage
+                              name="horaFim"
+                              component="div"
+                              style={{ color: "red" }}
+                            />
+                          </Col>
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
+                    {produtosSelecionados.length > 0 && (
+                      <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
+                        <Typography className="label-input-produtos-selecionados">
+                          Produtos selecionados
+                        </Typography>
+                        <ul>
+                          <List
+                            style={{
+                              height: "340px",
+                              overflow: "auto",
+                            }}
+                            dataSource={produtosSelecionados}
+                            renderItem={(produto) => (
+                              <List.Item
+                                key={produto.id}
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  padding: "8px 0",
+                                }}
+                              >
+                                <Card
+                                  bordered={false}
+                                  cover={
+                                    <img
+                                      alt={produto.nome}
+                                      src="https://via.placeholder.com/150"
+                                      style={{
+                                        width: "40px",
+                                        height: "40px",
+                                        borderRadius: "50%",
+                                        objectFit: "cover",
+                                      }}
+                                    />
+                                  }
+                                  style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "50%",
+                                    overflow: "hidden",
+                                    marginRight: "10px",
+                                  }}
+                                />
+                                <div style={{ flexGrow: 1 }}>
+                                  <label
+                                    style={{
+                                      fontFamily: "Poppins",
+                                      fontWeight: 400,
+                                    }}
+                                  >
+                                    {produto.nome}
+                                  </label>
+                                  <br />
+                                  <label
+                                    style={{
+                                      fontFamily: "Poppins",
+                                      fontWeight: 600,
+                                      color: "#ABABAB",
+                                      fontSize: 12,
+                                    }}
+                                  >
+                                    {produto.unidade}
+                                  </label>
+                                </div>
+                                <Button
+                                  type="link"
+                                  onClick={() => removerProduto(produto)}
+                                  icon={<DeleteOutlined />}
+                                  style={{ color: "red" }}
+                                />
+                              </List.Item>
+                            )}
+                          />
+                        </ul>
                       </Col>
                     )}
                   </Col>
-
-                  <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
-                    {" "}
-                    <Flex justify="right">
-                      <Col>
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          style={{ width: "100%" }}
-                        >
-                          Cancelar
-                        </Button>
-                      </Col>
-                      <Col>
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          style={{ width: "100%" }}
-                        >
-                          Criar Feira
-                        </Button>
-                      </Col>
-                    </Flex>
-                  </Col>
-
-                  {produtosSelecionados.length > 0 && (
-                    <div>
-                      <Typography.Title level={4}>
-                        Produtos Selecionados
-                      </Typography.Title>
-                      <ul>
-                        {produtosSelecionados.map((produto, index) => (
-                          <li key={index}>
-                            {produto.nome}{" "}
-                            <Button
-                              type="link"
-                              onClick={() => removerProduto(produto)}
-                              style={{ color: "red" }}
-                            >
-                              Remover
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
                 </Row>
               </Form>
             )}
@@ -515,6 +556,30 @@ export default function ModalCriarFeira({
               </Carousel>
             </Col>
           </Row>
+        </Col>
+
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
+          <Flex justify="right" gap={6}>
+            <Button
+              color="danger"
+              htmlType="button"
+              className="btn-cancelar-feira"
+              onClick={() => {
+                setModalCriarFeiraAberto(false);
+              }}
+            >
+              Cancelar
+            </Button>
+
+            <Button
+              className="btn-modal-feira"
+              type="primary"
+              htmlType="submit"
+              onClick={() => formikRef.current.submitForm()} // Acessa a função submitForm do Formik
+            >
+              Criar Feira
+            </Button>
+          </Flex>
         </Col>
       </Row>
     </Modal>
