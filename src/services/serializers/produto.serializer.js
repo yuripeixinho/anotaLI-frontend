@@ -1,8 +1,10 @@
 import CategoriaSerializer from "./categoria.serializer";
+import PerfilContaSerializer from "./perfiConta.serializer";
 
 export default class ProdutoSerializer {
   constructor() {
     this._categoriaSerializer = new CategoriaSerializer();
+    this._perfilContaSerializer = new PerfilContaSerializer();
   }
 
   fromJson(json) {
@@ -22,8 +24,12 @@ export default class ProdutoSerializer {
       json.feiraID && { feiraID: json.feiraID },
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
+      },
+      json.perfilConta && {
+        perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta),
       }
     );
+    debugger;
 
     return produto;
   }
