@@ -9,7 +9,6 @@ export default class ProdutoSerializer {
 
   fromJson(json) {
     const produto = {};
-    debugger;
     Object.assign(
       produto,
       json.produtoID && { id: json.produtoID },
@@ -19,8 +18,10 @@ export default class ProdutoSerializer {
       json.quantidadeUnidade && { quantidadeUnidade: json.quantidadeUnidade },
       json.unidade && { unidade: json.unidade },
       json.feiraID && { feiraID: json.feiraID },
-      json.perfilContaID && { perfilID: json.perfilContaID },
-      json.categoriaID && { categoriaID: json.categoriaID },
+      json?.perfilContaID && { perfilID: json.perfilContaID },
+      json?.categoria?.categoriaID && {
+        categoriaID: json?.categoria?.categoriaID,
+      },
       json.feiraID && { feiraID: json.feiraID },
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
@@ -29,7 +30,7 @@ export default class ProdutoSerializer {
         perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta),
       }
     );
-    debugger;
+    // debugger;
 
     return produto;
   }

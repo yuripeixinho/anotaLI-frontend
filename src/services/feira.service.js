@@ -18,4 +18,14 @@ export default class FeiraService extends CoreApiService {
     const data = response.data;
     return data.oret.map((item) => this.serializer.fromJson(item));
   }
+
+  async atualizarFeira(item, idConta, idFeira) {
+    const response = await api.put(
+      `${this.parentEndpoint}/${idConta}/${this.endpoint}/${idFeira}`,
+      this.serializer.toJson(item)
+    );
+    const data = response.data;
+
+    return this.serializer.fromJson(data);
+  }
 }

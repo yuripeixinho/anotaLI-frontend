@@ -23,7 +23,9 @@ export default class FeiraSerializer {
         produtos: json.produtos.map((item) =>
           this._produtoSerializer.fromJson(item)
         ),
-      }
+      },
+      json.feiraID && { feiraID: json.feiraID },
+      json.nome && { nome: json.nome }
     );
     return feira;
   }
