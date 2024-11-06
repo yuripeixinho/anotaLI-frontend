@@ -7,7 +7,6 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   ProfileFilled,
-  UploadOutlined,
 } from "@ant-design/icons";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
@@ -35,7 +34,7 @@ function LayoutApp() {
     },
     {
       key: "3",
-      label: <Link to="/perfis">Perfis</Link>,
+      label: <Link to={`/perfis/${usuario?.id}`}>Perfis</Link>,
       icon: <ProfileFilled />,
     },
   ];

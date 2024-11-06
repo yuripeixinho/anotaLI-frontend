@@ -1,16 +1,7 @@
-import { SearchOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { EditableProTable } from "@ant-design/pro-components";
-import {
-  Avatar,
-  Dropdown,
-  Input,
-  InputNumber,
-  Menu,
-  Select,
-  Space,
-  Tag,
-} from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { Avatar, Dropdown, Input, InputNumber, Menu, Select } from "antd";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./styles.scss";
 import CategoriaService from "../../../services/categoria.service";
@@ -18,7 +9,7 @@ import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 
-export default function TabelaFeira({ data }) {
+export default function TabelaPerfil({ data }) {
   const { perfilId } = useAuth();
   const { contaID, feiraID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
@@ -40,10 +31,6 @@ export default function TabelaFeira({ data }) {
     setDataSource(data);
   }, [data]);
 
-  const handleEdit = (record) => {
-    console.log("Editar item:", record);
-  };
-
   async function handleCriarProduto(values) {
     values.perfilID = perfilId;
     values.feiraID = feiraID;
@@ -51,7 +38,6 @@ export default function TabelaFeira({ data }) {
     await _produtoService
       .criarProduto(values, contaID)
       .then((res) => {
-        debugger;
         setDataSource((prevData) => [
           ...prevData,
           {
@@ -70,10 +56,10 @@ export default function TabelaFeira({ data }) {
 
   async function handleEditarProduto(values) {
     values.perfilID = perfilId;
-    values.feiraID = feiraID;
-    
-    delete values.categoria
-   
+    // values.categoriaID = values.categoria.categoriaID
+
+    delete values.categoria;
+
     await _produtoService
       .editarProduto(contaID, values.id, values)
       .then((res) => {
@@ -291,7 +277,7 @@ export default function TabelaFeira({ data }) {
         position: "bottom",
         creatorButtonText: "Novo Produto",
         className: "botao-adicionar",
-
+        // style: { display: "none" },
         record: () => ({ id: Date.now() }),
       }}
       loading={false}
@@ -309,8 +295,6 @@ export default function TabelaFeira({ data }) {
           handleDelete(data);
         },
         onSave: async (rowKey, data, row) => {
-          debugger;
-
           if (data.categoria) {
             return handleEditarProduto(data);
           } else {

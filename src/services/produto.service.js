@@ -68,7 +68,6 @@ export default class ProdutoService extends CoreApiService {
   }
 
   async criarProduto(item, contaID, isFormData = false) {
-    debugger;
     const response = await api.post(
       `contas/${contaID}/${this.endpoint}`,
       isFormData
@@ -82,7 +81,6 @@ export default class ProdutoService extends CoreApiService {
   }
 
   async editarProduto(contaID, id = null, item) {
-    debugger;
     const ref = id ? id : item.id;
 
     const response = await api.put(

@@ -14,7 +14,6 @@ export default class CategoriaSerializer {
   }
 
   toJson(conta) {
-    debugger;
     const contaToJson = {};
 
     Object.assign(contaToJson);

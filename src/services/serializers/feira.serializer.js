@@ -8,7 +8,7 @@ export default class FeiraSerializer {
 
   fromJson(json) {
     const feira = {};
-    debugger;
+
     Object.assign(
       feira,
       json.feiraID && { id: json.feiraID },
@@ -32,7 +32,6 @@ export default class FeiraSerializer {
 
   toJson(conta) {
     const contaToJson = {};
-    debugger;
     Object.assign(
       contaToJson,
       conta.id && { contaID: conta.id },

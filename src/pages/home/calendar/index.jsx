@@ -50,7 +50,7 @@ export default function MeuCalendario() {
       const updatedEvents = feiras.map((e) =>
         e.id === event.id ? { ...e, start, end } : e
       );
-      debugger;
+
       const _feiraService = new FeiraService();
       const values = {
         id: event.id,

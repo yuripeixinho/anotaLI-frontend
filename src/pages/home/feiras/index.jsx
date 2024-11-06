@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { Card, Carousel, Col, Flex, Row, Table, Typography } from "antd";
+import { Card, Carousel, Col, Row, Typography } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import "./styles.scss";
 import { useParams } from "react-router-dom";
 import ProdutoService from "../../../services/produto.service";
-import GraficoPerfis from "../graficos/GraficoPerfis";
-import TabelaFeira from "../../../components/common/table";
+import TabelaFeira from "../../../components/common/tabelaFeira";
 import ptBR from "antd/es/locale/pt_BR";
 import { ConfigProvider } from "antd";
 import {

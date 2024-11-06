@@ -8,6 +8,8 @@ import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editar
 import Home from "../pages/home";
 import PerfilUsuario from "../pages/perfis/individual";
 import Feiras from "../pages/home/feiras";
+import OutrosPerfis from "../pages/perfis/outrosPerfis";
+import Perfis from "../pages/perfis";
 
 // Crie suas rotas usando o createBrowserRouter
 
@@ -33,8 +35,20 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/perfis",
-        element: <ProtectedRoute>{/* <Perfil /> */}</ProtectedRoute>,
+        path: "/perfis/:contaID",
+        element: (
+          <ProtectedRoute>
+            <Perfis />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/perfis/:contaID/:perfilContaID",
+        element: (
+          <ProtectedRoute>
+            <OutrosPerfis />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

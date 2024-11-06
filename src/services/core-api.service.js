@@ -8,6 +8,7 @@ export default class CoreApiService {
   }
 
   async read(id) {
+    debugger;
     const response = await api.get(`${this.endpoint}/${id}`);
 
     const data = response.data;

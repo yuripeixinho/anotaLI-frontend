@@ -27,16 +27,18 @@ export default class ProdutoSerializer {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       },
       json.perfilConta && {
-        perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta),
+        perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta)
+      },
+      json?.feira?.nome && {
+        feiraNome: json.feira.nome,
       }
+ 
     );
-    // debugger;
 
     return produto;
   }
 
   toJson(produto) {
-    debugger;
     const produtoToJson = {};
 
     Object.assign(

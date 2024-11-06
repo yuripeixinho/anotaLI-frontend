@@ -9,10 +9,8 @@ import PerfilContaService from "../../../services/perfilConta.service";
 import ItemPorFeiraGrafico from "../graficos/itemPorFeira";
 import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
 import avatarGeneric from "../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
-import { useAuth } from "../../../context/anotaLiAuthContext";
 
 export default function OutrosPerfis() {
-  const { perfilId } = useAuth();
   const { perfilContaID } = useParams();
   const [produtos, setProdutos] = useState([]);
   const [perfilConta, setPerfilConta] = useState({});
@@ -33,12 +31,11 @@ export default function OutrosPerfis() {
     init();
   }, [perfilContaID]);
 
-  console.log('perfilContaID:', perfilContaID);
-  console.log('perfilID:', perfilId);
-  
+  console.log(perfilConta)
+
   return (
     <div>
-      <h1>Meu perfil</h1>
+      <h1>Perfil de {perfilConta?.nome}</h1>
 
       <Row gutter={80}>
         <Col xs={19} sm={19} md={19} lg={19} xl={19}>
@@ -53,7 +50,7 @@ export default function OutrosPerfis() {
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <div className="tabela-feira-header">
-                <h1>Meus produtos</h1>
+                <h1>Produtos de {perfilConta?.nome}</h1>
               </div>
 
               <ConfigProvider locale={ptBR}>
@@ -62,15 +59,12 @@ export default function OutrosPerfis() {
             </Col>
           </Row>
         </Col>
-        {console.log(perfilContaID === perfilId)}
 
-        {perfilContaID !== perfilId && (
-          <Col xs={5} sm={5} md={5} lg={5} xl={5} className="right-container">
-            <Avatar size={220} src={avatarGeneric} />
+        <Col xs={5} sm={5} md={5} lg={5} xl={5} className="right-container">
+          <Avatar size={220} src={avatarGeneric} />
 
-            <h1>{perfilConta?.nome}</h1>
-          </Col>
-        )}
+          <h1>{perfilConta?.nome}</h1>
+        </Col>
       </Row>
     </div>
   );

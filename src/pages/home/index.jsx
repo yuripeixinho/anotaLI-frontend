@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import { Col, Flex, Row, Table, Typography } from "antd";
-import GraficoHome2 from "./graficos/graficohome2";
+import { Col, Flex, Row, Typography } from "antd";
 import ProdutoService from "../../services/produto.service";
 
 import "./styles.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import Calendario from "./calendar";
 import MeuCalendario from "./calendar";
 import GraficoPerfis from "./graficos/GraficoPerfis";
 import PerfilContaService from "../../services/perfilConta.service";
 import FeiraService from "../../services/feira.service";
-import { CalendarOutlined } from "@ant-design/icons";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 import { formatarDataDDMMYY } from "../../utils/converterDataParaDDMMYY";
 import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
-import { useAuth } from "../../context/anotaLiAuthContext";
+
 export default function Home() {
   const { contaID } = useParams();
   const [produtos, setProdutos] = useState([]);
