@@ -31,8 +31,6 @@ export default function OutrosPerfis() {
     init();
   }, [perfilContaID]);
 
-  console.log(perfilConta)
-
   return (
     <div>
       <h1>Perfil de {perfilConta?.nome}</h1>
@@ -41,7 +39,11 @@ export default function OutrosPerfis() {
         <Col xs={19} sm={19} md={19} lg={19} xl={19}>
           <Row gutter={[40, 48]}>
             <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-              <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
+              <div>
+                <h2>Oi</h2>
+
+                <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
+              </div>
             </Col>
 
             <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}>

@@ -31,30 +31,29 @@ export default function ItemPorFeiraGrafico({ dados }) {
   // Mapeia para o formato necessário para o gráfico
   const chartData = data?.map((feira) => ({
     name: `${feira.feiraNome}`, // Pode ajustar o nome conforme necessário
-    value: feira.totalItem,
+    produtos: feira.totalItem,
   }));
 
+  console.log(chartData);
   return (
-    <div className="graficohome2">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={500}
-          height={300}
-          data={chartData}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="value" fill="#82ca9d" />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <ResponsiveContainer>
+      <BarChart
+        width={700}
+        height={100}
+        data={chartData}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="produtos" fill="#82ca9d" />
+      </BarChart>
+    </ResponsiveContainer>
   );
 }

@@ -4,7 +4,6 @@ import PerfilContaSerializer from "./perfiConta.serializer";
 export default class ProdutoSerializer {
   constructor() {
     this._categoriaSerializer = new CategoriaSerializer();
-    this._perfilContaSerializer = new PerfilContaSerializer();
   }
 
   fromJson(json) {
@@ -27,12 +26,11 @@ export default class ProdutoSerializer {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       },
       json.perfilConta && {
-        perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta)
+        perfilConta: json.perfilConta,
       },
       json?.feira?.nome && {
         feiraNome: json.feira.nome,
       }
- 
     );
 
     return produto;
