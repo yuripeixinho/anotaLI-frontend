@@ -1,19 +1,18 @@
 .right-container {
   height: 90vh;
   border-radius: 15px;
-  background-color: lightblue;
   // box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
 }
 
 .titulo-agendamento {
   font-size: 30px;
-  font-family: 'Poppins';
+  font-family: "Poppins";
   font-weight: 400;
 }
 
 .grafico-proximas-feiras {
   width: 100%;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
 
   .proximas-feiras-title {
@@ -22,6 +21,7 @@
     font-weight: 600;
     color: #333;
     margin-bottom: 16px;
+    cursor: pointer;
   }
 
   .proximas-feiras-flex {
@@ -32,15 +32,14 @@
 
   .proximas-feiras-card {
     width: 100%;
-    max-width: 320px;
     border-radius: 12px;
     padding: 12px;
     background: linear-gradient(
       145deg,
-      #d4e0fc,
-      #e6f0ff
+      #f9f9fb,
+      #f9f9fb
     ); // Cores em degradê suave
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+    // box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
     .titulo-proximas-feiras {
@@ -59,13 +58,57 @@
     .icon-container {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: right;
       cursor: pointer;
+      gap: 6px !important;
     }
 
     .icon-feiras {
-      font-size: 22px;
+      font-size: 20px;
       color: #787e85; // Azul mais moderno
     }
+  }
+}
+
+.grafico-item-por-categoria-container-home {
+  width: 100%;
+
+  span {
+    font-size: 12px;
+  }
+}
+
+
+
+@media (max-width: 1200px) {
+  .container-home {
+    flex-direction: column-reverse;
+    flex-flow: row wrap-reverse;
+  }
+
+  .right-container {
+    height: 40% !important;
+  }
+}
+
+@media (max-width: 990px) {
+  .container-home {
+    flex-direction: column-reverse;
+    flex-flow: row wrap-reverse;
+  }
+
+  .right-container {
+    height: 47% !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .container-home {
+    flex-direction: column-reverse;
+    flex-flow: row wrap-reverse;
+  }
+
+  .right-container {
+    height: 59% !important;
   }
 }

@@ -74,3 +74,23 @@
     }
   }
 }
+
+.container-usuarios-sem-carrosel {
+  padding: 14px 0;
+
+  .avatar-usuarios-sem-carrosel {
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 599px) {
+  .grafico-perfis {
+    gap: 18px;
+    
+    .grafico-perfis-texto-container {
+      h3 {
+        font-size: 16px;
+      }
+    }
+  }
+}

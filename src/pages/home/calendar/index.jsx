@@ -25,6 +25,7 @@ export default function MeuCalendario() {
   const [feiras, setFeiras] = useState([]);
   const [draggedEvent, setDraggedEvent] = useState(null);
   const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const _feiraService = new FeiraService();
@@ -37,7 +38,8 @@ export default function MeuCalendario() {
     init();
   }, [contaID]);
 
-  const handleSelectSlot = () => {
+  const handleSelectSlot = ({ start }) => {
+    setSelectedDate(start);
     setModalCriarFeiraAberto(true);
   };
 
@@ -100,6 +102,7 @@ export default function MeuCalendario() {
         setModalCriarFeiraAberto={setModalCriarFeiraAberto}
         modalCriarFeiraAberto={modalCriarFeiraAberto}
         aoSalvarNovaFeira={aoSalvarNovaFeira}
+        selectedDate={selectedDate} // Nova prop
       />
 
       <DragAndDropCalendar
@@ -109,10 +112,10 @@ export default function MeuCalendario() {
         endAccessor="end"
         onSelectSlot={handleSelectSlot}
         selectable
+        className="calendar-container"
         onEventDrop={moveEvent}
         onDropFromOutside={onDropFromOutside}
         onSelectEvent={(ev) => navigate(`/home/${contaID}/${ev.id}`)}
-        style={{ height: 700 }}
         messages={{
           today: "Hoje",
           previous: <ArrowBackIosIcon />,

@@ -20,62 +20,25 @@ import * as Yup from "yup";
 import FeiraService from "../../../../services/feira.service";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import {
-  DeleteOutlined,
-  LeftOutlined,
-  RightOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import ProdutoService from "../../../../services/produto.service";
 import "./styles.scss";
-import { useAuth } from "../../../../context/anotaLiAuthContext";
 
 const { RangePicker } = DatePicker;
-const { Meta } = Card;
 
 export default function ModalCriarFeira({
   aoSalvarNovaFeira,
   modalCriarFeiraAberto,
   setModalCriarFeiraAberto,
+  selectedDate, // Nova prop recebida
 }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const { contaID } = useParams();
-  const { perfilID } = useAuth();
   const [isDiaInteiro, setIsDiaInteiro] = useState(false);
   const [produtosSelecionados, setProdutosSelecionados] = useState([]);
   const [produtosRecomendados, setProdutosRecomendados] = useState([]);
-  const formikRef = useRef(); // Crie uma referência para o Formik
 
-  // const produtosRecomendados = [
-  //   {
-  //     nome: "Produto A",
-  //     preco: "R$ 10,00",
-  //     unidade: "kg",
-  //     quantidade: 10,
-  //     imagem: "https://via.placeholder.com/150",
-  //     perfilID: "m3Fz6kQp1W",
-  //     categoriaID: 9,
-  //   },
-  //   {
-  //     nome: "Produto B",
-  //     preco: "R$ 5,00",
-  //     quantidade: 10,
-  //     unidade: "unidade",
-  //     imagem: "https://via.placeholder.com/150",
-  //     perfilID: "m3Fz6kQp1W",
-  //     categoriaID: 9,
-  //   },
-  //   {
-  //     nome: "Produto C",
-  //     preco: "R$ 7,50",
-  //     quantidade: 10,
-  //     unidade: "litro",
-  //     perfilID: "m3Fz6kQp1W",
-  //     imagem: "https://via.placeholder.com/150",
-  //     categoriaID: 9,
-  //   },
-  //   // Adicione mais produtos conforme necessário
-  // ];
+  const formikRef = useRef(); // Crie uma referência para o Formik
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -93,8 +56,8 @@ export default function ModalCriarFeira({
 
   const initialValues = {
     nome: "",
-    dataInicio: null,
-    dataFim: null,
+    dataInicio: selectedDate ? moment(selectedDate) : null,
+    dataFim: selectedDate ? moment(selectedDate) : null,
     horaInicio: null,
     horaFim: null,
   };
@@ -132,6 +95,7 @@ export default function ModalCriarFeira({
           ),
       }),
   });
+  
   const handleOk = async (values) => {
     const _feiraService = new FeiraService();
     values.parentId = contaID;
@@ -193,6 +157,12 @@ export default function ModalCriarFeira({
   const handleCancel = () => {
     setModalCriarFeiraAberto(false);
     setErrorMsg(null);
+
+    initialValues = { teste: "" };
+
+    if (formikRef.current) {
+      formikRef.current.resetForm();
+    }
   };
 
   const adicionarProduto = (produto) => {
@@ -247,7 +217,11 @@ export default function ModalCriarFeira({
               <Form>
                 <Row gutter={[0, 40]} style={{ marginTop: "12px" }}>
                   <Col>
-                    <Row gutter={[0, 14]} justify="space-between" align={"middle"}>
+                    <Row
+                      gutter={[0, 14]}
+                      justify="space-between"
+                      align={"middle"}
+                    >
                       <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
                         <Typography className="label-input">
                           Nome da Feira
@@ -272,6 +246,14 @@ export default function ModalCriarFeira({
                           format="DD-MM-YYYY"
                           className="input-text"
                           placeholder={["Data Início", "Data Fim"]}
+                          value={
+                            values.dataInicio && values.dataFim
+                              ? [
+                                  moment(values.dataInicio),
+                                  moment(values.dataFim),
+                                ]
+                              : null
+                          }
                           onChange={(dates) => {
                             setFieldValue(
                               "dataInicio",
@@ -279,8 +261,8 @@ export default function ModalCriarFeira({
                             );
                             setFieldValue("dataFim", dates ? dates[1] : null);
                           }}
-                          style={{ width: "100%" }}
                         />
+
                         <ErrorMessage
                           name="dataInicio"
                           component="div"
@@ -321,16 +303,6 @@ export default function ModalCriarFeira({
                         xxl={24}
                         style={{ paddingRight: "8px" }}
                       >
-                        {/* <Checkbox
-                      checked={isDiaInteiro}
-                      onChange={(e) => {
-                        setIsDiaInteiro(e.target.checked);
-                        setFieldValue("horaInicio", null);
-                        setFieldValue("horaFim", null);
-                      }}
-                    >
-                      Dia Inteiro
-                    </Checkbox> */}
                         {!isDiaInteiro && (
                           <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
                             <Typography className="label-input">

@@ -98,3 +98,33 @@
   opacity: 0.8;
   cursor: move;
 }
+
+.calendar-container {
+  display: grid;
+  grid-template-rows: auto 1fr; /* Ocupa o restante da tela */
+  height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    height: 56vh;
+  }
+}
+
+@media (min-width: 769px) {
+  .calendar-container {
+    height: 80vh;
+  }
+}
+
+@media (min-width: 600px) {
+  .calendar-container {
+    height: 94vh;
+  }
+}
+
+@media (min-width: 1400px) {
+  .calendar-container {
+    height: 79vh;
+  }
+}

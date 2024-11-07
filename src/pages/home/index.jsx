@@ -8,9 +8,17 @@ import MeuCalendario from "./calendar";
 import GraficoPerfis from "./graficos/GraficoPerfis";
 import PerfilContaService from "../../services/perfilConta.service";
 import FeiraService from "../../services/feira.service";
-import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 import { formatarDataDDMMYY } from "../../utils/converterDataParaDDMMYY";
 import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
+import { CalendarMonth } from "@mui/icons-material";
 
 export default function Home() {
   const { contaID } = useParams();
@@ -110,35 +118,21 @@ export default function Home() {
   const dadosCategorias = calcularDadosCategorias(feiras);
 
   return (
-    <Row gutter={[0, 30]}>
+    <Row gutter={[0, 30]} style={{ flexDirection: "column", width: "100%" }}>
       <h1>Calendário</h1>
       <Row gutter={[0, 20]}>
-
-        <Row justify={"space-between"} gutter={[24]}>
-          <Col xs={19} sm={19} md={19} lg={19} xl={18}>
+        <Row justify={"space-between"} gutter={[24]} className="container-home">
+          <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <Row gutter={[0, 4]}>
-              {/* <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-              <GraficoPerfis />
-            </Col> */}
-
-              <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
-                {/* <GraficoHome2 /> */}
-
-                {/* <h1>Olá, Yago! Não temos nada agendado para hoje.</h1> */}
-              </Col>
-
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <MeuCalendario />
-
-                {/* <Table dataSource={produtos} columns={columns} /> */}
               </Col>
             </Row>
           </Col>
 
-          <Col xs={5} sm={5} md={5} lg={5} xl={6} className="right-container">
-            <Row gutter={[0, 16]}>
-              <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
-                {/* <GraficoHome2 /> */}
+          <Col md={24} lg={24} xl={7} xxl={6} className="right-container">
+            <Row gutter={[0, 16]} justify="space-between">
+              <Col xs={24} sm={24} md={24} lg={24} xl={24} xxl={24}>
                 <GraficoPerfis />
               </Col>
 
@@ -146,7 +140,7 @@ export default function Home() {
                 xs={24}
                 sm={24}
                 md={24}
-                lg={24}
+                lg={12}
                 xl={24}
                 className="grafico-proximas-feiras"
                 style={{ padding: "20px " }}
@@ -160,25 +154,26 @@ export default function Home() {
                   <Col xs={24}>
                     <Row className="proximas-feiras-flex">
                       {feiras.slice(0, 3).map((feira) => (
-                        <div key={feira.id} className="proximas-feiras-card">
+                        <div
+                          key={feira.id}
+                          className="proximas-feiras-card"
+                          onClick={() => {
+                            navigate(`/home/${contaID}/${feira.id}`);
+                          }}
+                        >
                           <Row align="middle">
-                            <Col span={20}>
+                            <Col span={14}>
                               <Flex align="center" gap={10}>
                                 <Typography className="titulo-proximas-feiras">
                                   {feira.title}
                                 </Typography>
-                                <Typography className="data-feira">
-                                  {formatarDataDDMMYY(feira.start)}
-                                </Typography>
                               </Flex>
                             </Col>
-                            <Col span={4} className="icon-container">
-                              <CallMissedOutgoingIcon
-                                className="icon-feiras"
-                                onClick={() => {
-                                  navigate(`/home/${contaID}/${feira.id}`);
-                                }}
-                              />
+                            <Col span={10} className="icon-container">
+                              <CalendarMonth className="icon-feiras" />
+                              <Typography className="data-feira">
+                                {formatarDataDDMMYY(feira.start)}
+                              </Typography>
                             </Col>
                           </Row>
                         </div>
@@ -192,37 +187,45 @@ export default function Home() {
                 xs={24}
                 sm={24}
                 md={24}
-                lg={24}
+                lg={11}
                 xl={24}
                 className="grafico-proximas-feiras"
                 style={{ padding: "20px " }}
               >
-                <Row align={"middle"} justify={"center"}>
+                <Row
+                  align={"middle"}
+                  justify={"center"}
+                  className="grafico-item-por-categoria-container-home"
+                >
                   <Col xs={24}>
                     <Typography className="proximas-feiras-title">
                       Categorias
                     </Typography>
                   </Col>
-                  <PieChart width={250} height={250}>
-                    <Pie
-                      data={dadosCategorias}
-                      dataKey="quantidade"
-                      nameKey="nome"
-                      cx="50%"
-                      cy="40%"
-                      outerRadius={80} // Diminuímos o raio externo
-                      fill="#8884d8"
-                    >
-                      {dadosCategorias.map((_, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
+
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart width={400} height={250} margin={{ bottom: 40 }}>
+                      <Pie
+                        isAnimationActive={false}
+                        data={dadosCategorias}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={"100%"}
+                        fill="#376bdb"
+                        dataKey="quantidade"
+                        nameKey="nome"
+                      />
+
+                      <Legend
+                        layout="vertical"
+                        align="left"
+                        verticalAlign="top"
+                        className="custom-legend"
+                      />
+
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </Row>
               </Col>
             </Row>

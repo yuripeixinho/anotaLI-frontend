@@ -43,8 +43,8 @@ function LayoutApp() {
     <Layout>
       <Sider
         trigger={null}
-        collapsible
-        collapsed={collapsed}
+        collapsible={false}
+        collapsed={true}
         style={{ backgroundColor: "#F6F7F9" }}
         width={280}
       >
