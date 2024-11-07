@@ -1,5 +1,4 @@
 import CategoriaSerializer from "./categoria.serializer";
-import PerfilContaSerializer from "./perfiConta.serializer";
 
 export default class ProdutoSerializer {
   constructor() {
@@ -7,6 +6,7 @@ export default class ProdutoSerializer {
   }
 
   fromJson(json) {
+    debugger;
     const produto = {};
     Object.assign(
       produto,
@@ -30,6 +30,9 @@ export default class ProdutoSerializer {
       },
       json?.feira?.nome && {
         feiraNome: json.feira.nome,
+      },
+      json.feira && {
+        feira: json.feira,
       }
     );
 

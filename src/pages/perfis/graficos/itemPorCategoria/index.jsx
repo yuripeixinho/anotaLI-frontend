@@ -41,9 +41,11 @@ export default function ItemPorCategoriaGrafico({ dados }) {
   }));
 
   return (
-    <div className="graficohome2">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={400} height={400}>
+    <div className="grafico-item-por-categoria-container">
+      <h3>Itens por categoria</h3>
+
+      <ResponsiveContainer width="100%" height={200}>
+        <PieChart width={400} height={250} margin={{ bottom: 40 }}>
           <Pie
             dataKey="value"
             isAnimationActive={false}
@@ -52,7 +54,13 @@ export default function ItemPorCategoriaGrafico({ dados }) {
             cy="50%"
             outerRadius={80}
             fill="#8884d8"
-            label
+          />
+
+          <Legend
+            layout="vertical"
+            align="left"
+            verticalAlign="top"
+            className="custom-legend"
           />
 
           <Tooltip />

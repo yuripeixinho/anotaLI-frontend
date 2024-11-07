@@ -9,11 +9,13 @@ import PerfilContaService from "../../../services/perfilConta.service";
 import ItemPorFeiraGrafico from "../graficos/itemPorFeira";
 import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
 import avatarGeneric from "../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
+import { Grid, Tag } from "antd";
 
 export default function OutrosPerfis() {
   const { perfilContaID } = useParams();
   const [produtos, setProdutos] = useState([]);
   const [perfilConta, setPerfilConta] = useState({});
+  const { useBreakpoint } = Grid;
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -30,23 +32,28 @@ export default function OutrosPerfis() {
 
     init();
   }, [perfilContaID]);
+  const screens = useBreakpoint();
 
   return (
     <div>
+      {Object.entries(screens)
+        .filter((screen) => !!screen[1])
+        .map((screen) => (
+          <Tag color="blue" key={screen[0]}>
+            {screen[0]}
+          </Tag>
+        ))}
+
       <h1>Perfil de {perfilConta?.nome}</h1>
 
       <Row gutter={80}>
-        <Col xs={19} sm={19} md={19} lg={19} xl={19}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={19}>
           <Row gutter={[40, 48]}>
-            <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-              <div>
-                <h2>Oi</h2>
-
-                <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
-              </div>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={15}>
+              <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
             </Col>
 
-            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={9}>
               <ItemPorCategoriaGrafico dados={perfilConta.produtos} />
             </Col>
 
@@ -62,8 +69,8 @@ export default function OutrosPerfis() {
           </Row>
         </Col>
 
-        <Col xs={5} sm={5} md={5} lg={5} xl={5} className="right-container">
-          <Avatar size={220} src={avatarGeneric} />
+        <Col xs={0} sm={0} md={0} lg={0} xl={5} className="right-container">
+          <Avatar src={avatarGeneric} />
 
           <h1>{perfilConta?.nome}</h1>
         </Col>

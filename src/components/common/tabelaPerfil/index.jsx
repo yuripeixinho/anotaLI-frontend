@@ -121,6 +121,27 @@ export default function TabelaPerfil({ data }) {
 
   const columns = [
     {
+      title: "Feira",
+      key: "feira",
+      dataIndex: "feiraNome",
+      readonly: true,
+      editable: (text, record, index) => {
+        return false
+      },
+
+      width: "10%",
+      render: (nome) => <span className="nome-feira">{nome}</span>,
+      renderFormItem: (item, { value, onChange }) => {
+        return (
+          <Input
+            value={value}
+            onChange={(e) => onChange?.(e.target.value)}
+            placeholder="Nome do produto"
+          />
+        );
+      },
+    },
+    {
       title: "Produto",
       key: "nome",
       dataIndex: "nome",
@@ -248,7 +269,6 @@ export default function TabelaPerfil({ data }) {
       title: "",
       dataIndex: "",
       key: "",
-      width: "5%",
       render: (text, record, _, action) => {
         return (
           <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
