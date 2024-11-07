@@ -45,15 +45,15 @@ export default function ItemPorCategoriaGrafico({ dados }) {
       <h3>Itens por categoria</h3>
 
       <ResponsiveContainer width="100%" height={200}>
-        <PieChart width={400} height={250} margin={{ bottom: 40 }}>
+        <PieChart width={400} height={250}>
           <Pie
             dataKey="value"
             isAnimationActive={false}
             data={chartData}
             cx="50%"
             cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
+            outerRadius="100%"
+            fill="#376bdb"
           />
 
           <Legend

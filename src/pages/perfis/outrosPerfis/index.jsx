@@ -11,6 +11,9 @@ import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
 import avatarGeneric from "../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import { Grid, Tag } from "antd";
 
+import "./styles.scss";
+import { AntDesignOutlined } from "@ant-design/icons";
+
 export default function OutrosPerfis() {
   const { perfilContaID } = useParams();
   const [produtos, setProdutos] = useState([]);
@@ -47,13 +50,13 @@ export default function OutrosPerfis() {
       <h1>Perfil de {perfilConta?.nome}</h1>
 
       <Row gutter={80}>
-        <Col xs={24} sm={24} md={24} lg={24} xl={19}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={18}>
           <Row gutter={[40, 48]}>
-            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={15}>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
             </Col>
 
-            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={9}>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
               <ItemPorCategoriaGrafico dados={perfilConta.produtos} />
             </Col>
 
@@ -69,10 +72,15 @@ export default function OutrosPerfis() {
           </Row>
         </Col>
 
-        <Col xs={0} sm={0} md={0} lg={0} xl={5} className="right-container">
-          <Avatar src={avatarGeneric} />
+        <Col xs={0} sm={0} md={0} lg={0} xl={6}>
+          <div className="perfil-right-container">
+            <Avatar
+              size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 100, xxl: 200 }}
+              src={avatarGeneric}
+            />
 
-          <h1>{perfilConta?.nome}</h1>
+            <h1>{perfilConta?.nome}</h1>
+          </div>
         </Col>
       </Row>
     </div>

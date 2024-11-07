@@ -33,21 +33,21 @@ export default function OutrosPerfis() {
     init();
   }, [perfilContaID]);
 
-  console.log('perfilContaID:', perfilContaID);
-  console.log('perfilID:', perfilId);
-  
+  console.log("perfilContaID:", perfilContaID);
+  console.log("perfilID:", perfilId);
+
   return (
     <div>
       <h1>Meu perfil</h1>
 
       <Row gutter={80}>
-        <Col xs={19} sm={19} md={19} lg={19} xl={19}>
+        <Col span={24}>
           <Row gutter={[40, 48]}>
-            <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}> 
               <ItemPorFeiraGrafico dados={perfilConta?.produtos} />
             </Col>
 
-            <Col xs={8} sm={8} md={8} lg={8} xl={8} xxl={8}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={12} xxl={12}>
               <ItemPorCategoriaGrafico dados={perfilConta.produtos} />
             </Col>
 
@@ -62,15 +62,6 @@ export default function OutrosPerfis() {
             </Col>
           </Row>
         </Col>
-        {console.log(perfilContaID === perfilId)}
-
-        {perfilContaID !== perfilId && (
-          <Col xs={5} sm={5} md={5} lg={5} xl={5} className="right-container">
-            <Avatar size={220} src={avatarGeneric} />
-
-            <h1>{perfilConta?.nome}</h1>
-          </Col>
-        )}
       </Row>
     </div>
   );
