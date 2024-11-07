@@ -67,10 +67,10 @@ export default function ItemPorFeiraGrafico({ dados }) {
       <ResponsiveContainer width="100%" height={200}>
         <BarChart width={730} height={250} data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="name" />  
           <YAxis />
           <Tooltip />
-          <Bar dataKey="produtos" fill="#82ca9d" />
+          <Bar dataKey="produtos" fill="#376bdb" />
         </BarChart>
       </ResponsiveContainer>
     </div>
