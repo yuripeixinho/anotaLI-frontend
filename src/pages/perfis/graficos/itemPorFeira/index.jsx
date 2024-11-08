@@ -35,34 +35,8 @@ export default function ItemPorFeiraGrafico({ dados }) {
   }));
 
   return (
-    // <div className="grafico-item-por-feira-container">
-    //   <h2>Itens por feira</h2>
-    //   <ResponsiveContainer width={700} height="80%">
-    //     <BarChart
-    //       width={730}
-    //       height={250}
-    //       // width={700}
-    //       // height={100}
-    //       data={chartData}
-    //       // margin={{
-    //       //   top: 5,
-    //       //   right: 30,
-    //       //   left: 20,
-    //       //   bottom: 5,
-    //       // }}^
-    //       className="gra"
-    //     >
-    //       <CartesianGrid strokeDasharray="3 3" />
-    //       <XAxis dataKey="name" />
-    //       <YAxis />
-    //       <Tooltip />
-    //       <Bar dataKey="produtos" fill="#82ca9d" />
-    //     </BarChart>
-    //   </ResponsiveContainer>
-    // </div>
-
     <div className="grafico-item-por-feira-container">
-      <h3>Itens por categoria</h3>
+      <h3>Itens por feira</h3>
 
       <ResponsiveContainer width="100%" height={200}>
         <BarChart width={730} height={250} data={chartData}>

@@ -8,7 +8,6 @@ export default class CoreApiService {
   }
 
   async read(id) {
-    debugger;
     const response = await api.get(`${this.endpoint}/${id}`);
 
     const data = response.data;
@@ -71,7 +70,6 @@ export default class CoreApiService {
   }
 
   async update(item, isFormDate = false) {
-    debugger;
     const response = await api.put(
       `${this.endpoint}/${item.id}`,
       isFormDate
@@ -84,7 +82,6 @@ export default class CoreApiService {
   }
 
   async updateSub(id = null, item) {
-    debugger;
     const ref = id ? id : item.id;
     const response = await api.put(
       `${this.parentEndpoint}/${ref}/${this.endpoint}`,

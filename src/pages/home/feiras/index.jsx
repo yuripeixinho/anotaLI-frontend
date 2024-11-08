@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card, Carousel, Col, Row, Typography } from "antd";
+import { Button, Card, Carousel, Col, Modal, Row, Typography } from "antd";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import "./styles.scss";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProdutoService from "../../../services/produto.service";
 import TabelaFeira from "../../../components/common/tabelaFeira";
 import ptBR from "antd/es/locale/pt_BR";
@@ -24,6 +24,8 @@ import {
 } from "recharts";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import FeiraService from "../../../services/feira.service";
+import { CloseOutlined } from "@ant-design/icons";
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 
 const FeiraSchema = Yup.object().shape({
   nome: Yup.string().required("Nome é obrigatório"),
@@ -31,10 +33,15 @@ const FeiraSchema = Yup.object().shape({
 
 export default function Feiras() {
   const { contaID, feiraID } = useParams();
+  const { perfilId } = useAuth();
   const [produtos, setProdutos] = useState([]);
   const [feiraAtual, setFeiraAtual] = useState({});
   const [produtosRecomendados, setProdutosRecomendados] = useState([]);
-  const { perfilId } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
+  const [loadingDelete, setLoadingDelete] = useState(false); // Estado para controlar o loading da requisição DELETE
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -111,126 +118,175 @@ export default function Feiras() {
   }
 
   async function handleUpdateFeira(values) {
-    debugger;
     const _feiraService = new FeiraService();
     try {
       await _feiraService.atualizarFeira(values, contaID, feiraID);
       setFeiraAtual((prev) => ({ ...prev, ...values }));
+      setIsEditing(false); // Fecha a edição após salvar
     } catch (err) {
       console.error("Erro ao atualizar feira:", err);
     }
   }
 
+  const handleDeleteFeira = async () => {
+    const _feiraService = new FeiraService();
+
+    await _feiraService
+      .deletarFeira(contaID, feiraID)
+      .then((res) => {
+        setIsModalVisible(false);
+        navigate(`/home/${contaID}`);
+      })
+      .catch((err) => {
+        console.error("Erro ao excluir feira:", err);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
+  };
+
   return (
-    <Row gutter={[0, 30]}>
+    <div>
       <h1>Visualização de feira</h1>
 
-      <Row gutter={[0, 20]}>
-        <Row justify={"space-between"} gutter={[10, 10]}>
-          <Col xs={19} sm={19} md={19} lg={19} xl={19}>
-            <Row gutter={[40, 40]}>
-              <Col xs={19} sm={19} md={19} lg={19} xl={24}>
-                <Row justify={"space-between"}>
-                  <Col
-                    xs={16}
-                    sm={16}
-                    md={16}
-                    lg={16}
-                    xl={15}
-                    className="bar-chart-container"
-                  >
-                    <ResponsiveContainer width="100%" height={300}>
-                      <BarChart
-                        data={transformedData}
-                        margin={{
-                          top: 20,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        {profiles.map((profile, index) => (
-                          <Bar
-                            key={profile}
-                            dataKey={profile}
-                            stackId="a"
-                            fill={index % 2 === 0 ? "#8884d8" : "#82ca9d"}
-                          />
-                        ))}
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </Col>
+      <Row gutter={80}>
+        <Col xs={19} sm={19} md={19} lg={19} xl={19}>
+          <Row gutter={[40, 48]}>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
+              <div className="bar-chart-container">
+                <h3>Itens por feira</h3>
 
-                  <Col
-                    xs={8}
-                    sm={8}
-                    md={8}
-                    lg={8}
-                    xl={24}
-                    xxl={8}
-                    className="container-grafico-torta"
-                  >
-                    <PieChart width={250} height={250}>
-                      <Pie
-                        data={dadosCategorias}
-                        dataKey="quantidade"
-                        nameKey="nome"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={80}
-                        fill="#8884d8"
-                      >
-                        {dadosCategorias.map((_, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </Col>
-                </Row>
-              </Col>
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={transformedData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    {profiles.map((profile, index) => (
+                      <Bar
+                        key={profile}
+                        dataKey={profile}
+                        stackId="a"
+                        fill={index % 2 === 0 ? "#8884d8" : "#82ca9d"}
+                      />
+                    ))}
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Col>
 
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <div className="tabela-feira-header">
-                  <h1>
+            <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
+              <div className="container-grafico-torta">
+                <h3>Itens por categoria</h3>
+
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart width={400} height={250}>
+                    <Pie
+                      data={dadosCategorias}
+                      dataKey="quantidade"
+                      nameKey="nome"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius="100%"
+                      fill="#8884d8"
+                    >
+                      {dadosCategorias.map((_, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+
+                    <Legend
+                      layout="vertical"
+                      align="left"
+                      verticalAlign="top"
+                      className="custom-legend"
+                    />
+
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Col>
+
+            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+              <div className="tabela-feira-header">
+                <h1>
+                  {!isEditing ? (
+                    <div className="nome-feira">
+                      {feiraAtual.nome || "Nome da feira"}
+
+                      <div>
+                        <EditOutlined
+                          onClick={() => setIsEditing(true)}
+                          style={{ marginLeft: 10, cursor: "pointer" }}
+                        />
+
+                        <DeleteOutline
+                          onClick={() => setIsModalVisible(true)}
+                          style={{ marginLeft: 10, cursor: "pointer" }}
+                        />
+                      </div>
+                    </div>
+                  ) : (
                     <Formik
                       initialValues={{ nome: feiraAtual.nome || "" }}
                       enableReinitialize
+                      validationSchema={FeiraSchema}
                       onSubmit={handleUpdateFeira}
                     >
                       {({ errors, touched }) => (
-                        <Form>
+                        <Form style={{ display: "flex", alignItems: "center" }}>
                           <Field
                             name="nome"
                             placeholder="Nome da feira"
-                            style={{ fontSize: "1.5rem", fontWeight: "bold" }}
+                            className="nome-feira-input-text"
                           />
                           {errors.nome && touched.nome ? (
-                            <div style={{ color: "red" }}>{errors.nome}</div>
+                            <div style={{ color: "red", marginRight: 10 }}>
+                              {errors.nome}
+                            </div>
                           ) : null}
-                          <button type="submit">Salvar</button>
+
+                          <Button
+                            htmlType="submit"
+                            type="submit"
+                            style={{ marginRight: 5 }}
+                          >
+                            Salvar
+                          </Button>
+
+                          <button
+                            type="button"
+                            onClick={() => setIsEditing(false)}
+                            style={{
+                              backgroundColor: "transparent",
+                              border: "none",
+                              color: "#d9534f",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <CloseOutlined />
+                          </button>
                         </Form>
                       )}
                     </Formik>
-                  </h1>
-                </div>
-                <ConfigProvider locale={ptBR}>
-                  <TabelaFeira data={produtos} />
-                </ConfigProvider>
-              </Col>
-            </Row>
-          </Col>
+                  )}
+                </h1>
+              </div>
 
-          <Col xs={5} sm={5} md={5} lg={5} xl={5} className="right-container">
+              <ConfigProvider locale={ptBR}>
+                <TabelaFeira data={produtos} />
+              </ConfigProvider>
+            </Col>
+          </Row>
+        </Col>
+
+        <Col xs={5} sm={5} md={5} lg={5} xl={5}>
+          <div className="right-container">
             <Row gutter={[0, 16]} justify="center">
               <Col span={20}>
                 <Typography.Title
@@ -290,9 +346,22 @@ export default function Feiras() {
                 </Carousel>
               </Col>
             </Row>
-          </Col>
-        </Row>
+          </div>
+        </Col>
       </Row>
-    </Row>
+
+      <Modal
+        title="Confirmar Exclusão"
+        visible={isModalVisible}
+        onOk={handleDeleteFeira}
+        onCancel={() => setIsModalVisible(false)}
+        confirmLoading={loadingDelete}
+        okText="Excluir"
+        cancelText="Cancelar"
+        centered
+      >
+        <p>Você tem certeza que deseja excluir esta feira?</p>
+      </Modal>
+    </div>
   );
 }

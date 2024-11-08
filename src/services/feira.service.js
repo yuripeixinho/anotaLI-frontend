@@ -27,4 +27,10 @@ export default class FeiraService extends CoreApiService {
 
     return this.serializer.fromJson(data);
   }
+
+  async deletarFeira(idConta, idFeira) {
+    const response = await api.delete(`contas/${idConta}/feiras/${idFeira}`);
+    
+    return response;
+  }
 }

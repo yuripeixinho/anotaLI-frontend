@@ -6,7 +6,6 @@ export default class ProdutoSerializer {
   }
 
   fromJson(json) {
-    debugger;
     const produto = {};
     Object.assign(
       produto,

@@ -2,11 +2,38 @@
   h1 {
     font-weight: 500;
   }
+
+  .nome-feira {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nome-feira-input-text {
+    width: 30%;
+    height: 50px;
+    padding-left: 1rem;
+    font-weight: 400;
+    font-size: 20px;
+    border-radius: 100px;
+    background: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d9d9d9;
+  }
 }
 
 .container-grafico-torta,
 .bar-chart-container {
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
+
+  h3 {
+    font-weight: 400;
+    font-size: 1.5em;
+  }
 }
 
 .carousel-produtos {

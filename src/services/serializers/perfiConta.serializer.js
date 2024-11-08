@@ -6,7 +6,6 @@ export default class PerfilContaSerializer {
   }
 
   fromJson(json) {
-    debugger;
     const conta = {};
 
     Object.assign(
