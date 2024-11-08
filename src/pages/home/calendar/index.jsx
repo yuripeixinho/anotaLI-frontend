@@ -19,10 +19,9 @@ const localizer = momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-export default function MeuCalendario() {
+export default function MeuCalendario({feiras, setFeiras}) {
   const { contaID } = useParams();
   const [modalCriarFeiraAberto, setModalCriarFeiraAberto] = useState(false);
-  const [feiras, setFeiras] = useState([]);
   const [draggedEvent, setDraggedEvent] = useState(null);
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
@@ -47,17 +46,28 @@ export default function MeuCalendario() {
     setFeiras((prevFeiras) => [...prevFeiras, novaFeira]); // Adiciona a nova feira ao estado
   };
 
+  useEffect(() => {
+    // Este código será executado sempre que 'feiras' for atualizado
+    console.log("Feiras atualizadas:", feiras);
+  }, [feiras]); // Dependência no estado 'feiras'
+
   const moveEvent = useCallback(
     async ({ event, start, end }) => {
+      // Atualiza o evento movido
       const updatedEvents = feiras.map((e) =>
         e.id === event.id ? { ...e, start, end } : e
       );
+
+      // Ordena os eventos pela data de início (start)
+      updatedEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+      // Atualiza o estado das feiras ordenadas
+      setFeiras(updatedEvents);
 
       const _feiraService = new FeiraService();
       const values = {
         id: event.id,
         nome: event.title,
-        // Use o start e end diretamente sem conversão
         dataInicio: start.toISOString(), // Salva como ISO sem alterar o fuso
         dataFim: end.toISOString(), // Salva como ISO sem alterar o fuso
       };
@@ -75,8 +85,6 @@ export default function MeuCalendario() {
           "Erro interno. Tente novamente mais tarde.";
         // setErrorMsg(message); // Você pode habilitar isso se tiver um estado de erro
       }
-
-      setFeiras(updatedEvents);
     },
     [feiras, contaID, aoSalvarNovaFeira]
   );

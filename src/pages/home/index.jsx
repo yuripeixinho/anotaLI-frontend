@@ -48,43 +48,7 @@ export default function Home() {
     init();
   }, [contaID]);
 
-  const columns = [
-    {
-      title: "Nome",
-      dataIndex: "nome",
-      key: "nome",
-    },
-    {
-      title: "Quantidade",
-      dataIndex: "quantidade",
-      key: "quantidade",
-    },
-    {
-      title: "Unidade",
-      dataIndex: "unidade",
-      key: "unidade",
-    },
-  ];
 
-  const data = [
-    {
-      categoriaID: 9,
-      nome: "Produto A",
-      perfilID: "m3Fz6kQp1W",
-      quantidade: 10,
-    },
-    {
-      categoriaID: 9,
-      nome: "Produto B",
-      perfilID: "m3Fz6kQp1W",
-      quantidade: 10,
-    },
-  ];
-
-  // Define cores para cada segmento da pizza
-  const COLORS = ["#0088FE", "#00C49F"];
-  // Processa os dados para somar as quantidades por categoria
-  // Processa os dados para somar as quantidades por categoria
   const calcularDadosCategorias = (dados) => {
     const categorias = {};
 
@@ -116,7 +80,7 @@ export default function Home() {
   };
 
   const dadosCategorias = calcularDadosCategorias(feiras);
-
+  console.log(feiras);
   return (
     <Row gutter={[0, 30]} style={{ flexDirection: "column", width: "100%" }}>
       <h1>Calendário</h1>
@@ -125,7 +89,7 @@ export default function Home() {
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <Row gutter={[0, 4]}>
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <MeuCalendario />
+                <MeuCalendario  feiras={feiras} setFeiras={setFeiras}/>
               </Col>
             </Row>
           </Col>

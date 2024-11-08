@@ -13,6 +13,13 @@ import Sider from "antd/es/layout/Sider";
 import { useState } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import AvatarDropdown from "../avatarDropdown";
+import anotaLogo from "../../../assets/logo/LogoAnota.png";
+import {
+  CalendarMonth,
+  Kitchen,
+  KitchenOutlined,
+  Person,
+} from "@mui/icons-material";
 
 function LayoutApp() {
   const { usuario, perfilId } = useAuth();
@@ -23,19 +30,14 @@ function LayoutApp() {
     {
       key: "2",
       label: <Link to={`home/${usuario?.id}`}>Home</Link>,
-      icon: <HomeOutlined />,
+      icon: <CalendarMonth />,
     },
     {
       key: "1",
       label: (
         <Link to={`meus-itens/${usuario?.id}/${perfilId}`}>Meus Itens</Link>
       ),
-      icon: <FieldBinaryOutlined />,
-    },
-    {
-      key: "3",
-      label: <Link to={`/perfis/${usuario?.id}`}>Perfis</Link>,
-      icon: <ProfileFilled />,
+      icon: <KitchenOutlined />,
     },
   ];
 
@@ -59,13 +61,7 @@ function LayoutApp() {
             alignItems: "center",
           }}
         >
-          <span
-            style={{
-              fontSize: "20px",
-            }}
-          >
-            AnotaLI
-          </span>
+          <img src={anotaLogo} alt="Logo do aplicativo Anota" width={48} />
         </div>
 
         <Menu
