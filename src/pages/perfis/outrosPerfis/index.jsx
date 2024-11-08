@@ -9,16 +9,13 @@ import PerfilContaService from "../../../services/perfilConta.service";
 import ItemPorFeiraGrafico from "../graficos/itemPorFeira";
 import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
 import avatarGeneric from "../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
-import { Grid, Tag } from "antd";
 
 import "./styles.scss";
-import { AntDesignOutlined } from "@ant-design/icons";
 
 export default function OutrosPerfis() {
   const { perfilContaID } = useParams();
   const [produtos, setProdutos] = useState([]);
   const [perfilConta, setPerfilConta] = useState({});
-  const { useBreakpoint } = Grid;
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -35,18 +32,9 @@ export default function OutrosPerfis() {
 
     init();
   }, [perfilContaID]);
-  const screens = useBreakpoint();
 
   return (
     <div>
-      {Object.entries(screens)
-        .filter((screen) => !!screen[1])
-        .map((screen) => (
-          <Tag color="blue" key={screen[0]}>
-            {screen[0]}
-          </Tag>
-        ))}
-
       <h1>Perfil de {perfilConta?.nome}</h1>
 
       <Row gutter={80}>

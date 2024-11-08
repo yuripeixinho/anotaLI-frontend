@@ -62,49 +62,91 @@ body {
 }
 
 /* Media Queries para ajuste de responsividade */
-@media (max-width: 576px) {
+/* Extra small devices (portrait phones, less than 576px) */
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
   h1 {
-    font-size: 1.5rem !important; /* 24px */
+    font-size: 1.14rem !important; /* ~18.24px */
   }
 
   h2 {
-    font-size: 1.25rem !important; /* 20px */
+    font-size: 0.95rem !important; /* ~15.2px */
   }
 
   p {
-    font-size: 0.875rem !important; /* 14px */
+    font-size: 0.665rem !important; /* ~10.64px */
   }
 
   label {
-    font-size: 0.75rem !important; /* 12px */
+    font-size: 0.57rem !important; /* ~9.12px */
   }
 }
 
-@media (min-width: 576px) and (max-width: 768px) {
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
   h1 {
-    font-size: 1.75rem !important; /* 28px */
+    font-size: 1.33rem !important; /* ~21.28px */
   }
 
   h2 {
-    font-size: 1.375rem !important; /* 22px */
+    font-size: 1.05rem !important; /* ~16.8px */
   }
 
   p {
-    font-size: 0.9375rem !important; /* 15px */
+    font-size: 0.728rem !important; /* ~11.65px */
   }
 
   label {
-    font-size: 0.8125rem !important; /* 13px */
+    font-size: 0.63rem !important; /* ~10.08px */
   }
 }
 
-@media (min-width: 768px) and (max-width: 992px) {
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  h1 {
+    font-size: 1.52rem !important; /* ~24.32px */
+  }
+
+  h2 {
+    font-size: 1.14rem !important; /* ~18.24px */
+  }
+
+  p {
+    font-size: 0.76rem !important; /* ~12.16px */
+  }
+
+  label {
+    font-size: 0.665rem !important; /* ~10.64px */
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  h1 {
+    font-size: 1.71rem !important; /* ~27.36px */
+  }
+
+  h2 {
+    font-size: 1.33rem !important; /* ~21.28px */
+  }
+
+  p {
+    font-size: 0.855rem !important; /* ~13.68px */
+  }
+
+  label {
+    font-size: 0.712rem !important; /* ~11.4px */
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
   h1 {
     font-size: 2rem !important; /* 32px */
   }
 
   h2 {
-    font-size: 1.5rem !important; /* 24px */
+    font-size: 1.52rem !important; /* 24px */
   }
 
   p {
@@ -112,43 +154,7 @@ body {
   }
 
   label {
-    font-size: 0.875rem !important; /* 14px */
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-  h1 {
-    font-size: 2.25rem !important; /* 36px */
-  }
-
-  h2 {
-    font-size: 1.75rem !important; /* 28px */
-  }
-
-  p {
-    font-size: 1.125rem !important; /* 18px */
-  }
-
-  label {
-    font-size: 0.9375rem !important; /* 15px */
-  }
-}
-
-@media (min-width: 1200px) and (max-width: 1600px) {
-  h1 {
-    font-size: 2.625rem !important; /* 42px */
-  }
-
-  h2 {
-    font-size: 2rem !important; /* 32px */
-  }
-
-  p {
-    font-size: 1.125rem !important; /* 18px */
-  }
-
-  label {
-    font-size: 1rem !important; /* 16px */
+    font-size: 0.855rem !important; /* 13.68px */
   }
 }
 
