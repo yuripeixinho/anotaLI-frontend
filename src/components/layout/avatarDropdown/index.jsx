@@ -9,6 +9,7 @@ import {
 } from "@ant-design/icons";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import { useNavigate } from "react-router-dom";
+import { Logout, SwitchAccount } from "@mui/icons-material";
 
 const AvatarDropdown = () => {
   const { logout, usuario } = useAuth();
@@ -26,10 +27,10 @@ const AvatarDropdown = () => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="trocar-perfil" icon={<SettingOutlined />}>
+      <Menu.Item key="trocar-perfil" icon={<SwitchAccount />}>
         Trocar perfil
       </Menu.Item>
-      <Menu.Item key="logout" icon={<LogoutOutlined />}>
+      <Menu.Item key="logout" icon={<Logout />}>
         Sair
       </Menu.Item>
     </Menu>

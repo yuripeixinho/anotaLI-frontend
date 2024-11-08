@@ -30,7 +30,7 @@ export default function ModalCriarFeira({
   aoSalvarNovaFeira,
   modalCriarFeiraAberto,
   setModalCriarFeiraAberto,
-  selectedDate, // Nova prop recebida
+  selectedDate,
 }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const { contaID } = useParams();
@@ -95,7 +95,7 @@ export default function ModalCriarFeira({
           ),
       }),
   });
-  
+
   const handleOk = async (values) => {
     const _feiraService = new FeiraService();
     values.parentId = contaID;
@@ -205,13 +205,12 @@ export default function ModalCriarFeira({
         />
       )}
       <Row gutter={24}>
-        {/* {JSON.stringify(produtosSelecionados)} */}
-        <Col span={6}>
+        <Col span={6} xs={24} sm={24} md={24} lg={10} xl={8} xxl={6}>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleOk}
-            innerRef={formikRef} // Passa a referência do Formik
+            innerRef={formikRef}
           >
             {({ setFieldValue, values }) => (
               <Form>
@@ -238,7 +237,7 @@ export default function ModalCriarFeira({
                           style={{ color: "red" }}
                         />
                       </Col>
-                      <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                      <Col xs={11} sm={11} md={11} lg={14} xl={12} xxl={16}>
                         <Typography className="label-input">
                           Período da Feira
                         </Typography>
@@ -275,11 +274,11 @@ export default function ModalCriarFeira({
                         />
                       </Col>
                       <Col
-                        xs={8}
-                        sm={8}
-                        md={8}
+                        xs={11}
+                        sm={11}
+                        md={11}
                         lg={8}
-                        xl={12}
+                        xl={10}
                         xxl={7}
                         style={{ marginTop: "28px" }}
                       >
@@ -304,7 +303,7 @@ export default function ModalCriarFeira({
                         style={{ paddingRight: "8px" }}
                       >
                         {!isDiaInteiro && (
-                          <Col xs={8} sm={8} md={8} lg={8} xl={12} xxl={16}>
+                          <Col xs={11} sm={11} md={11} lg={14} xl={12} xxl={16}>
                             <Typography className="label-input">
                               Horário
                             </Typography>
@@ -424,7 +423,7 @@ export default function ModalCriarFeira({
         </Col>
 
         {/* Carrossel de Produtos Recomendados */}
-        <Col span={18}>
+        <Col span={18} xs={24} sm={24} md={24} lg={14} xl={15} xxl={18}>
           <Row gutter={[0, 30]} align={"middle"} justify={"center"}>
             <Col span={20}>
               <Typography.Title
@@ -437,9 +436,41 @@ export default function ModalCriarFeira({
                 dots={false}
                 arrows={true}
                 className="carousel-produtos"
-                slidesToShow={5}
+                slidesToShow={5} // Quantidade padrão de slides
                 slidesToScroll={1}
-                autoplay={true} // Desabilita o autoplay
+                autoplay={true}
+                responsive={[
+                  {
+                    breakpoint: 1500, // Até 1500px de largura
+                    settings: {
+                      slidesToShow: 3,
+                    },
+                  },
+                  {
+                    breakpoint: 1200, // Até 1200px de largura
+                    settings: {
+                      slidesToShow: 2,
+                    },
+                  },
+                  {
+                    breakpoint: 992, // Até 992px de largura
+                    settings: {
+                      slidesToShow: 3,
+                    },
+                  },
+                  {
+                    breakpoint: 768, // Até 768px de largura
+                    settings: {
+                      slidesToShow: 2,
+                    },
+                  },
+                  {
+                    breakpoint: 576, // Até 576px de largura
+                    settings: {
+                      slidesToShow: 1,
+                    },
+                  },
+                ]}
               >
                 {produtosRecomendados.map((produto, index) => (
                   <div key={index} style={{ padding: "0 10px" }}>
@@ -452,7 +483,7 @@ export default function ModalCriarFeira({
                           src={"https://via.placeholder.com/150"}
                         />
                       }
-                      style={{ marginRight: "20px" }} // Define o espaçamento entre os cartões
+                      style={{ marginRight: "20px" }}
                     >
                       <Flex vertical>
                         <label
@@ -491,6 +522,38 @@ export default function ModalCriarFeira({
                 slidesToShow={5}
                 slidesToScroll={1}
                 autoplay={true} // Desabilita o autoplay
+                responsive={[
+                  {
+                    breakpoint: 1500, // Até 1500px de largura
+                    settings: {
+                      slidesToShow: 3,
+                    },
+                  },
+                  {
+                    breakpoint: 1200, // Até 1200px de largura
+                    settings: {
+                      slidesToShow: 2,
+                    },
+                  },
+                  {
+                    breakpoint: 992, // Até 992px de largura
+                    settings: {
+                      slidesToShow: 3,
+                    },
+                  },
+                  {
+                    breakpoint: 768, // Até 768px de largura
+                    settings: {
+                      slidesToShow: 2,
+                    },
+                  },
+                  {
+                    breakpoint: 576, // Até 576px de largura
+                    settings: {
+                      slidesToShow: 1,
+                    },
+                  },
+                ]}
               >
                 {produtosRecomendados.map((produto, index) => (
                   <div key={index} style={{ padding: "0 10px" }}>
