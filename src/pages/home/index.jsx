@@ -116,6 +116,7 @@ export default function Home() {
                     </Typography>
                   </Col>
                   <Col xs={24}>
+
                     <Row className="proximas-feiras-flex">
                       {feiras.slice(0, 3).map((feira) => (
                         <div
@@ -133,6 +134,7 @@ export default function Home() {
                                 </Typography>
                               </Flex>
                             </Col>
+                            
                             <Col span={10} className="icon-container">
                               <CalendarMonth className="icon-feiras" />
                               <Typography className="data-feira">

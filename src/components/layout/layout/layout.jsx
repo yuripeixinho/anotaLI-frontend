@@ -14,12 +14,7 @@ import { useState } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import AvatarDropdown from "../avatarDropdown";
 import anotaLogo from "../../../assets/logo/LogoAnota.png";
-import {
-  CalendarMonth,
-  Kitchen,
-  KitchenOutlined,
-  Person,
-} from "@mui/icons-material";
+import { CalendarMonthOutlined, KitchenOutlined } from "@mui/icons-material";
 
 function LayoutApp() {
   const { usuario, perfilId } = useAuth();
@@ -30,7 +25,7 @@ function LayoutApp() {
     {
       key: "2",
       label: <Link to={`home/${usuario?.id}`}>Home</Link>,
-      icon: <CalendarMonth />,
+      icon: <CalendarMonthOutlined />,
     },
     {
       key: "1",
@@ -72,7 +67,7 @@ function LayoutApp() {
         />
 
         {/* Ícone para abrir/fechar colocado aqui, na parte inferior */}
-        <div style={{ position: "absolute", bottom: 20, left: 10 }}>
+        {/* <div style={{ position: "absolute", bottom: 20, left: 10 }}>
           {collapsed ? (
             <MenuUnfoldOutlined
               onClick={() => setCollapsed(false)}
@@ -90,7 +85,7 @@ function LayoutApp() {
               }}
             />
           )}
-        </div>
+        </div> */}
       </Sider>
       <Layout>
         <div className="profile-dropdown">
