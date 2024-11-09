@@ -1,4 +1,3 @@
-// src/components/ProtectedRoute.js
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/anotaLiAuthContext";
@@ -7,11 +6,11 @@ const ProtectedRoute = ({ children, publicRoute = false }) => {
   const { isAuthenticated, loading, usuario } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // Ou um componente de carregamento mais estilizado
+    return <div>Loading...</div>;
   }
 
   if (publicRoute && isAuthenticated) {
-    return <Navigate to={`/home/${usuario?.id}`} />; // Redireciona para a página inicial
+    return <Navigate to={`/home/${usuario?.id}`} />;
   }
 
   if (!publicRoute && !isAuthenticated) {

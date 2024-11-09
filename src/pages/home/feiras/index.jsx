@@ -80,25 +80,35 @@ export default function Feiras() {
 
   const calcularDadosCategorias = (dados) => {
     const categorias = {};
+    debugger;
 
-    dados.forEach((produto) => {
-      const { categoria } = produto;
-      const categoriaID = categoria.categoriaID;
-      const nomeCategoria = categoria.nome;
+    if (dados) {
+      dados.forEach((produto) => {
+        const { categoria } = produto;
+        const categoriaID = categoria.categoriaID;
+        const nomeCategoria = categoria.nome;
 
-      if (!categorias[categoriaID]) {
-        categorias[categoriaID] = { nome: nomeCategoria, quantidade: 1 };
-      } else {
-        categorias[categoriaID].quantidade += 1;
-      }
-    });
+        if (!categorias[categoriaID]) {
+          categorias[categoriaID] = { nome: nomeCategoria, quantidade: 1 };
+        } else {
+          categorias[categoriaID].quantidade += 1;
+        }
+      });
+    }
 
     return Object.values(categorias);
   };
 
   const dadosCategorias = calcularDadosCategorias(produtos);
 
-  const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042"];
+  const COLORS = [
+    "#74bade", // Azul principal
+    "#9bc9d6", // Azul claro (para uma variação suave do azul principal)
+    "#6a98b4", // Azul escuro (para contrastar)
+    "#82ca9d", // Verde suave (para complementar)
+    "#ffbc5c", // Amarelo suave (para dar um toque vibrante)
+    "#ffd580", // Laranja claro (substituindo o laranja)
+  ];
 
   const transformedData = [];
   const profilesSet = new Set();
@@ -173,7 +183,6 @@ export default function Feiras() {
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <div className="bar-chart-container">
                 <h3>Itens por feira</h3>
-
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={transformedData}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -186,7 +195,7 @@ export default function Feiras() {
                         key={profile}
                         dataKey={profile}
                         stackId="a"
-                        fill={index % 2 === 0 ? "#8884d8" : "#82ca9d"}
+                        style={{ fill: COLORS[index % COLORS.length] }} // Usando o estilo diretamente
                       />
                     ))}
                   </BarChart>
@@ -205,8 +214,8 @@ export default function Feiras() {
                       dataKey="quantidade"
                       nameKey="nome"
                       cx="50%"
-                      cy="50%"
-                      outerRadius="100%"
+                      cy="40%"
+                      outerRadius="86%"
                       fill="#8884d8"
                     >
                       {dadosCategorias.map((_, index) => (
@@ -396,7 +405,7 @@ export default function Feiras() {
         </Col>
       </Row>
 
-      {/* <Modal
+      <Modal
         title="Confirmar Exclusão"
         visible={isModalVisible}
         onOk={handleDeleteFeira}
@@ -407,7 +416,7 @@ export default function Feiras() {
         centered
       >
         <p>Você tem certeza que deseja excluir esta feira?</p>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

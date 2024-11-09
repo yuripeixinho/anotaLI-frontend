@@ -48,36 +48,47 @@ export default function Home() {
     init();
   }, [contaID]);
 
-
   const calcularDadosCategorias = (dados) => {
     const categorias = {};
+    debugger;
+    if (dados) {
+      dados.forEach((evento) => {
+        // Usamos um Set para registrar as categorias únicas de cada evento
+        const categoriasEvento = new Set();
 
-    dados.forEach((evento) => {
-      // Usamos um Set para registrar as categorias únicas de cada evento
-      const categoriasEvento = new Set();
+        if (evento.produtos) {
+          evento?.produtos.forEach((produto) => {
+            const { categoria } = produto;
+            const categoriaID = categoria.categoriaID;
+            const nomeCategoria = categoria.nome;
 
-      evento.produtos.forEach((produto) => {
-        const { categoria } = produto;
-        const categoriaID = categoria.categoriaID;
-        const nomeCategoria = categoria.nome;
+            // Adiciona a categoria ao Set para garantir que contamos apenas uma vez por evento
+            categoriasEvento.add(categoriaID);
 
-        // Adiciona a categoria ao Set para garantir que contamos apenas uma vez por evento
-        categoriasEvento.add(categoriaID);
+            // Inicializa a categoria caso não exista ainda
+            if (!categorias[categoriaID]) {
+              categorias[categoriaID] = { nome: nomeCategoria, quantidade: 0 };
+            }
+          });
 
-        // Inicializa a categoria caso não exista ainda
-        if (!categorias[categoriaID]) {
-          categorias[categoriaID] = { nome: nomeCategoria, quantidade: 0 };
+          // Incrementa a quantidade para cada categoria única no evento
+          categoriasEvento.forEach((categoriaID) => {
+            categorias[categoriaID].quantidade += 1;
+          });
         }
       });
-
-      // Incrementa a quantidade para cada categoria única no evento
-      categoriasEvento.forEach((categoriaID) => {
-        categorias[categoriaID].quantidade += 1;
-      });
-    });
+    }
 
     return Object.values(categorias); // Converte o objeto para um array
   };
+  const COLORS = [
+    "#74bade", // Azul principal
+    "#9bc9d6", // Azul claro
+    "#6a98b4", // Azul escuro
+    "#82ca9d", // Verde suave
+    "#ffbc5c", // Amarelo suave
+    "#ffd580", // Laranja claro
+  ];
 
   const dadosCategorias = calcularDadosCategorias(feiras);
 
@@ -89,7 +100,7 @@ export default function Home() {
           <Col xs={24} sm={24} md={24} lg={24} xl={17} xxl={18}>
             <Row gutter={[0, 4]}>
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <MeuCalendario  feiras={feiras} setFeiras={setFeiras}/>
+                <MeuCalendario feiras={feiras} setFeiras={setFeiras} />
               </Col>
             </Row>
           </Col>
@@ -171,14 +182,21 @@ export default function Home() {
                     <PieChart width={400} height={250} margin={{ bottom: 40 }}>
                       <Pie
                         isAnimationActive={false}
-                        data={dadosCategorias}
+                        data={dadosCategorias} // Usando os dados agregados
                         cx="50%"
                         cy="50%"
                         outerRadius={"100%"}
-                        fill="#376bdb"
                         dataKey="quantidade"
                         nameKey="nome"
-                      />
+                      >
+                        {/* Aplica cores dinamicamente para cada fatia */}
+                        {dadosCategorias?.map((_, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]} // Usando as cores da paleta
+                          />
+                        ))}
+                      </Pie>
 
                       <Legend
                         layout="vertical"

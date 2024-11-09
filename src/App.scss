@@ -10,7 +10,7 @@ h5 {
 
 body {
   margin: 0;
-  height: 100vh;
+  height: 100vh !important;
 }
 
 .ant-layout {
@@ -59,6 +59,15 @@ body {
 .ant-table-cell-row-hover {
   background-color: transparent !important; /* Remove a cor de fundo */
   color: inherit !important; /* Mantém a cor do texto */
+}
+/* Estilo para a seta anterior */
+.ant-carousel .slick-prev {
+  color: rgb(20, 20, 20) !important; /* Mude para a cor que desejar */
+}
+
+/* Estilo para a seta próxima */
+.ant-carousel .slick-next {
+  color: rgb(20, 20, 20) !important; /* Mude para a cor que desejar */
 }
 
 /* Media Queries para ajuste de responsividade */

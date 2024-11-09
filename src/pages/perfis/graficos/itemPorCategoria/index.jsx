@@ -1,18 +1,23 @@
-import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 import "./styles.scss";
 
 export default function ItemPorCategoriaGrafico({ dados }) {
-  // Agrupando itens por categoria e contando a quantidade de cada categoria
+  // Processamento dos dados para agrupá-los por categoria
   const data = dados?.reduce((acc, item) => {
     const categoriaIndex = acc.findIndex(
       (cat) => cat.nome === item.categoria.nome
     );
 
     if (categoriaIndex > -1) {
-      // Se a categoria já existe, incrementa o total de itens
       acc[categoriaIndex].totalItem += 1;
     } else {
-      // Se a categoria não existe, cria um novo registro com contador 1
       acc.push({
         nome: item.categoria.nome,
         totalItem: 1,
@@ -22,11 +27,21 @@ export default function ItemPorCategoriaGrafico({ dados }) {
     return acc;
   }, []);
 
-  // Mapeia para o formato necessário para o gráfico
+  // Preparando os dados para o gráfico
   const chartData = data?.map((categoria) => ({
     name: categoria.nome,
     value: categoria.totalItem,
   }));
+
+  // Definindo a paleta de cores
+  const COLORS = [
+    "#74bade", // Azul principal
+    "#9bc9d6", // Azul claro
+    "#6a98b4", // Azul escuro
+    "#82ca9d", // Verde suave
+    "#ffbc5c", // Amarelo suave
+    "#ffd580", // Laranja claro
+  ];
 
   return (
     <div className="grafico-item-por-categoria-container">
@@ -39,10 +54,17 @@ export default function ItemPorCategoriaGrafico({ dados }) {
             isAnimationActive={false}
             data={chartData}
             cx="50%"
-            cy="50%"
-            outerRadius="100%"
-            fill="#376bdb"
-          />
+            cy="40%"
+            outerRadius="86%"
+          >
+            {/* Aplicando as cores com o loop */}
+            {chartData?.map((_, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]} // Aplicando a cor correspondente
+              />
+            ))}
+          </Pie>
 
           <Legend
             layout="vertical"

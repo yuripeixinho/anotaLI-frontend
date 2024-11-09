@@ -1,5 +1,5 @@
-import { Avatar, Flex } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Avatar, Flex, Modal } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import avatarGeneric from "../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import "./styles.scss";
@@ -7,6 +7,8 @@ import { useAuth } from "../../../../context/anotaLiAuthContext";
 import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import PerfilContaService from "../../../../services/perfilConta.service";
+import { Delete } from "@mui/icons-material";
+import { useState } from "react";
 
 const ProfileSchema = Yup.object().shape({
   nome: Yup.string().max(25).required("O nome é obrigatório"),
@@ -19,7 +21,12 @@ export default function PerfilCard({
   setIsEditing,
 }) {
   const { usuario, setPerfilId } = useAuth();
+  const { contaID } = useParams();
   let navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [modalDeleteProfileVisible, setModalDeleteProfileVisible] =
+    useState(false);
 
   const handleEditClick = (id, nome) => {
     navigate(`/editar-perfil/${id}?nome=${encodeURIComponent(nome)}`);
@@ -57,6 +64,25 @@ export default function PerfilCard({
     }
   };
 
+  const handleDeleteProfile = async (perfilID) => {
+    setLoading(true);
+    const _perfilContaService = new PerfilContaService();
+
+    await _perfilContaService
+      .deletarPerfilConta(contaID, perfilID)
+      .then((res) => {
+        setModalDeleteProfileVisible(false);
+        updateProfileList({ id: perfilID }, true); // Chama a atualização com o ID do perfil removido
+      })
+      .catch((err) => {
+        console.error("Erro ao excluir perfil:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+        setIsEditing(false);
+      });
+  };
+
   return (
     <Flex gap="middle" vertical className="profile-card">
       <div className="avatar-container">
@@ -65,14 +91,23 @@ export default function PerfilCard({
           src={avatarGeneric}
           className={isEditing ? "avatar-image editing" : "avatar-image"}
           onClick={() => {
+            navigate(`/home/${usuario.id}`);
             setPerfilId(perfil.id);
-            navigate(`/meus-itens/${usuario.id}/${perfil.id}`);
           }}
         />
         {isEditing && (
           <EditIcon
             className="edit-icon"
             onClick={() => handleEditClick(perfil.id, perfil.nome)}
+          />
+        )}
+
+        {isEditing && (
+          <Delete
+            className="delete-icon"
+            onClick={() => {
+              setModalDeleteProfileVisible(true);
+            }}
           />
         )}
       </div>
@@ -101,6 +136,19 @@ export default function PerfilCard({
       ) : (
         <h2 className="nome-perfil">{perfil.nome}</h2>
       )}
+
+      <Modal
+        title="Confirmar Exclusão"
+        visible={modalDeleteProfileVisible}
+        onOk={() => handleDeleteProfile(perfil.id)} // Passe o perfil.id aqui
+        onCancel={() => setModalDeleteProfileVisible(false)}
+        confirmLoading={loading}
+        okText="Excluir"
+        cancelText="Cancelar"
+        centered
+      >
+        <p>Você tem certeza que deseja excluir este perfil?</p>
+      </Modal>
     </Flex>
   );
 }

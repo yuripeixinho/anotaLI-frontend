@@ -1,34 +1,32 @@
-import { Link, Outlet } from "react-router-dom";
-
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import {
-  FieldBinaryOutlined,
-  HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  ProfileFilled,
-} from "@ant-design/icons";
+
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import AvatarDropdown from "../avatarDropdown";
 import anotaLogo from "../../../assets/logo/LogoAnota.png";
-import {
-  CalendarMonth,
-  Kitchen,
-  KitchenOutlined,
-  Person,
-} from "@mui/icons-material";
+import { CalendarMonth, KitchenOutlined } from "@mui/icons-material";
 
 function LayoutApp() {
-  const { usuario, perfilId } = useAuth();
+  const { usuario, perfilId, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [collapsed, setCollapsed] = useState(false);
+  useEffect(() => {
+    if (location.pathname === "/") {
+      if (isAuthenticated) {
+        navigate(`/home/${usuario?.id}`);
+      } else {
+        navigate("/login");
+      }
+    }
+  }, [location.pathname, isAuthenticated, usuario?.id, navigate]);
 
   const items = [
     {
-      key: "2",
+      key: "0",
       label: <Link to={`home/${usuario?.id}`}>Home</Link>,
       icon: <CalendarMonth />,
     },
@@ -67,30 +65,9 @@ function LayoutApp() {
         <Menu
           mode="inline"
           style={{ backgroundColor: "#F6F7F9" }}
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["0"]}
           items={items}
         />
-
-        {/* Ícone para abrir/fechar colocado aqui, na parte inferior */}
-        <div style={{ position: "absolute", bottom: 20, left: 10 }}>
-          {collapsed ? (
-            <MenuUnfoldOutlined
-              onClick={() => setCollapsed(false)}
-              style={{
-                fontSize: "24px",
-                cursor: "pointer",
-              }}
-            />
-          ) : (
-            <MenuFoldOutlined
-              onClick={() => setCollapsed(true)}
-              style={{
-                fontSize: "24px",
-                cursor: "pointer",
-              }}
-            />
-          )}
-        </div>
       </Sider>
       <Layout>
         <div className="profile-dropdown">

@@ -61,3 +61,18 @@
   font-size: 24px;
   font-weight: 500;
 }
+
+.delete-icon {
+  position: absolute;
+  top: 30%;
+  left: 64%;
+  transform: translate(-50%, -50%);
+  font-size: 28px !important;
+  cursor: pointer;
+  color: #ffffff;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    color: #e74c3c;
+  }
+}

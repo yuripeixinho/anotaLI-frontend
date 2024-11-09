@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import SelecionarPerfis from "../pages/perfis/selecionarPerfis";
 import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";
@@ -12,43 +12,34 @@ import OutrosPerfis from "../pages/perfis/outrosPerfis";
 import Perfis from "../pages/perfis";
 
 // Crie suas rotas usando o createBrowserRouter
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LayoutApp />, // Layout vai ser o layout principal de todas as rotas
+    element: (
+      <ProtectedRoute>
+        <LayoutApp />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "/home/:contaID",
-        element: <ProtectedRoute>{<Home />}</ProtectedRoute>,
-      },
-      {
-        path: "/home/:contaID/:feiraID",
-        element: <ProtectedRoute>{<Feiras />}</ProtectedRoute>,
-      },
-      {
-        path: "/meus-itens/:contaID/:perfilContaID",
-        element: (
-          <ProtectedRoute>
-            <PerfilUsuario />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "/perfis/:contaID",
-        element: (
-          <ProtectedRoute>
-            <Perfis />
-          </ProtectedRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "/perfis/:contaID/:perfilContaID",
-        element: (
-          <ProtectedRoute>
-            <OutrosPerfis />
-          </ProtectedRoute>
-        ),
+        element: <OutrosPerfis />,
+      },
+      {
+        path: "/home/:contaID/:feiraID",
+        element: <Feiras />,
+      },
+      {
+        path: "/meus-itens/:contaID/:perfilContaID",
+        element: <PerfilUsuario />,
+      },
+      {
+        path: "/perfis/:contaID",
+        element: <Perfis />,
       },
     ],
   },
@@ -68,29 +59,18 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
+
   {
     path: "/:contaID/perfis",
-    element: (
-      <ProtectedRoute>
-        <SelecionarPerfis />
-      </ProtectedRoute>
-    ),
+    element: <SelecionarPerfis />,
   },
   {
     path: "/perfil-conta/:contaID/alterar-perfil",
-    element: (
-      <ProtectedRoute>
-        <SelecionarPerfis />
-      </ProtectedRoute>
-    ),
+    element: <SelecionarPerfis />,
   },
   {
     path: "/editar-perfil/:perfilId",
-    element: (
-      <ProtectedRoute>
-        <EditarPerfil />
-      </ProtectedRoute>
-    ),
+    element: <EditarPerfil />,
   },
 ]);
 
