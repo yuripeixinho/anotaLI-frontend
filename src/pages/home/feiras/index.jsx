@@ -40,8 +40,20 @@ export default function Feiras() {
   const [isEditing, setIsEditing] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
   const [loadingDelete, setLoadingDelete] = useState(false); // Estado para controlar o loading da requisição DELETE
+  const [isVertical, setIsVertical] = useState(true);
 
   const navigate = useNavigate();
+
+  // Função para verificar a largura da tela e definir o modo do carrossel
+  const updateCarouselDirection = () => {
+    setIsVertical(window.innerWidth >= 1200);
+  };
+
+  useEffect(() => {
+    updateCarouselDirection(); // Checar a largura inicial
+    window.addEventListener("resize", updateCarouselDirection); // Adicionar listener de resize
+    return () => window.removeEventListener("resize", updateCarouselDirection); // Remover listener no cleanup
+  }, []);
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -108,13 +120,19 @@ export default function Feiras() {
 
   const profiles = Array.from(profilesSet);
 
+  // Função para criar produto e atualizar a tabela
   async function handleCriarProduto(values) {
     const _produtoService = new ProdutoService();
     values.perfilID = perfilId;
     values.feiraID = feiraID;
-    await _produtoService.criarProduto(values, contaID).catch((err) => {
+
+    try {
+      await _produtoService.criarProduto(values, contaID);
+      // Atualize a lista de produtos adicionando o novo produto
+      setProdutos((prevProdutos) => [...prevProdutos, values]);
+    } catch (err) {
       console.log(err);
-    });
+    }
   }
 
   async function handleUpdateFeira(values) {
@@ -149,8 +167,8 @@ export default function Feiras() {
     <div>
       <h1>Visualização de feira</h1>
 
-      <Row gutter={80}>
-        <Col xs={19} sm={19} md={19} lg={19} xl={19}>
+      <Row gutter={80} className="container-feiras">
+        <Col xs={24} sm={24} md={24} lg={24} xl={19} xxl={19}>
           <Row gutter={[40, 48]}>
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <div className="bar-chart-container">
@@ -285,72 +303,100 @@ export default function Feiras() {
           </Row>
         </Col>
 
-        <Col xs={5} sm={5} md={5} lg={5} xl={5}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={5} xxl={5}>
           <div className="right-container">
-            <Row gutter={[0, 16]} justify="center">
-              <Col span={20}>
-                <Typography.Title
-                  level={5}
-                  style={{ fontFamily: "Poppins", fontWeight: 400 }}
+            <Typography.Title
+              level={4}
+              style={{ fontFamily: "Poppins", fontWeight: 400 }}
+            >
+              Produtos que podem te interessar...
+            </Typography.Title>
+            <Carousel
+              vertical={isVertical}
+              className="carousel-produtos"
+              slidesToShow={3}
+              slidesToScroll={3}
+              dots={false}
+              arrows={true}
+              autoplay={true}
+              responsive={[
+                {
+                  breakpoint: 1500,
+                  settings: {
+                    slidesToShow: 3,
+                  },
+                },
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 4,
+                  },
+                },
+                {
+                  breakpoint: 992,
+                  settings: {
+                    slidesToShow: 3,
+                  },
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
+                    slidesToShow: 2,
+                  },
+                },
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToShow: 1,
+                  },
+                },
+              ]}
+            >
+              {produtosRecomendados.map((produto, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "10px 0",
+                    margin: "0 auto",
+                  }}
                 >
-                  Produtos que podem te interessar...
-                </Typography.Title>
-                <Carousel
-                  dotPosition="left"
-                  vertical
-                  className="carousel-produtos"
-                  slidesToShow={3}
-                  slidesToScroll={1}
-                  dots={true}
-                  autoplay={true}
-                >
-                  {produtosRecomendados.map((produto, index) => (
-                    <div
-                      key={index}
-                      style={{ padding: "10px 0", margin: "0 auto" }}
-                    >
-                      <Card
-                        onClick={() => handleCriarProduto(produto)}
-                        bordered={false}
-                        cover={
-                          <img
-                            alt={produto.nome}
-                            src={
-                              produto.imagem ||
-                              "https://via.placeholder.com/150"
-                            }
-                          />
+                  <Card
+                    onClick={() => handleCriarProduto(produto)}
+                    bordered={false}
+                    cover={
+                      <img
+                        alt={produto.nome}
+                        src={
+                          produto.imagem || "https://via.placeholder.com/150"
                         }
-                        style={{ borderRadius: "10px" }}
+                      />
+                    }
+                    style={{ borderRadius: "10px" }}
+                  >
+                    <div className="product-info">
+                      <label style={{ fontFamily: "Poppins", fontWeight: 400 }}>
+                        {produto.nome}
+                      </label>
+                      <label
+                        style={{
+                          fontFamily: "Poppins",
+                          fontWeight: 600,
+                          color: "#ABABAB",
+                          fontSize: 12,
+                        }}
                       >
-                        <div className="product-info">
-                          <label
-                            style={{ fontFamily: "Poppins", fontWeight: 400 }}
-                          >
-                            {produto.nome}
-                          </label>
-                          <label
-                            style={{
-                              fontFamily: "Poppins",
-                              fontWeight: 600,
-                              color: "#ABABAB",
-                              fontSize: 12,
-                            }}
-                          >
-                            {produto.unidade}
-                          </label>
-                        </div>
-                      </Card>
+                        {produto.unidade}
+                      </label>
                     </div>
-                  ))}
-                </Carousel>
-              </Col>
-            </Row>
+                  </Card>
+                </div>
+              ))}
+            </Carousel>
           </div>
         </Col>
       </Row>
 
-      <Modal
+      {/* <Modal
         title="Confirmar Exclusão"
         visible={isModalVisible}
         onOk={handleDeleteFeira}
@@ -361,7 +407,7 @@ export default function Feiras() {
         centered
       >
         <p>Você tem certeza que deseja excluir esta feira?</p>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
