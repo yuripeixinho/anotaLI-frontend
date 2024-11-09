@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import AvatarDropdown from "../avatarDropdown";
 import anotaLogo from "../../../assets/logo/LogoAnota.png";
-import { CalendarMonth, KitchenOutlined } from "@mui/icons-material";
+import { CalendarMonthOutlined, KitchenOutlined } from "@mui/icons-material";
 
 function LayoutApp() {
   const { usuario, perfilId, isAuthenticated } = useAuth();
@@ -28,7 +28,7 @@ function LayoutApp() {
     {
       key: "0",
       label: <Link to={`home/${usuario?.id}`}>Home</Link>,
-      icon: <CalendarMonth />,
+      icon: <CalendarMonthOutlined />,
     },
     {
       key: "1",
