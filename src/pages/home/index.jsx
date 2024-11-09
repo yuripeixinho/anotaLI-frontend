@@ -80,7 +80,7 @@ export default function Home() {
   };
 
   const dadosCategorias = calcularDadosCategorias(feiras);
-  console.log(feiras);
+
   return (
     <Row gutter={[0, 30]} style={{ flexDirection: "column", width: "100%" }}>
       <h1>Calendário</h1>

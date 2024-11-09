@@ -47,8 +47,6 @@ export default function MeuCalendario({feiras, setFeiras}) {
   };
 
   useEffect(() => {
-    // Este código será executado sempre que 'feiras' for atualizado
-    console.log("Feiras atualizadas:", feiras);
   }, [feiras]); // Dependência no estado 'feiras'
 
   const moveEvent = useCallback(

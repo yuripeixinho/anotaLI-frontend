@@ -33,9 +33,6 @@ export default function OutrosPerfis() {
     init();
   }, [perfilContaID]);
 
-  console.log("perfilContaID:", perfilContaID);
-  console.log("perfilID:", perfilId);
-
   return (
     <div>
       <h1>Meu perfil</h1>
