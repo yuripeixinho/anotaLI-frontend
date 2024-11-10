@@ -45,12 +45,19 @@ export default function SelecionarPerfis() {
     setIsEditing(true); // Ativa o modo de edição
   };
 
-  const updateProfileList = (updatedProfile) => {
+  const updateProfileList = (updatedProfile, isRemoved = false) => {
     setPerfilConta((prev) => {
       // Remove perfis temporários que estão sendo criados
       const filteredProfiles = prev.filter(
         (perfil) => !(perfil.novoPerfil && perfil.nome === "")
       );
+
+      if (isRemoved) {
+        // Filtra o perfil removido da lista
+        return filteredProfiles.filter(
+          (perfil) => perfil.id !== updatedProfile.id
+        );
+      }
 
       // Verifica se o perfil atualizado já existe na lista
       const existingProfileIndex = filteredProfiles.findIndex(
@@ -68,7 +75,6 @@ export default function SelecionarPerfis() {
       }
     });
   };
-
   return (
     <>
       <Row>
@@ -88,7 +94,11 @@ export default function SelecionarPerfis() {
       <Row align={"middle"} className="row-selecionar-perfil">
         <Col className="container-perfis" style={{ width: "100%" }}>
           <h1 className="titulo">
-            {!isEditing ? "Quem está usando?" : "Gerenciando perfis"}
+            {perfilConta.length === 0
+              ? "Não existe nenhum perfil criado"
+              : !isEditing
+              ? "Quem está usando?"
+              : "Gerenciando perfis"}
           </h1>
         </Col>
 

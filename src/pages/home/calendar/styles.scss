@@ -46,7 +46,7 @@
 
 /* Estilo dos eventos */
 .rbc-event {
-  background-color: #376bdb;
+  background-color: #74bade;
   color: #fff;
   padding: 5px;
   border-radius: 4px;
@@ -55,7 +55,7 @@
 }
 
 .rbc-event:hover {
-  background-color: #627ed8;
+  background-color: #4a93b6; /* Tom mais escuro do azul */
 }
 
 /* Estilo para o dia atual */
@@ -105,8 +105,8 @@
   height: 100vh;
 }
 
-@media (max-width: 768px) {layo
-  .calendar-container {
+@media (max-width: 768px) {
+  layo .calendar-container {
     height: 56vh;
   }
 }

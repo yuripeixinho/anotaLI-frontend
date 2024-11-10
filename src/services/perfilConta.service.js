@@ -7,13 +7,21 @@ export default class PerfilContaService extends CoreApiService {
     super("contas", "perfis", new PerfilContaSerializer());
   }
 
-  async atualizarPerfilConta(item, idConta, idPerfil) {
+  async atualizarPerfilConta(item, idConta, idPerfilConta) {
     const response = await api.put(
-      `${this.parentEndpoint}/${idConta}/${this.endpoint}/${idPerfil}`,
+      `${this.parentEndpoint}/${idConta}/${this.endpoint}/${idPerfilConta}`,
       this.serializer.toJson(item)
     );
     const data = response.data;
 
     return this.serializer.fromJson(data);
+  }
+
+  async deletarPerfilConta(idConta, idPerfilConta) {
+    const response = await api.delete(
+      `contas/${idConta}/perfis/${idPerfilConta}`
+    );
+
+    return response;
   }
 }
