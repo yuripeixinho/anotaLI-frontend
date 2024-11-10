@@ -4,9 +4,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import userPicture from "../../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import "./styles.scss";
 import { useAuth } from "../../../../../context/anotaLiAuthContext";
+import PerfilContaService from "../../../../../services/perfilConta.service";
 
 export default function EditarPerfil() {
-  const { perfilId } = useParams();
+  const { perfilId, contaID } = useParams();
   const { usuario } = useAuth();
 
   // Dentro do seu componente EditarPerfil
@@ -16,17 +17,39 @@ export default function EditarPerfil() {
 
   const navigate = useNavigate();
 
-  const handleSelecionarFoto = (foto) => {
-    console.log(`Foto ${foto} selecionada para o perfil ${perfilId}`);
+  const handleSelecionarFoto = async (foto) => {
+    try {
+      const _perfilContaService = new PerfilContaService();
+
+      await _perfilContaService
+        .atualizarPerfilConta(
+          { nome: nome, imagemPerfilID: foto.id },
+          usuario.id,
+          perfilId
+        )
+        .then((res) => {
+          navigate(`/${usuario.id}/perfis`);
+        });
+
+      // Atualiza a lista de perfis com a resposta do serviço
+      // updateProfileList(res);
+    } catch (err) {
+      // Lida com o erro
+      const message =
+        err?.response?.data?.Message ||
+        "Credenciais inválidas. Tente novamente";
+      console.error(message);
+    }
   };
 
-  const fotos = [
-    "avatar-veiaco-card-1.png",
-    "avatar-veiaco-card-2.png",
-    "avatar-veiaco-card-3.png",
-    "avatar-veiaco-card-4.png",
-    "avatar-veiaco-card-5.png",
-    "avatar-veiaco-card-6.png",
+  const avatarVeiaco = [
+    { id: 1, imagem: "anotaliperfil1.png" },
+    { id: 2, imagem: "anotaliperfil2.png" },
+    { id: 3, imagem: "anotaliperfil3.png" },
+    { id: 4, imagem: "anotaliperfil4.png" },
+    { id: 5, imagem: "anotaliperfil5.png" },
+    { id: 6, imagem: "anotaliperfil6.png" },
+    { id: 7, imagem: "anotaliperfil7.png" },
   ];
 
   return (
@@ -102,16 +125,16 @@ export default function EditarPerfil() {
                 },
               ]}
             >
-              {fotos.map((foto, index) => (
+              {avatarVeiaco.map((item, index) => (
                 <div key={index}>
                   <Row justify="center">
                     <Col>
                       <Avatar
-                        src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
+                        src={`/assets/imagens/perfis/anotali/${item.imagem}`}
                         alt={`Foto ${index + 1}`}
                         size={320}
                         className="profile-photo"
-                        onClick={() => handleSelecionarFoto(foto)}
+                        onClick={() => handleSelecionarFoto(item)}
                         style={{ cursor: "pointer" }}
                       />
                     </Col>
@@ -161,7 +184,7 @@ export default function EditarPerfil() {
                 },
               ]}
             >
-              {fotos.map((foto, index) => (
+              {/* {fotos.map((foto, index) => (
                 <div key={index}>
                   <Row justify="center">
                     <Col>
@@ -176,7 +199,7 @@ export default function EditarPerfil() {
                     </Col>
                   </Row>
                 </div>
-              ))}
+              ))} */}
             </Carousel>
           </Col>
         </Col>

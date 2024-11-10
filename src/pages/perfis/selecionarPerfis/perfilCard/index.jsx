@@ -88,7 +88,7 @@ export default function PerfilCard({
       <div className="avatar-container">
         <Avatar
           size={220}
-          src={avatarGeneric}
+          src={perfil?.imagemPerfil?.caminhoImagem}
           className={isEditing ? "avatar-image editing" : "avatar-image"}
           onClick={() => {
             navigate(`/home/${usuario.id}`);
@@ -114,7 +114,10 @@ export default function PerfilCard({
 
       {isEditing ? (
         <Formik
-          initialValues={{ nome: perfil.nome }}
+          initialValues={{
+            nome: perfil.nome,
+            imagemPerfilID: perfil.imagemPerfilID,
+          }}
           validationSchema={ProfileSchema}
           onSubmit={() => {}}
         >
