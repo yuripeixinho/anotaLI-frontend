@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./styles.scss";
 import CategoriaService from "../../../services/categoria.service";
+import PerfilContaService from "../../../services/perfilConta.service";
 import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../context/anotaLiAuthContext";
@@ -15,16 +16,24 @@ export default function TabelaFeira({ data }) {
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
   const [categoriaSelect, setCategoriaSelect] = useState([]);
+  const [perfilSelect, setPerfilSelect] = useState([]);
 
   const _produtoService = new ProdutoService();
 
   useEffect(() => {
+    debugger;
     const _categoriaService = new CategoriaService();
+    const _perfilContaService = new PerfilContaService();
 
     async function init() {
       const responseCategoriaService =
         await _categoriaService.listCategoriasNaoVinculadas();
       setCategoriaSelect(responseCategoriaService);
+
+      const responsePerfilContaService = await _perfilContaService.listSub(
+        contaID
+      );
+      setPerfilSelect(responsePerfilContaService);
     }
 
     init();
@@ -32,8 +41,15 @@ export default function TabelaFeira({ data }) {
   }, [data]);
 
   async function handleCriarProduto(values) {
-    values.perfilID = perfilId;
+    debugger;
     values.feiraID = feiraID;
+    delete values.id;
+
+    const perfilConta = {
+      id: values.perfilConta,
+    };
+
+    values.perfilConta = perfilConta;
 
     await _produtoService
       .criarProduto(values, contaID)
@@ -46,6 +62,9 @@ export default function TabelaFeira({ data }) {
             categoria: categoriaSelect.find(
               (cat) => cat.categoriaID === values.categoriaID
             ),
+            perfilConta: perfilSelect.find(
+              (pc) => pc.id === values.perfilConta.id
+            ),
           },
         ]);
       })
@@ -55,31 +74,72 @@ export default function TabelaFeira({ data }) {
   }
 
   async function handleEditarProduto(values) {
-    values.perfilID = perfilId;
+    debugger;
     values.feiraID = feiraID;
 
-    delete values.categoria;
+    const perfilConta = {
+      id: values.perfilConta,
+    };
+    values.perfilConta = perfilConta;
 
-    await _produtoService
-      .editarProduto(contaID, values.id, values)
-      .then((res) => {
-        setDataSource((prevData) =>
-          prevData.map((item) =>
-            item.id === res.id
-              ? {
-                  ...item,
-                  ...values,
-                  categoria: categoriaSelect.find(
-                    (cat) => cat.categoriaID === values.categoriaID
-                  ),
-                }
-              : item
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // quando nao troca seleciona a categoria, ele retorna como um objeto
+    if (typeof values.categoria === "object") {
+      const categoriaID = (values.categoriaID = values.categoria.categoriaID);
+
+      await _produtoService
+        .editarProduto(contaID, values.id, values)
+        .then((res) => {
+          debugger;
+
+          setDataSource((prevData) =>
+            prevData.map((item) =>
+              item.id === res.id
+                ? {
+                    ...item,
+                    ...values,
+                    categoria: categoriaSelect.find(
+                      (cat) => cat.categoriaID === categoriaID
+                    ),
+                    perfilConta: perfilSelect.find(
+                      (pc) => pc.id === values.perfilConta.id
+                    ),
+                  }
+                : item
+            )
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      values.categoriaID = values.categoria;
+
+      await _produtoService
+        .editarProduto(contaID, values.id, values)
+        .then((res) => {
+          debugger;
+
+          setDataSource((prevData) =>
+            prevData.map((item) =>
+              item.id === res.id
+                ? {
+                    ...item,
+                    ...values,
+                    categoria: categoriaSelect.find(
+                      (cat) => cat.categoriaID === values.categoriaID
+                    ),
+                    perfilConta: perfilSelect.find(
+                      (pc) => pc.id === values.perfilConta.id
+                    ),
+                  }
+                : item
+            )
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   const handleDelete = (record) => {
@@ -133,6 +193,7 @@ export default function TabelaFeira({ data }) {
           ],
         };
       },
+
       render: (nome) => (
         <div className="produto-container">
           <Avatar size="large" icon={<UserOutlined />} />
@@ -154,26 +215,30 @@ export default function TabelaFeira({ data }) {
 
     {
       title: "Usuário",
-      key: "usuario",
-      dataIndex: "nome",
+      key: "perfilConta",
+      dataIndex: "perfilConta",
       width: "20%",
-      render: (nome) => (
+      render: (perfilConta) => (
         <div className="produto-container">
           <Avatar size="large" icon={<UserOutlined />} />
           <div className="produto-info">
-            <span>Yuri Peixinho</span>
+            <span>{perfilConta ? perfilConta.nome : "N/A"}</span>
           </div>
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => (
-        <Input
-          value={value}
-          onChange={(e) => onChange?.(e.target.value)}
-          placeholder="Nome do produto"
-        />
-      ),
+      renderFormItem: (item, { value, onChange }) => {
+        return (
+          <Select
+            showSearch
+            value={value ? value.perfilContaID : undefined}
+            optionFilterProp="label"
+            onChange={(val) => onChange?.(val)}
+            placeholder="Selecione o perfil"
+            options={perfilSelect}
+          />
+        );
+      },
     },
-
     {
       title: "Descrição",
       dataIndex: "descricao",
@@ -247,7 +312,7 @@ export default function TabelaFeira({ data }) {
     },
     {
       title: "Categoria",
-      key: "categoriaID",
+      key: "categoria",
       dataIndex: "categoria",
       render: (categoria) => (
         <div className="unidade-container">
@@ -258,7 +323,7 @@ export default function TabelaFeira({ data }) {
         return (
           <Select
             showSearch
-            value={value ? value.categoriaID : undefined} // Use o ID da categoria
+            value={value ? value.categoriaID : undefined}
             optionFilterProp="label"
             onChange={(val) => onChange?.(val)}
             placeholder="Selecione a categoria"
@@ -291,13 +356,23 @@ export default function TabelaFeira({ data }) {
     },
   ];
 
+  const handleSave = async (rowKey, data, row) => {
+    const quantidadeItens = Object.keys(row).length;
+
+    if (quantidadeItens > 2) {
+      handleEditarProduto(data);
+    } else {
+      handleCriarProduto(data);
+    }
+  };
+
   return (
     <EditableProTable
       className="tabela-feira"
       rowKey="id"
       scroll={{ x: 960, y: 600 }}
       recordCreatorProps={{
-        position: "bottom",
+        position: "top",
         creatorButtonText: "Novo Produto",
         className: "botao-adicionar",
         // style: { display: "none" },
@@ -309,6 +384,11 @@ export default function TabelaFeira({ data }) {
       onChange={(props, data) => {
         console.log(props, data);
       }}
+      // request={async () => ({
+      //   data: columns,
+      //   total: 3,
+      //   success: true,
+      // })}
       editable={{
         type: "multiple",
         editableKeys,
@@ -317,13 +397,7 @@ export default function TabelaFeira({ data }) {
         onDelete: async (row, data) => {
           handleDelete(data);
         },
-        onSave: async (rowKey, data, row) => {
-          if (data.categoria) {
-            return handleEditarProduto(data);
-          } else {
-            handleCriarProduto(data);
-          }
-        },
+        onSave: handleSave, // Usa o método handleSave
         onChange: setEditableRowKeys,
         saveText: "Salvar",
         cancelText: "Cancelar",

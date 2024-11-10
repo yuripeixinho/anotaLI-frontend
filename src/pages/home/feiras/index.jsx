@@ -396,7 +396,7 @@ export default function Feiras() {
         </Col>
       </Row>
 
-      {/* <Modal
+      <Modal
         title="Confirmar Exclusão"
         visible={isModalVisible}
         onOk={handleDeleteFeira}
@@ -407,7 +407,7 @@ export default function Feiras() {
         centered
       >
         <p>Você tem certeza que deseja excluir esta feira?</p>
-      </Modal> */}
+      </Modal>
     </div>
   );
 }

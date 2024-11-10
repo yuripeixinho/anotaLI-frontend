@@ -1,11 +1,12 @@
 import ProdutoSerializer from "./produto.serializer";
 
 export default class PerfilContaSerializer {
-  constructor() {
-    this._produtoSerializer = new ProdutoSerializer();
-  }
+  // constructor() {
+  //   this._produtoSerializer = new ProdutoSerializer();
+  // }
 
   fromJson(json) {
+    debugger;
     const conta = {};
 
     Object.assign(
@@ -13,11 +14,15 @@ export default class PerfilContaSerializer {
       json.perfilContaID && { id: json.perfilContaID },
       json.nome && { nome: json.nome },
       json.qtdProdutos && { qtdProdutos: json.qtdProdutos },
-      json.produtos && {
-        produtos: json.produtos.map((item) =>
-          this._produtoSerializer.fromJson(item)
-        ),
-      }
+      // json.produtos && {
+      //   produtos: json.produtos.map((item) =>
+      //     this._produtoSerializer.fromJson(item)
+      //   ),
+      // },
+
+      // select
+      json.perfilContaID && { value: json.perfilContaID },
+      json.nome && { label: json.nome },
     );
 
     return conta;
