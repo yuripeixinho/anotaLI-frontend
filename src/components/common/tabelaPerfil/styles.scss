@@ -2,26 +2,26 @@
   width: 100%;
 
   .ant-avatar {
-    margin-right: 10px;
+    margin-right: 0px;
   }
 
   .nome-feira {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 500;
     color: #333;
   }
 
   .produto-container {
     display: flex;
-    align-items: center;
 
     .produto-info {
       display: flex;
       flex-direction: column;
       margin-left: 10px;
+      flex: 1;
 
       .nome-produto {
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 500;
         color: #333;
       }

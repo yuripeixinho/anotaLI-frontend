@@ -6,6 +6,7 @@ export default class PerfilContaSerializer {
   }
 
   fromJson(json) {
+    debugger;
     const conta = {};
     debugger;
     Object.assign(
@@ -16,10 +17,13 @@ export default class PerfilContaSerializer {
       json?.imagemPerfil && { imagemPerfil: json.imagemPerfil },
       json?.imagemPerfil && { imagemPerfilID: json.imagemPerfil.id },
       json.produtos && {
-        produtos: json.produtos.map((item) =>
-          this._produtoSerializer.fromJson(item)
+        produtos: json.produtos.map(
+          (item) => this._produtoSerializer.fromJson(item)
         ),
-      }
+      },
+
+      json.perfilContaID && { value: json.perfilContaID },
+      json.nome && { label: json.nome }
     );
 
     return conta;

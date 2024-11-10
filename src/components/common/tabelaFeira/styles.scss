@@ -2,20 +2,20 @@
   width: 100%;
 
   .ant-avatar {
-    margin-right: 10px;
+    margin-right: 0px;
   }
 
   .produto-container {
     display: flex;
-    align-items: center;
 
     .produto-info {
       display: flex;
+      flex: 1;
       flex-direction: column;
       margin-left: 10px;
 
       .nome-produto {
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 500;
         color: #333;
       }
@@ -48,6 +48,13 @@
       .ant-table-row-expand-icon-cell
     ):not([colspan])::before {
     background-color: transparent; /* Torna a linha transparente */
+  }
+  :where(.css-dev-only-do-not-override-ccdg5a).ant-table-wrapper
+    .ant-table-thead
+    > tr
+    > td {
+    background: transparent;
+    border-bottom: 1px solid #f0f0f0;
   }
 
   .categoria-wrapper {

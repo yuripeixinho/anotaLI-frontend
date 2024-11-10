@@ -49,13 +49,15 @@ export default function OutrosPerfis() {
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <div className="tabela-feira-header">
-                <h1>Produtos de {perfilConta?.nome}</h1>
-              </div>
+              <div className="container-tabela-perfis">
+                <div className="tabela-feira-header">
+                  <h1>Produtos de {perfilConta?.nome}</h1>
+                </div>
 
-              <ConfigProvider locale={ptBR}>
-                <TabelaPerfil data={produtos} />
-              </ConfigProvider>
+                <ConfigProvider locale={ptBR}>
+                  <TabelaPerfil data={produtos} />
+                </ConfigProvider>
+              </div>
             </Col>
           </Row>
         </Col>

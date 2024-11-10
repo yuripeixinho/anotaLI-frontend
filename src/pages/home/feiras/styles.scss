@@ -1,25 +1,51 @@
-.tabela-feira-header {
-  h1 {
-    font-weight: 500;
-  }
+.container-tabela-feira {
+  border-radius: 15px;
+  padding: 10px 30px;
+  box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
+  .tabela-feira-header {
+    h1 {
+      font-weight: 500;
+    }
 
-  .nome-feira {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
+    .nome-feira {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
 
-  .nome-feira-input-text {
-    width: 30%;
-    height: 50px;
-    padding-left: 1rem;
-    font-weight: 400;
-    font-size: 20px;
-    border-radius: 100px;
-    background: #ffffff;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #d9d9d9;
+    .nome-feira-input-text {
+      width: 30%;
+      height: 50px;
+      padding-left: 1rem;
+      font-weight: 400;
+      font-size: 20px;
+      border-radius: 100px;
+      background: #ffffff;
+      border-width: 1px;
+      border-style: solid;
+      border-color: #d9d9d9;
+    }
+
+    .btn-salvar-nome-feira {
+      width: 108px;
+      padding: 14px;
+      background-color: #74bade;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-cancelar-editar-feira {
+      width: 108px;
+      padding: 24px;
+      background-color: #e0e0e000;
+      color: rgb(0, 0, 0);
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 14px;
+    }
   }
 }
 
@@ -86,5 +112,3 @@
     margin-top: 30px;
   }
 }
-
-

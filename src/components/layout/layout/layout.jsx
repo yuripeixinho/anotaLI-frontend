@@ -59,7 +59,7 @@ function LayoutApp() {
             alignItems: "center",
           }}
         >
-          <img src={anotaLogo} alt="Logo do aplicativo Anota" width={48} />
+          <img src={anotaLogo} alt="Logo do aplicativo Anota" width={37} />
         </div>
 
         <Menu

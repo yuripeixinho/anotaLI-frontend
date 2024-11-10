@@ -1,11 +1,14 @@
 import CategoriaSerializer from "./categoria.serializer";
+import PerfilContaSerializer from "./perfiConta.serializer";
 
 export default class ProdutoSerializer {
   constructor() {
     this._categoriaSerializer = new CategoriaSerializer();
+    // this._perfilContaSerializer = new PerfilContaSerializer();
   }
 
   fromJson(json) {
+    debugger;
     const produto = {};
     Object.assign(
       produto,
@@ -16,17 +19,23 @@ export default class ProdutoSerializer {
       json.quantidadeUnidade && { quantidadeUnidade: json.quantidadeUnidade },
       json.unidade && { unidade: json.unidade },
       json.feiraID && { feiraID: json.feiraID },
-      json?.perfilContaID && { perfilID: json.perfilContaID },
-      json?.categoria?.categoriaID && {
-        categoriaID: json?.categoria?.categoriaID,
+      json.categoriaID && {
+        categoriaID: json?.categoriaID,
       },
       json.feiraID && { feiraID: json.feiraID },
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       },
+      json.perfilConta && { perfilConta: json.perfilContaID },
       json.perfilConta && {
-        perfilConta: json.perfilConta,
+        perfilConta: {
+          perfilContaID: json.perfilConta.perfilContaID,
+          nome: json.perfilConta.nome,
+          value: json.perfilConta.perfilContaID,
+          label: json.perfilConta.nome,
+        },
       },
+
       json?.feira?.nome && {
         feiraNome: json.feira.nome,
       },
@@ -39,6 +48,7 @@ export default class ProdutoSerializer {
   }
 
   toJson(produto) {
+    debugger;
     const produtoToJson = {};
 
     Object.assign(
@@ -48,8 +58,12 @@ export default class ProdutoSerializer {
       produto.descricao && { descricao: produto.descricao },
       produto.quantidade && { quantidade: produto.quantidade },
       produto.unidade && { unidade: produto.unidade },
-      produto.perfilID && { perfilContaID: produto.perfilID },
+
+      produto.perfilConta && { perfilContaID: produto.perfilConta },
+
+      produto.categoria && { categoriaID: produto.categoria },
       produto.categoriaID && { categoriaID: produto.categoriaID },
+
       produto.feiraID && { feiraID: produto.feiraID }
     );
 

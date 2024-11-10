@@ -10,6 +10,7 @@ import PerfilUsuario from "../pages/perfis/individual";
 import Feiras from "../pages/home/feiras";
 import OutrosPerfis from "../pages/perfis/outrosPerfis";
 import Perfis from "../pages/perfis";
+import MeuPerfil from "../pages/perfis/individual";
 
 // Crie suas rotas usando o createBrowserRouter
 const router = createBrowserRouter([
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/meus-itens/:contaID/:perfilContaID",
-        element: <PerfilUsuario />,
+        element: <MeuPerfil />,
       },
       {
         path: "/perfis/:contaID",
