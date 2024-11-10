@@ -80,7 +80,6 @@ export default function Feiras() {
 
   const calcularDadosCategorias = (dados) => {
     const categorias = {};
-    debugger;
 
     if (dados) {
       dados.forEach((produto) => {
@@ -195,7 +194,7 @@ export default function Feiras() {
                         key={profile}
                         dataKey={profile}
                         stackId="a"
-                        style={{ fill: COLORS[index % COLORS.length] }} // Usando o estilo diretamente
+                        fill={COLORS[index % COLORS.length]}
                       />
                     ))}
                   </BarChart>
@@ -240,74 +239,81 @@ export default function Feiras() {
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <div className="tabela-feira-header">
-                <h1>
-                  {!isEditing ? (
-                    <div className="nome-feira">
-                      {feiraAtual.nome || "Nome da feira"}
+              <div className="container-tabela-feira">
+                <div className="tabela-feira-header">
+                  <h1>
+                    {!isEditing ? (
+                      <div className="nome-feira">
+                        {feiraAtual.nome || "Nome da feira"}
 
-                      <div>
-                        <EditOutlined
-                          onClick={() => setIsEditing(true)}
-                          style={{ marginLeft: 10, cursor: "pointer" }}
-                        />
-
-                        <DeleteOutline
-                          onClick={() => setIsModalVisible(true)}
-                          style={{ marginLeft: 10, cursor: "pointer" }}
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <Formik
-                      initialValues={{ nome: feiraAtual.nome || "" }}
-                      enableReinitialize
-                      validationSchema={FeiraSchema}
-                      onSubmit={handleUpdateFeira}
-                    >
-                      {({ errors, touched }) => (
-                        <Form style={{ display: "flex", alignItems: "center" }}>
-                          <Field
-                            name="nome"
-                            placeholder="Nome da feira"
-                            className="nome-feira-input-text"
-                          />
-                          {errors.nome && touched.nome ? (
-                            <div style={{ color: "red", marginRight: 10 }}>
-                              {errors.nome}
-                            </div>
-                          ) : null}
-
-                          <Button
-                            htmlType="submit"
-                            type="submit"
-                            style={{ marginRight: 5 }}
-                          >
-                            Salvar
-                          </Button>
-
-                          <button
-                            type="button"
-                            onClick={() => setIsEditing(false)}
+                        <div>
+                          <EditOutlined
+                            onClick={() => setIsEditing(true)}
                             style={{
-                              backgroundColor: "transparent",
-                              border: "none",
-                              color: "#d9534f",
+                              marginLeft: 10,
                               cursor: "pointer",
+                              color: "#777777",
                             }}
-                          >
-                            <CloseOutlined />
-                          </button>
-                        </Form>
-                      )}
-                    </Formik>
-                  )}
-                </h1>
-              </div>
+                          />
 
-              <ConfigProvider locale={ptBR}>
-                <TabelaFeira data={produtos} />
-              </ConfigProvider>
+                          <DeleteOutline
+                            onClick={() => setIsModalVisible(true)}
+                            style={{
+                              marginLeft: 10,
+                              cursor: "pointer",
+                              color: "#777777",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <Formik
+                        initialValues={{ nome: feiraAtual.nome || "" }}
+                        enableReinitialize
+                        validationSchema={FeiraSchema}
+                        onSubmit={handleUpdateFeira}
+                      >
+                        {({ errors, touched }) => (
+                          <Form
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Field
+                              name="nome"
+                              placeholder="Nome da feira"
+                              className="nome-feira-input-text"
+                            />
+                            {errors.nome && touched.nome ? (
+                              <div style={{ color: "red", marginRight: 10 }}>
+                                {errors.nome}
+                              </div>
+                            ) : null}
+
+                            <button
+                              type="submit"
+                              style={{ marginRight: 5, marginLeft: 5 }}
+                              className="btn-salvar-nome-feira"
+                            >
+                              Salvar
+                            </button>
+
+                            <Button
+                              color="danger"
+                              htmlType="button"
+                              className="btn-cancelar-editar-feira"
+                              onClick={() => setIsEditing(false)}
+                            >
+                              Cancelar
+                            </Button>
+                          </Form>
+                        )}
+                      </Formik>
+                    )}
+                  </h1>
+                </div>
+                <ConfigProvider locale={ptBR}>
+                  <TabelaFeira data={produtos} />
+                </ConfigProvider>
+              </div>
             </Col>
           </Row>
         </Col>
@@ -316,10 +322,15 @@ export default function Feiras() {
           <div className="right-container">
             <Typography.Title
               level={4}
-              style={{ fontFamily: "Poppins", fontWeight: 400 }}
+              style={{
+                fontFamily: "Poppins",
+                fontWeight: 400,
+                marginBottom: "4rem",
+              }}
             >
               Produtos que podem te interessar...
             </Typography.Title>
+
             <Carousel
               vertical={isVertical}
               className="carousel-produtos"

@@ -4,7 +4,7 @@ import PerfilContaSerializer from "./perfiConta.serializer";
 export default class ProdutoSerializer {
   constructor() {
     this._categoriaSerializer = new CategoriaSerializer();
-    this._perfilContaSerializer = new PerfilContaSerializer();
+    // this._perfilContaSerializer = new PerfilContaSerializer();
   }
 
   fromJson(json) {
@@ -19,7 +19,6 @@ export default class ProdutoSerializer {
       json.quantidadeUnidade && { quantidadeUnidade: json.quantidadeUnidade },
       json.unidade && { unidade: json.unidade },
       json.feiraID && { feiraID: json.feiraID },
-      // json.perfilContaID && { perfilContaID: json.perfilContaID },
       json.categoriaID && {
         categoriaID: json?.categoriaID,
       },
@@ -27,13 +26,16 @@ export default class ProdutoSerializer {
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       },
+      json.perfilConta && { perfilConta: json.perfilContaID },
       json.perfilConta && {
-        perfilConta: this._perfilContaSerializer.fromJson(json.perfilConta),
+        perfilConta: {
+          perfilContaID: json.perfilConta.perfilContaID,
+          nome: json.perfilConta.nome,
+          value: json.perfilConta.perfilContaID,
+          label: json.perfilConta.nome,
+        },
       },
 
-      // json.perfilConta && {
-      //   perfilConta: json.perfilConta,
-      // },
       json?.feira?.nome && {
         feiraNome: json.feira.nome,
       },
@@ -57,7 +59,7 @@ export default class ProdutoSerializer {
       produto.quantidade && { quantidade: produto.quantidade },
       produto.unidade && { unidade: produto.unidade },
 
-      produto.perfilConta && { perfilContaID: produto.perfilConta?.id },
+      produto.perfilConta && { perfilContaID: produto.perfilConta },
 
       produto.categoria && { categoriaID: produto.categoria },
       produto.categoriaID && { categoriaID: produto.categoriaID },

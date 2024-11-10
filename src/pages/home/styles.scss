@@ -1,12 +1,11 @@
 .right-container {
-  height: 90vh;
   border-radius: 15px;
-  // box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
+  padding: 10px 30px;
+  box-shadow: rgba(0, 0, 0, 0.103) 0px 1px 4px;
 }
 
 .titulo-agendamento {
   font-size: 30px;
-  font-family: "Poppins";
   font-weight: 400;
 }
 
@@ -77,8 +76,6 @@
     font-size: 12px;
   }
 }
-
-
 
 @media (max-width: 1200px) {
   .container-home {

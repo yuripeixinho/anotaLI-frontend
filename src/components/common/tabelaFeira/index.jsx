@@ -8,10 +8,8 @@ import CategoriaService from "../../../services/categoria.service";
 import PerfilContaService from "../../../services/perfilConta.service";
 import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../../context/anotaLiAuthContext";
 
 export default function TabelaFeira({ data }) {
-  const { perfilId } = useAuth();
   const { contaID, feiraID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
@@ -21,7 +19,6 @@ export default function TabelaFeira({ data }) {
   const _produtoService = new ProdutoService();
 
   useEffect(() => {
-    debugger;
     const _categoriaService = new CategoriaService();
     const _perfilContaService = new PerfilContaService();
 
@@ -40,8 +37,9 @@ export default function TabelaFeira({ data }) {
     setDataSource(data);
   }, [data]);
 
+  console.log(perfilSelect);
+
   async function handleCriarProduto(values) {
-    debugger;
     values.feiraID = feiraID;
     delete values.id;
 
@@ -60,7 +58,7 @@ export default function TabelaFeira({ data }) {
             ...values,
             id: res.id,
             categoria: categoriaSelect.find(
-              (cat) => cat.categoriaID === values.categoriaID
+              (cat) => cat.categoriaID === values.categoria
             ),
             perfilConta: perfilSelect.find(
               (pc) => pc.id === values.perfilConta.id
@@ -77,10 +75,13 @@ export default function TabelaFeira({ data }) {
     debugger;
     values.feiraID = feiraID;
 
-    const perfilConta = {
-      id: values.perfilConta,
-    };
-    values.perfilConta = perfilConta;
+    let perfilConta;
+
+    if (typeof values.perfilConta === "object") {
+      perfilConta = values.perfilContaID = values.perfilConta.id;
+    } else {
+      perfilConta = values.perfilConta;
+    }
 
     // quando nao troca seleciona a categoria, ele retorna como um objeto
     if (typeof values.categoria === "object") {
@@ -89,8 +90,6 @@ export default function TabelaFeira({ data }) {
       await _produtoService
         .editarProduto(contaID, values.id, values)
         .then((res) => {
-          debugger;
-
           setDataSource((prevData) =>
             prevData.map((item) =>
               item.id === res.id
@@ -101,7 +100,7 @@ export default function TabelaFeira({ data }) {
                       (cat) => cat.categoriaID === categoriaID
                     ),
                     perfilConta: perfilSelect.find(
-                      (pc) => pc.id === values.perfilConta.id
+                      (pc) => pc.id === perfilConta
                     ),
                   }
                 : item
@@ -117,8 +116,6 @@ export default function TabelaFeira({ data }) {
       await _produtoService
         .editarProduto(contaID, values.id, values)
         .then((res) => {
-          debugger;
-
           setDataSource((prevData) =>
             prevData.map((item) =>
               item.id === res.id
@@ -129,7 +126,7 @@ export default function TabelaFeira({ data }) {
                       (cat) => cat.categoriaID === values.categoriaID
                     ),
                     perfilConta: perfilSelect.find(
-                      (pc) => pc.id === values.perfilConta.id
+                      (pc) => pc.id === perfilConta
                     ),
                   }
                 : item
@@ -181,6 +178,33 @@ export default function TabelaFeira({ data }) {
 
   const columns = [
     {
+      title: "Usuário",
+      key: "perfilConta",
+      dataIndex: "perfilConta",
+      render: (perfilConta) => (
+        <div className="produto-container">
+          <Avatar size="large" icon={<UserOutlined />} />
+          <div className="produto-info">
+            <span className="nome-produto">
+              {perfilConta ? perfilConta.nome : "N/A"}
+            </span>
+          </div>
+        </div>
+      ),
+      renderFormItem: (item, { value, onChange }) => {
+        return (
+          <Select
+            showSearch
+            value={value ? value.perfilContaID : undefined}
+            optionFilterProp="label"
+            onChange={(val) => onChange?.(val)}
+            placeholder="Selecione o perfil"
+            options={perfilSelect}
+          />
+        );
+      },
+    },
+    {
       title: "Produto",
       key: "nome",
       dataIndex: "nome",
@@ -214,39 +238,10 @@ export default function TabelaFeira({ data }) {
     },
 
     {
-      title: "Usuário",
-      key: "perfilConta",
-      dataIndex: "perfilConta",
-      width: "20%",
-      render: (perfilConta) => (
-        <div className="produto-container">
-          <Avatar size="large" icon={<UserOutlined />} />
-          <div className="produto-info">
-            <span>{perfilConta ? perfilConta.nome : "N/A"}</span>
-          </div>
-        </div>
-      ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Select
-            showSearch
-            value={value ? value.perfilContaID : undefined}
-            optionFilterProp="label"
-            onChange={(val) => onChange?.(val)}
-            placeholder="Selecione o perfil"
-            options={perfilSelect}
-          />
-        );
-      },
-    },
-    {
       title: "Descrição",
       dataIndex: "descricao",
       key: "descricao",
-      render: (descricao) => (
-        <span className="descricao-produto">{descricao}</span>
-      ),
-      width: "15%",
+      render: (descricao) => <span>{descricao}</span>,
       formItemProps: () => ({
         rules: [{ max: 60, message: "Campo deve ter no máximo 60 caracteres" }],
       }),
@@ -267,7 +262,6 @@ export default function TabelaFeira({ data }) {
       render: (quantidade) => (
         <div className="unidade-container">{quantidade}</div>
       ),
-      width: "10%",
       formItemProps: () => ({
         rules: [
           { required: true, message: "Campo obrigatório" },
@@ -296,7 +290,6 @@ export default function TabelaFeira({ data }) {
       dataIndex: "unidade",
       key: "unidade",
       render: (unidade) => <div className="unidade-container">{unidade}</div>,
-      width: "10%",
       formItemProps: () => ({
         rules: [{ max: 10, message: "Campo deve ter no máximo 10 caracteres" }],
       }),
@@ -340,9 +333,9 @@ export default function TabelaFeira({ data }) {
       render: (text, record, _, action) => {
         return (
           <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()}>
+            <span onClick={(e) => e.preventDefault()}>
               <MoreVertIcon className="more-vert-icon categoria-more-icon" />
-            </a>
+            </span>
           </Dropdown>
         );
       },
@@ -375,7 +368,6 @@ export default function TabelaFeira({ data }) {
         position: "top",
         creatorButtonText: "Novo Produto",
         className: "botao-adicionar",
-        // style: { display: "none" },
         record: () => ({ id: Date.now() }),
       }}
       loading={false}
@@ -384,16 +376,10 @@ export default function TabelaFeira({ data }) {
       onChange={(props, data) => {
         console.log(props, data);
       }}
-      // request={async () => ({
-      //   data: columns,
-      //   total: 3,
-      //   success: true,
-      // })}
       editable={{
         type: "multiple",
         editableKeys,
         deletePopconfirmMessage: "Deletar este item?",
-
         onDelete: async (row, data) => {
           handleDelete(data);
         },

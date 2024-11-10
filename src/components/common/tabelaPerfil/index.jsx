@@ -7,11 +7,9 @@ import "./styles.scss";
 import CategoriaService from "../../../services/categoria.service";
 import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
-import { useAuth } from "../../../context/anotaLiAuthContext";
 
 export default function TabelaPerfil({ data }) {
-  const { perfilId } = useAuth();
-  const { contaID, feiraID } = useParams();
+  const { contaID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
   const [categoriaSelect, setCategoriaSelect] = useState([]);
@@ -31,94 +29,6 @@ export default function TabelaPerfil({ data }) {
     setDataSource(data);
   }, [data]);
 
-  async function handleCriarProduto(values) {
-    values.perfilID = perfilId;
-    values.feiraID = feiraID;
-
-    await _produtoService
-      .criarProduto(values, contaID)
-      .then((res) => {
-        setDataSource((prevData) => [
-          ...prevData,
-          {
-            ...values,
-            id: res.id,
-            categoria: categoriaSelect.find(
-              (cat) => cat.categoriaID === values.categoriaID
-            ),
-          },
-        ]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  async function handleEditarProduto(values) {
-    values.perfilID = perfilId;
-    // values.categoriaID = values.categoria.categoriaID
-
-    delete values.categoria;
-
-    await _produtoService
-      .editarProduto(contaID, values.id, values)
-      .then((res) => {
-        setDataSource((prevData) =>
-          prevData.map((item) =>
-            item.id === res.id
-              ? {
-                  ...item,
-                  ...values,
-                  categoria: categoriaSelect.find(
-                    (cat) => cat.categoriaID === values.categoriaID
-                  ),
-                }
-              : item
-          )
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  const handleDelete = (record) => {
-    _produtoService
-      .deleteProduto(record.id, contaID)
-      .then((res) => {
-        setDataSource((prevData) =>
-          prevData.filter((item) => item.id !== record.id)
-        );
-      })
-      .catch((err) => {
-        console.error("Erro ao deletar o produto:", err);
-      });
-  };
-
-  const menu = (text, record, _, action, categoria) => (
-    <Menu
-      items={[
-        {
-          key: "1",
-          label: (
-            <a
-              onClick={() => {
-                action?.startEditable?.(record.id);
-              }}
-            >
-              Editar
-            </a>
-          ),
-        },
-        {
-          key: "2",
-          danger: true,
-          label: <a onClick={() => handleDelete(record)}>Deletar</a>,
-        },
-      ]}
-    />
-  );
-
   const columns = [
     {
       title: "Feira",
@@ -126,34 +36,15 @@ export default function TabelaPerfil({ data }) {
       dataIndex: "feiraNome",
       readonly: true,
       editable: (text, record, index) => {
-        return false
+        return false;
       },
 
-      width: "10%",
       render: (nome) => <span className="nome-feira">{nome}</span>,
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Nome do produto"
-          />
-        );
-      },
     },
     {
       title: "Produto",
       key: "nome",
       dataIndex: "nome",
-      width: "20%",
-      formItemProps: (form, { rowIndex }) => {
-        return {
-          rules: [
-            { required: true, message: "Campo obrigatório" },
-            { max: 30, message: "Campo deve ter no máximo 30 caracteres" },
-          ],
-        };
-      },
       render: (nome) => (
         <div className="produto-container">
           <Avatar size="large" icon={<UserOutlined />} />
@@ -162,15 +53,6 @@ export default function TabelaPerfil({ data }) {
           </div>
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Nome do produto"
-          />
-        );
-      },
     },
     {
       title: "Descrição",
@@ -179,19 +61,6 @@ export default function TabelaPerfil({ data }) {
       render: (descricao) => (
         <span className="descricao-produto">{descricao}</span>
       ),
-      width: "15%",
-      formItemProps: () => ({
-        rules: [{ max: 60, message: "Campo deve ter no máximo 60 caracteres" }],
-      }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Descrição"
-          />
-        );
-      },
     },
     {
       title: "Quantidade",
@@ -200,91 +69,22 @@ export default function TabelaPerfil({ data }) {
       render: (quantidade) => (
         <div className="unidade-container">{quantidade}</div>
       ),
-      width: "10%",
-      formItemProps: () => ({
-        rules: [
-          { required: true, message: "Campo obrigatório" },
-          {
-            type: "number",
-            min: 1,
-            message: "A quantidade deve ser maior que zero",
-          },
-        ],
-      }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <InputNumber
-            style={{
-              width: "100%",
-            }}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Quantidade"
-          />
-        );
-      },
     },
     {
       title: "Unidade",
       dataIndex: "unidade",
       key: "unidade",
       render: (unidade) => <div className="unidade-container">{unidade}</div>,
-      width: "10%",
-      formItemProps: () => ({
-        rules: [{ max: 10, message: "Campo deve ter no máximo 10 caracteres" }],
-      }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Unidade"
-          />
-        );
-      },
     },
     {
       title: "Categoria",
-      key: "categoriaID",
+      key: "categoria",
       dataIndex: "categoria",
       render: (categoria) => (
         <div className="unidade-container">
           {categoria ? categoria.nome : "N/A"}
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Select
-            showSearch
-            value={value ? value.categoriaID : undefined} // Use o ID da categoria
-            optionFilterProp="label"
-            onChange={(val) => onChange?.(val)}
-            placeholder="Selecione a categoria"
-            options={categoriaSelect}
-          />
-        );
-      },
-    },
-    {
-      title: "",
-      dataIndex: "",
-      key: "",
-      render: (text, record, _, action) => {
-        return (
-          <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
-            <a onClick={(e) => e.preventDefault()}>
-              <MoreVertIcon className="more-vert-icon categoria-more-icon" />
-            </a>
-          </Dropdown>
-        );
-      },
-      renderFormItem: (item, { value, onChange }) => {
-        return null;
-      },
-    },
-    {
-      title: "",
-      valueType: "option",
     },
   ];
 
@@ -294,11 +94,7 @@ export default function TabelaPerfil({ data }) {
       rowKey="id"
       scroll={{ x: 960, y: 600 }}
       recordCreatorProps={{
-        position: "bottom",
-        creatorButtonText: "Novo Produto",
-        className: "botao-adicionar",
-        // style: { display: "none" },
-        record: () => ({ id: Date.now() }),
+        style: { display: "none" },
       }}
       loading={false}
       columns={columns}
@@ -309,22 +105,7 @@ export default function TabelaPerfil({ data }) {
       editable={{
         type: "multiple",
         editableKeys,
-        deletePopconfirmMessage: "Deletar este item?",
-
-        onDelete: async (row, data) => {
-          handleDelete(data);
-        },
-        onSave: async (rowKey, data, row) => {
-          if (data.categoria) {
-            return handleEditarProduto(data);
-          } else {
-            handleCriarProduto(data);
-          }
-        },
         onChange: setEditableRowKeys,
-        saveText: "Salvar",
-        cancelText: "Cancelar",
-        deleteText: "Deletar",
       }}
     />
   );

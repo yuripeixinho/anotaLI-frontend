@@ -422,7 +422,6 @@ export default function ModalCriarFeira({
           </Formik>
         </Col>
 
-        {/* Carrossel de Produtos Recomendados */}
         <Col span={18} xs={24} sm={24} md={24} lg={14} xl={15} xxl={18}>
           <Row gutter={[0, 30]} align={"middle"} justify={"center"}>
             <Col span={20}>

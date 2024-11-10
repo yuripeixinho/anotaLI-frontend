@@ -27,6 +27,7 @@ export default function Cadastro() {
   const { login } = useAuth();
 
   const [errorMsg, setErrorMsg] = useState(null);
+  const [termosConcordados, setTermosConcordados] = useState(false); // Estado para controlar o checkbox
 
   const initialValues = {
     perfilConta: { nome: "" },
@@ -59,6 +60,10 @@ export default function Cadastro() {
 
         setErrorMsg(message);
       });
+  };
+
+  const handleTermosChange = (e) => {
+    setTermosConcordados(e.target.checked); // Atualiza o estado com base no checkbox
   };
 
   return (
@@ -99,9 +104,7 @@ export default function Cadastro() {
                     <Image
                       src={logoGoogle}
                       preview={false}
-                      style={{
-                        width: "20px",
-                      }}
+                      style={{ width: "20px" }}
                     />
                     Entrar com Google
                   </Button>
@@ -110,9 +113,7 @@ export default function Cadastro() {
                     <Image
                       src={logoMicrosoft}
                       preview={false}
-                      style={{
-                        width: "20px",
-                      }}
+                      style={{ width: "20px" }}
                     />
                     Entrar com Microsoft
                   </Button>
@@ -141,6 +142,12 @@ export default function Cadastro() {
                 initialValues={initialValues}
                 validationSchema={cadastroValidationSchema}
                 onSubmit={async (values) => {
+                  if (!termosConcordados) {
+                    setErrorMsg(
+                      "Você precisa aceitar os Termos & Condições para continuar."
+                    );
+                    return; // Impede o envio do formulário caso os termos não sejam aceitos
+                  }
                   handleCadastro(values);
                 }}
               >
@@ -211,9 +218,9 @@ export default function Cadastro() {
                         marginTop: "15px",
                       }}
                     >
-                      <Checkbox />
+                      <Checkbox onChange={handleTermosChange} />{" "}
                       <label
-                        style={{ marginLeft: "6px", fontFamilt: "Poppins" }}
+                        style={{ marginLeft: "6px", fontFamily: "Poppins" }}
                       >
                         Concordo com os <a href="/">Termos & Privacidade</a>
                       </label>
