@@ -32,6 +32,7 @@ export default class FeiraSerializer {
 
   toJson(conta) {
     const contaToJson = {};
+    
     Object.assign(
       contaToJson,
       conta.id && { contaID: conta.id },

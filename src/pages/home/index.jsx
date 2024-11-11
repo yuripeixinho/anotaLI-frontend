@@ -5,7 +5,6 @@ import ProdutoService from "../../services/produto.service";
 import "./styles.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import MeuCalendario from "./calendar";
-import GraficoPerfis from "./graficos/GraficoPerfis";
 import PerfilContaService from "../../services/perfilConta.service";
 import FeiraService from "../../services/feira.service";
 import {
@@ -19,6 +18,7 @@ import {
 import { formatarDataDDMMYY } from "../../utils/converterDataParaDDMMYY";
 import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
 import { CalendarMonth } from "@mui/icons-material";
+import GraficoPerfis from "./listagemPerfis";
 
 export default function Home() {
   const { contaID } = useParams();
@@ -49,15 +49,21 @@ export default function Home() {
   }, [contaID]);
 
   const calcularDadosCategorias = (dados) => {
+    debugger;
     const categorias = {};
 
     if (dados) {
       dados.forEach((evento) => {
+        debugger;
         // Usamos um Set para registrar as categorias únicas de cada evento
         const categoriasEvento = new Set();
 
         if (evento.produtos) {
+          debugger;
+
           evento?.produtos.forEach((produto) => {
+            debugger;
+
             const { categoria } = produto;
             const categoriaID = categoria.categoriaID;
             const nomeCategoria = categoria.nome;
@@ -67,12 +73,14 @@ export default function Home() {
 
             // Inicializa a categoria caso não exista ainda
             if (!categorias[categoriaID]) {
-              categorias[categoriaID] = { nome: nomeCategoria, quantidade: 0 };
+              categorias[categoriaID] = { nome: nomeCategoria, quantidade: 1 };
             }
           });
 
           // Incrementa a quantidade para cada categoria única no evento
           categoriasEvento.forEach((categoriaID) => {
+            debugger;
+
             categorias[categoriaID].quantidade += 1;
           });
         }
@@ -91,6 +99,8 @@ export default function Home() {
   ];
 
   const dadosCategorias = calcularDadosCategorias(feiras);
+
+  console.log(dadosCategorias);
 
   return (
     <Row justify={"space-between"} gutter={[24]} className="container-home">

@@ -4,11 +4,9 @@ import PerfilContaSerializer from "./perfiConta.serializer";
 export default class ProdutoSerializer {
   constructor() {
     this._categoriaSerializer = new CategoriaSerializer();
-    // this._perfilContaSerializer = new PerfilContaSerializer();
   }
 
   fromJson(json) {
-    debugger;
     const produto = {};
     Object.assign(
       produto,
@@ -48,9 +46,8 @@ export default class ProdutoSerializer {
   }
 
   toJson(produto) {
-    debugger;
     const produtoToJson = {};
-
+debugger;
     Object.assign(
       produtoToJson,
       produto.id && { produtoID: produto.id },
@@ -59,7 +56,7 @@ export default class ProdutoSerializer {
       produto.quantidade && { quantidade: produto.quantidade },
       produto.unidade && { unidade: produto.unidade },
 
-      produto.perfilConta && { perfilContaID: produto.perfilConta },
+      produto.perfilContaTeste && { perfilContaID: produto.perfilContaTeste }, // caso seja edicao do produto
 
       produto.categoria && { categoriaID: produto.categoria },
       produto.categoriaID && { categoriaID: produto.categoriaID },

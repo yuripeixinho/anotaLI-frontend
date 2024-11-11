@@ -173,5 +173,28 @@ body {
 }
 
 .ant-table-cell a {
-  color: #2E9ED8;
+  color: #2e9ed8;
+}
+
+.ant-modal-footer .ant-btn.ant-btn-primary {
+  width: 20%;
+  padding: 20px 24px;
+  background-color: #d83737;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e84c4c;
+  }
+}
+
+.ant-modal-footer .ant-btn.ant-btn-default {
+  width: 20%;
+  padding: 20px 24px;
+  background-color: #e0e0e000;
+  color: rgb(0, 0, 0);
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 14px;
 }

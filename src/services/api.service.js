@@ -2,7 +2,7 @@ import axios from "axios";
 import { performLogout } from "../pages/auth/logout";
 
 const api = axios.create({
-  baseURL: "http://localhost:5022/",
+  baseURL: "https://localhost:44353/",
   headers: {
     "Content-Type": "application/json",
   },
