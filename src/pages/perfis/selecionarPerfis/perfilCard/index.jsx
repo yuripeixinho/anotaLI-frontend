@@ -88,13 +88,17 @@ export default function PerfilCard({
       <div className="avatar-container">
         <Avatar
           size={220}
-          src={perfil?.imagemPerfil?.caminhoImagem}
+          src={
+            perfil?.imagemPerfil?.caminhoImagem ||
+            "/assets/imagens/perfis/default/defaultAvatar.png"
+          }
           className={isEditing ? "avatar-image editing" : "avatar-image"}
           onClick={() => {
             navigate(`/home/${usuario.id}`);
             setPerfilId(perfil.id);
           }}
         />
+
         {isEditing && (
           <EditIcon
             className="edit-icon"

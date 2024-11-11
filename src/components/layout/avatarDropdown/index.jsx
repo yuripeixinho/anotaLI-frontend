@@ -1,5 +1,5 @@
 // src/components/AvatarDropdown.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Dropdown, Menu } from "antd";
 import {
   UserOutlined,
@@ -8,13 +8,26 @@ import {
   CaretDownOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "../../../context/anotaLiAuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Logout, SwitchAccount } from "@mui/icons-material";
+import PerfilContaService from "../../../services/perfilConta.service";
 
 const AvatarDropdown = () => {
-  const { logout, usuario } = useAuth();
+  const { logout, usuario, perfilId } = useAuth();
+  const [perfilConta, setPerfilConta] = useState({});
 
-  var navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const _perfilContaService = new PerfilContaService();
+
+    async function init() {
+      const responsePerfilConta = await _perfilContaService.read(perfilId);
+      setPerfilConta(responsePerfilConta);
+    }
+
+    init();
+  }, []);
 
   const handleMenuClick = (e) => {
     if (e.key === "logout") {
@@ -39,7 +52,13 @@ const AvatarDropdown = () => {
   return (
     <Dropdown overlay={menu} trigger={["click"]}>
       <div style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-        <Avatar size={40} icon={<UserOutlined />} />
+        <Avatar
+          size={40}
+          src={
+            perfilConta?.imagemPerfil?.caminhoImagem ||
+            "/assets/imagens/perfis/default/defaultAvatar.png"
+          }
+        />
         <span style={{ marginRight: 8 }}></span>
 
         <CaretDownOutlined />

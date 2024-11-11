@@ -107,7 +107,7 @@ export default function GraficoPerfis() {
                     xxl: 100,
                   }}
                   icon={<AntDesignOutlined />}
-                  src={avatarGeneric}
+                  src={perfil?.imagemPerfil?.caminhoImagem}
                   className="avatar-usuarios-sem-carrosel"
                 />
                 <Col span={24} className="grafico-perfis-texto-container">

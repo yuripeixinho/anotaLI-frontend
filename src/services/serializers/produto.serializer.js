@@ -33,6 +33,10 @@ export default class ProdutoSerializer {
           nome: json.perfilConta.nome,
           value: json.perfilConta.perfilContaID,
           label: json.perfilConta.nome,
+          imagemPerfil: {
+            id: json.perfilConta.imagemPerfil?.id,
+            caminhoImagem: json.perfilConta.imagemPerfil?.caminhoImagem,
+          },
         },
       },
 

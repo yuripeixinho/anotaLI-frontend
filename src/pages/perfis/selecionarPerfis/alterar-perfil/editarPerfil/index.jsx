@@ -42,7 +42,7 @@ export default function EditarPerfil() {
     }
   };
 
-  const avatarVeiaco = [
+  const avatarAnotali = [
     { id: 1, imagem: "anotaliperfil1.png" },
     { id: 2, imagem: "anotaliperfil2.png" },
     { id: 3, imagem: "anotaliperfil3.png" },
@@ -50,6 +50,18 @@ export default function EditarPerfil() {
     { id: 5, imagem: "anotaliperfil5.png" },
     { id: 6, imagem: "anotaliperfil6.png" },
     { id: 7, imagem: "anotaliperfil7.png" },
+  ];
+
+  const avatarAnimal = [
+    { id: 8, imagem: "animalprofile1.png" },
+    { id: 9, imagem: "animalprofile2.png" },
+    { id: 10, imagem: "animalprofile3.png" },
+    { id: 11, imagem: "animalprofile4.png" },
+    { id: 12, imagem: "animalprofile5.png" },
+    { id: 13, imagem: "animalprofile6.png" },
+    { id: 14, imagem: "animalprofile7.png" },
+    { id: 15, imagem: "animalprofile8.png" },
+    { id: 16, imagem: "animalprofile9.png" },
   ];
 
   return (
@@ -125,7 +137,7 @@ export default function EditarPerfil() {
                 },
               ]}
             >
-              {avatarVeiaco.map((item, index) => (
+              {avatarAnotali.map((item, index) => (
                 <div key={index}>
                   <Row justify="center">
                     <Col>
@@ -184,22 +196,22 @@ export default function EditarPerfil() {
                 },
               ]}
             >
-              {/* {fotos.map((foto, index) => (
+              {avatarAnimal.map((item, index) => (
                 <div key={index}>
                   <Row justify="center">
                     <Col>
                       <Avatar
-                        src={`/assets/predefinedUsersPictures/genericDesignSystem/${foto}`}
+                        src={`/assets/imagens/perfis/animals/${item.imagem}`}
                         alt={`Foto ${index + 1}`}
                         size={320}
                         className="profile-photo"
-                        onClick={() => handleSelecionarFoto(foto)}
+                        onClick={() => handleSelecionarFoto(item)}
                         style={{ cursor: "pointer" }}
                       />
                     </Col>
                   </Row>
                 </div>
-              ))} */}
+              ))}
             </Carousel>
           </Col>
         </Col>

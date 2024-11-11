@@ -71,7 +71,7 @@ function LayoutApp() {
       </Sider>
       <Layout>
         <div className="profile-dropdown">
-          <AvatarDropdown />
+          <AvatarDropdown  />
         </div>
 
         <Content

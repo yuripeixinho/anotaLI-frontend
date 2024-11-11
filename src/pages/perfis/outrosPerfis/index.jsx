@@ -66,7 +66,7 @@ export default function OutrosPerfis() {
           <div className="perfil-right-container">
             <Avatar
               size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 100, xxl: 200 }}
-              src={avatarGeneric}
+              src={perfilConta?.imagemPerfil?.caminhoImagem}
             />
 
             <h1>{perfilConta?.nome}</h1>
