@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Col,
-  Divider,
   Modal,
   Alert,
   Typography,
@@ -18,7 +17,7 @@ import {
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import FeiraService from "../../../../services/feira.service";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import moment from "moment";
 import { DeleteOutlined } from "@ant-design/icons";
 import ProdutoService from "../../../../services/produto.service";
@@ -40,7 +39,6 @@ export default function ModalCriarFeira({
   const [produtosRecomendados, setProdutosRecomendados] = useState([]);
 
   const formikRef = useRef(); // Crie uma referência para o Formik
-  const navigate = useNavigate();
 
   useEffect(() => {
     const _produtoService = new ProdutoService();
@@ -50,17 +48,23 @@ export default function ModalCriarFeira({
         contaID
       );
 
-      // Filtra os produtos recomendados, removendo aqueles que já existem com o mesmo nome na lista de produtos já recomendados
-      setProdutosRecomendados((prevProdutos) => {
-        // Filtra os produtos para garantir que não há duplicatas de nome
-        const produtosFiltrados = responsePerfilContaService.filter(
-          (produtoNovo) =>
-            !prevProdutos.some(
-              (produtoExistente) => produtoExistente.nome === produtoNovo.nome
-            )
-        );
+      // Cria um Set para armazenar os nomes dos produtos já inseridos
+      const nomesInseridos = new Set();
 
-        // Retorna a lista de produtos já existentes junto com os novos produtos filtrados
+      // Filtra os produtos para garantir que cada nome só seja adicionado uma vez
+      const produtosFiltrados = responsePerfilContaService.filter(
+        (produtoNovo) => {
+          if (nomesInseridos.has(produtoNovo.nome)) {
+            return false; // Se o nome já foi inserido, não adiciona
+          } else {
+            nomesInseridos.add(produtoNovo.nome); // Adiciona o nome ao Set
+            return true;
+          }
+        }
+      );
+
+      // Atualiza a lista de produtos recomendados com os novos produtos filtrados
+      setProdutosRecomendados((prevProdutos) => {
         return [...prevProdutos, ...produtosFiltrados];
       });
     }
@@ -172,8 +176,6 @@ export default function ModalCriarFeira({
     setModalCriarFeiraAberto(false);
     setErrorMsg(null);
 
-    initialValues = { teste: "" };
-
     if (formikRef.current) {
       formikRef.current.resetForm();
     }
@@ -201,8 +203,12 @@ export default function ModalCriarFeira({
 
     // Garantir que estamos utilizando o estado mais atualizado e não manipulando o produto diretamente.
     setProdutosRecomendados((prev) => {
-      const produtoCopy = { ...produtoParaRemover }; // Criar uma cópia do produto para evitar mutabilidade.
-      return [...prev, produtoCopy];
+      // Verifica se o produto já está na lista antes de adicioná-lo
+      if (!prev.some((produto) => produto.nome === produtoParaRemover.nome)) {
+        const produtoCopy = { ...produtoParaRemover }; // Criar uma cópia do produto para evitar mutabilidade.
+        return [...prev, produtoCopy];
+      }
+      return prev; // Se o produto já estiver na lista, não adiciona
     });
   };
 

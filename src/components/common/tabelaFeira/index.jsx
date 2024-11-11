@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { UserOutlined } from "@ant-design/icons";
 import { EditableProTable } from "@ant-design/pro-components";
 import { Avatar, Dropdown, Input, InputNumber, Menu, Select } from "antd";
@@ -9,7 +10,7 @@ import PerfilContaService from "../../../services/perfilConta.service";
 import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
 
-export default function TabelaFeira({ data }) {
+export default function TabelaFeira({ data, setData }) {
   const { contaID, feiraID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
@@ -35,7 +36,7 @@ export default function TabelaFeira({ data }) {
 
     init();
     setDataSource(data);
-  }, [data]);
+  }, [contaID, data]);
 
   async function handleCriarProduto(values) {
     debugger;
@@ -144,6 +145,7 @@ export default function TabelaFeira({ data }) {
         setDataSource((prevData) =>
           prevData.filter((item) => item.id !== record.id)
         );
+        setData((prevData) => prevData.filter((item) => item.id !== record.id));
       })
       .catch((err) => {
         console.error("Erro ao deletar o produto:", err);
