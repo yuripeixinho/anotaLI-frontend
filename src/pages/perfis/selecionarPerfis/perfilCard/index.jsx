@@ -1,6 +1,5 @@
 import { Avatar, Flex, Modal } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import avatarGeneric from "../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import "./styles.scss";
 import { useAuth } from "../../../../context/anotaLiAuthContext";

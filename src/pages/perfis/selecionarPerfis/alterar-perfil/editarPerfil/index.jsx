@@ -1,5 +1,4 @@
-import { LeftCircleOutlined } from "@ant-design/icons";
-import { Col, Row, Button, Avatar, Carousel, Flex, Typography } from "antd";
+import { Col, Row, Avatar, Carousel, Flex, Typography } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import userPicture from "../../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import "./styles.scss";
@@ -7,7 +6,7 @@ import { useAuth } from "../../../../../context/anotaLiAuthContext";
 import PerfilContaService from "../../../../../services/perfilConta.service";
 
 export default function EditarPerfil() {
-  const { perfilId, contaID } = useParams();
+  const { perfilId } = useParams();
   const { usuario } = useAuth();
 
   // Dentro do seu componente EditarPerfil

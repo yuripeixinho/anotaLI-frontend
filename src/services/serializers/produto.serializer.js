@@ -1,5 +1,4 @@
 import CategoriaSerializer from "./categoria.serializer";
-import PerfilContaSerializer from "./perfiConta.serializer";
 
 export default class ProdutoSerializer {
   constructor() {
