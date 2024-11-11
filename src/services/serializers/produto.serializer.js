@@ -51,7 +51,7 @@ export default class ProdutoSerializer {
 
   toJson(produto) {
     const produtoToJson = {};
-debugger;
+    debugger;
     Object.assign(
       produtoToJson,
       produto.id && { produtoID: produto.id },
@@ -60,10 +60,15 @@ debugger;
       produto.quantidade && { quantidade: produto.quantidade },
       produto.unidade && { unidade: produto.unidade },
 
-      produto.perfilContaTeste && { perfilContaID: produto.perfilContaTeste }, // caso seja edicao do produto
+      produto.perfilContaTeste && { perfilContaID: produto.perfilContaTeste },
 
-      produto.categoria && { categoriaID: produto.categoria },
-      produto.categoriaID && { categoriaID: produto.categoriaID },
+      produto.perfilConta && {
+        perfilContaID: produto.perfilConta.perfilContaID,
+      },
+
+      produto.perfilID && { perfilContaID: produto.perfilID },
+
+      produto.categoria && { categoriaID: produto.categoria.categoriaID },
 
       produto.feiraID && { feiraID: produto.feiraID }
     );

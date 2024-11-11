@@ -69,7 +69,16 @@ export default function Feiras() {
       const responsePerfilContaProdutos = await _produtoService.listByConta(
         contaID
       );
-      setProdutosRecomendados(responsePerfilContaProdutos);
+
+      // Filtrar os produtos recomendados para remover aqueles que já estão na lista de produtos
+      const produtosRecomendadosUnicos = responsePerfilContaProdutos.filter(
+        (produtoRecomendado) =>
+          !responsePerfilContaService.some(
+            (produto) => produto.nome === produtoRecomendado.nome
+          )
+      );
+
+      setProdutosRecomendados(produtosRecomendadosUnicos);
 
       const feiraAtual = await _feiraService.read(feiraID);
       setFeiraAtual(feiraAtual);
@@ -77,6 +86,16 @@ export default function Feiras() {
 
     init();
   }, [contaID, feiraID]);
+
+  useEffect(() => {
+    // Filtra produtosRecomendados para incluir apenas produtos que não estão na lista de produtos
+    const produtosFiltrados = produtosRecomendados.filter(
+      (produtoRecomendado) =>
+        !produtos.some((produto) => produto.nome === produtoRecomendado.nome)
+    );
+
+    setProdutosRecomendados(produtosFiltrados);
+  }, [produtos]);
 
   const calcularDadosCategorias = (dados) => {
     const categorias = {};
@@ -134,6 +153,10 @@ export default function Feiras() {
     const _produtoService = new ProdutoService();
     values.perfilID = perfilId;
     values.feiraID = feiraID;
+    debugger;
+    // Recupera e converte o valor de perfilConta do localStorage em um objeto
+    const perfilContaLocal = JSON.parse(localStorage.getItem("perfil"));
+    values.perfilConta = perfilContaLocal;
 
     try {
       await _produtoService.criarProduto(values, contaID);

@@ -13,8 +13,8 @@ import { Logout, SwitchAccount } from "@mui/icons-material";
 import PerfilContaService from "../../../services/perfilConta.service";
 
 const AvatarDropdown = () => {
-  const { logout, usuario, perfilId } = useAuth();
-  const [perfilConta, setPerfilConta] = useState({});
+  const { logout, usuario, perfilId, setPerfilConta } = useAuth();
+  const [perfilContaAvatar, setPerfilContaAvatar] = useState({});
 
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ const AvatarDropdown = () => {
     async function init() {
       const responsePerfilConta = await _perfilContaService.read(perfilId);
       setPerfilConta(responsePerfilConta);
+      setPerfilContaAvatar(responsePerfilConta);
     }
 
     init();
@@ -55,7 +56,7 @@ const AvatarDropdown = () => {
         <Avatar
           size={40}
           src={
-            perfilConta?.imagemPerfil?.caminhoImagem ||
+            perfilContaAvatar?.imagemPerfil?.caminhoImagem ||
             "/assets/imagens/perfis/default/defaultAvatar.png"
           }
         />

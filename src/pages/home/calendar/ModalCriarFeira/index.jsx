@@ -49,7 +49,19 @@ export default function ModalCriarFeira({
         contaID
       );
 
-      setProdutosRecomendados(responsePerfilContaService);
+      // Filtra os produtos recomendados, removendo aqueles que já existem com o mesmo nome na lista de produtos já recomendados
+      setProdutosRecomendados((prevProdutos) => {
+        // Filtra os produtos para garantir que não há duplicatas de nome
+        const produtosFiltrados = responsePerfilContaService.filter(
+          (produtoNovo) =>
+            !prevProdutos.some(
+              (produtoExistente) => produtoExistente.nome === produtoNovo.nome
+            )
+        );
+
+        // Retorna a lista de produtos já existentes junto com os novos produtos filtrados
+        return [...prevProdutos, ...produtosFiltrados];
+      });
     }
 
     init();
@@ -167,13 +179,30 @@ export default function ModalCriarFeira({
   };
 
   const adicionarProduto = (produto) => {
-    setProdutosSelecionados((prev) => [...prev, produto]);
+    setProdutosSelecionados((prevSelecionados) => {
+      // Adiciona o produto à lista de selecionados
+      const novosSelecionados = [...prevSelecionados, produto];
+
+      // Remove o produto de produtosRecomendados
+      setProdutosRecomendados(
+        (prevRecomendados) =>
+          prevRecomendados.filter((p) => p.nome !== produto.nome) // Assumindo que 'id' é a chave única
+      );
+
+      return novosSelecionados;
+    });
   };
 
   const removerProduto = (produtoParaRemover) => {
     setProdutosSelecionados((prev) =>
       prev.filter((produto) => produto.nome !== produtoParaRemover.nome)
     );
+
+    // Garantir que estamos utilizando o estado mais atualizado e não manipulando o produto diretamente.
+    setProdutosRecomendados((prev) => {
+      const produtoCopy = { ...produtoParaRemover }; // Criar uma cópia do produto para evitar mutabilidade.
+      return [...prev, produtoCopy];
+    });
   };
 
   return (

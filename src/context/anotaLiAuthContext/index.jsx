@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true); // Novo estado de carregamento
   const [perfilId, setPerfilId] = useState(null); // Novo estado para armazenar o ID do perfil
+  const [perfilConta, setPerfilConta] = useState(null);
 
   // Carrega o usuário e o token do localStorage ao iniciar
   useEffect(() => {
@@ -46,6 +47,11 @@ export const AuthProvider = ({ children }) => {
     setPerfilId(id);
   };
 
+  const handleSetContaPerfil = (perfil) => {
+    localStorage.setItem("perfil", JSON.stringify(perfil)); // Armazena o perfilId no localStorage
+    setPerfilConta(perfil);
+  };
+
   const isAuthenticated = !!usuario; // Verifica se há um usuário autenticado
 
   return (
@@ -59,6 +65,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         perfilId,
         setPerfilId: handleSetPerfilId, // Use a nova função para armazenar o perfilId
+        perfilConta,
+        setPerfilConta: handleSetContaPerfil,
       }}
     >
       {children}
