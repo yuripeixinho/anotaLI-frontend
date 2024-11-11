@@ -39,24 +39,12 @@ export default function TabelaFeira({ data, setData }) {
   }, [contaID, data]);
 
   async function handleCriarProduto(values) {
+    debugger;
     values.feiraID = feiraID;
+
     delete values.id;
-
-    let perfilConta;
-
-    if (typeof values.perfilConta === "object") {
-      perfilConta = values.perfilContaID = values.perfilConta.id;
-    } else {
-      perfilConta = values.perfilConta;
-    }
-
-    const updatedValues = {
-      ...values,
-      perfilContaTeste: perfilConta,
-    };
-
     await _produtoService
-      .criarProduto(updatedValues, contaID)
+      .criarProduto(values, contaID)
       .then((res) => {
         setDataSource((prevData) => [
           ...prevData,
@@ -66,7 +54,9 @@ export default function TabelaFeira({ data, setData }) {
             categoria: categoriaSelect.find(
               (cat) => cat.categoriaID === values.categoria
             ),
-            perfilConta: perfilSelect.find((pc) => pc.id === perfilConta),
+            perfilConta: perfilSelect.find(
+              (pc) => pc.id === values.perfilContaID
+            ),
           },
         ]);
       })
@@ -81,19 +71,20 @@ export default function TabelaFeira({ data, setData }) {
 
     let perfilConta;
 
-    if (typeof values.perfilConta === "object") {
-      perfilConta = values.perfilContaID = values.perfilConta.perfilContaID;
+    // quando nao troca o perfil contaID, ele retorna um objeto
+    if (typeof values.perfilContaID === "object") {
+      perfilConta = values.perfilContaID = values.perfilContaID.perfilContaID;
     } else {
-      perfilConta = values.perfilConta;
+      perfilConta = values.perfilContaID;
     }
 
     const updatedValues = {
       ...values,
-      perfilContaTeste: perfilConta,
+      perfilContaID: perfilConta,
     };
 
     // quando nao troca seleciona a categoria, ele retorna como um objeto
-    if (typeof values.categoria === "object") {
+    if (typeof values.categoriaID === "object") {
       const categoriaID = (updatedValues.categoriaID =
         updatedValues.categoria.categoriaID);
 
@@ -121,8 +112,6 @@ export default function TabelaFeira({ data, setData }) {
           console.log(err);
         });
     } else {
-      updatedValues.categoriaID = updatedValues.categoria;
-
       await _produtoService
         .editarProduto(contaID, values.id, updatedValues)
         .then((res) => {
@@ -190,7 +179,7 @@ export default function TabelaFeira({ data, setData }) {
   const columns = [
     {
       title: "Usuário",
-      key: "perfilConta",
+      key: "perfilContaID",
       dataIndex: "perfilConta",
       render: (perfilConta) => (
         <div className="produto-container">
@@ -317,7 +306,7 @@ export default function TabelaFeira({ data, setData }) {
     },
     {
       title: "Categoria",
-      key: "categoria",
+      key: "categoriaID",
       dataIndex: "categoria",
       render: (categoria) => (
         <div className="unidade-container">

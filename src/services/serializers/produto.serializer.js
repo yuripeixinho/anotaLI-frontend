@@ -24,7 +24,7 @@ export default class ProdutoSerializer {
       json.categoria && {
         categoria: this._categoriaSerializer.fromJson(json.categoria),
       },
-      json.perfilConta && { perfilConta: json.perfilContaID },
+      json.perfilContaID && { perfilContaID: json.perfilContaID },
       json.perfilConta && {
         perfilConta: {
           perfilContaID: json.perfilConta.perfilContaID,
@@ -60,7 +60,8 @@ export default class ProdutoSerializer {
       produto.quantidade && { quantidade: produto.quantidade },
       produto.unidade && { unidade: produto.unidade },
 
-      produto.perfilContaTeste && { perfilContaID: produto.perfilContaTeste },
+      produto.perfilContaID && { perfilContaID: produto.perfilContaID },
+      produto.categoriaID && { categoriaID: produto.categoriaID },
 
       produto.perfilConta && {
         perfilContaID: produto.perfilConta.perfilContaID,
