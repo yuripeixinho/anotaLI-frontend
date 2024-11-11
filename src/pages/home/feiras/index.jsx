@@ -26,6 +26,7 @@ import { useAuth } from "../../../context/anotaLiAuthContext";
 import FeiraService from "../../../services/feira.service";
 import { CloseOutlined } from "@ant-design/icons";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import StatusSemDados from "../../../components/common/StatusSemDados";
 
 const FeiraSchema = Yup.object().shape({
   nome: Yup.string().required("Nome é obrigatório"),
@@ -205,59 +206,66 @@ export default function Feiras() {
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <div className="bar-chart-container">
                 <h3>Itens por feira</h3>
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart data={transformedData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    {profiles.map((profile, index) => (
-                      <Bar
-                        key={profile}
-                        dataKey={profile}
-                        stackId="a"
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </BarChart>
-                </ResponsiveContainer>
+                {transformedData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={transformedData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      {profiles.map((profile, index) => (
+                        <Bar
+                          key={profile}
+                          dataKey={profile}
+                          stackId="a"
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
+                )}
               </div>
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
               <div className="container-grafico-torta">
                 <h3>Itens por categoria</h3>
+                {transformedData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart width={400} height={250}>
+                      <Pie
+                        data={dadosCategorias}
+                        dataKey="quantidade"
+                        nameKey="nome"
+                        cx="50%"
+                        cy="40%"
+                        outerRadius="86%"
+                        fill="#8884d8"
+                      >
+                        {dadosCategorias.map((_, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
 
-                <ResponsiveContainer width="100%" height={200}>
-                  <PieChart width={400} height={250}>
-                    <Pie
-                      data={dadosCategorias}
-                      dataKey="quantidade"
-                      nameKey="nome"
-                      cx="50%"
-                      cy="40%"
-                      outerRadius="86%"
-                      fill="#8884d8"
-                    >
-                      {dadosCategorias.map((_, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
+                      <Legend
+                        layout="vertical"
+                        align="left"
+                        verticalAlign="top"
+                        className="custom-legend"
+                      />
 
-                    <Legend
-                      layout="vertical"
-                      align="left"
-                      verticalAlign="top"
-                      className="custom-legend"
-                    />
-
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
+                )}
               </div>
             </Col>
 
@@ -354,87 +362,93 @@ export default function Feiras() {
               Produtos que podem te interessar...
             </Typography.Title>
 
-            <Carousel
-              vertical={isVertical}
-              className="carousel-produtos"
-              slidesToShow={3}
-              slidesToScroll={3}
-              dots={false}
-              arrows={true}
-              autoplay={true}
-              responsive={[
-                {
-                  breakpoint: 1500,
-                  settings: {
-                    slidesToShow: 3,
+            {produtosRecomendados.length > 0 ? (
+              <Carousel
+                vertical={isVertical}
+                className="carousel-produtos"
+                slidesToShow={3}
+                slidesToScroll={3}
+                dots={false}
+                arrows={true}
+                autoplay={true}
+                responsive={[
+                  {
+                    breakpoint: 1500,
+                    settings: {
+                      slidesToShow: 3,
+                    },
                   },
-                },
-                {
-                  breakpoint: 1200,
-                  settings: {
-                    slidesToShow: 4,
+                  {
+                    breakpoint: 1200,
+                    settings: {
+                      slidesToShow: 4,
+                    },
                   },
-                },
-                {
-                  breakpoint: 992,
-                  settings: {
-                    slidesToShow: 3,
+                  {
+                    breakpoint: 992,
+                    settings: {
+                      slidesToShow: 3,
+                    },
                   },
-                },
-                {
-                  breakpoint: 768,
-                  settings: {
-                    slidesToShow: 2,
+                  {
+                    breakpoint: 768,
+                    settings: {
+                      slidesToShow: 2,
+                    },
                   },
-                },
-                {
-                  breakpoint: 576,
-                  settings: {
-                    slidesToShow: 1,
+                  {
+                    breakpoint: 576,
+                    settings: {
+                      slidesToShow: 1,
+                    },
                   },
-                },
-              ]}
-            >
-              {produtosRecomendados.map((produto, index) => (
-                <div
-                  key={index}
-                  style={{
-                    padding: "10px 0",
-                    margin: "0 auto",
-                  }}
-                >
-                  <Card
-                    onClick={() => handleCriarProduto(produto)}
-                    bordered={false}
-                    cover={
-                      <img
-                        alt={produto.nome}
-                        src={
-                          produto.imagem || "https://via.placeholder.com/150"
-                        }
-                      />
-                    }
-                    style={{ borderRadius: "10px" }}
+                ]}
+              >
+                {produtosRecomendados.map((produto, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      padding: "10px 0",
+                      margin: "0 auto",
+                    }}
                   >
-                    <div className="product-info">
-                      <label style={{ fontFamily: "Poppins", fontWeight: 400 }}>
-                        {produto.nome}
-                      </label>
-                      <label
-                        style={{
-                          fontFamily: "Poppins",
-                          fontWeight: 600,
-                          color: "#ABABAB",
-                          fontSize: 12,
-                        }}
-                      >
-                        {produto.unidade}
-                      </label>
-                    </div>
-                  </Card>
-                </div>
-              ))}
-            </Carousel>
+                    <Card
+                      onClick={() => handleCriarProduto(produto)}
+                      bordered={false}
+                      cover={
+                        <img
+                          alt={produto.nome}
+                          src={
+                            produto.imagem || "https://via.placeholder.com/150"
+                          }
+                        />
+                      }
+                      style={{ borderRadius: "10px" }}
+                    >
+                      <div className="product-info">
+                        <label
+                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                        >
+                          {produto.nome}
+                        </label>
+                        <label
+                          style={{
+                            fontFamily: "Poppins",
+                            fontWeight: 600,
+                            color: "#ABABAB",
+                            fontSize: 12,
+                          }}
+                        >
+                          {produto.unidade}
+                        </label>
+                      </div>
+                    </Card>
+                  </div>
+                ))}
+              </Carousel>
+            ) : (
+              <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
+            )}
           </div>
         </Col>
       </Row>

@@ -23,6 +23,7 @@ import moment from "moment";
 import { DeleteOutlined } from "@ant-design/icons";
 import ProdutoService from "../../../../services/produto.service";
 import "./styles.scss";
+import StatusSemDados from "../../../../components/common/StatusSemDados";
 
 const { RangePicker } = DatePicker;
 
@@ -368,6 +369,7 @@ export default function ModalCriarFeira({
                       </Col>
                     </Row>
                   </Col>
+
                   <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
                     {produtosSelecionados.length > 0 && (
                       <Col xs={8} sm={8} md={8} lg={8} xl={24} xxl={24}>
@@ -454,171 +456,178 @@ export default function ModalCriarFeira({
 
         <Col span={18} xs={24} sm={24} md={24} lg={14} xl={15} xxl={18}>
           <Row gutter={[0, 30]} align={"middle"} justify={"center"}>
-            <Col span={20}>
-              <Typography.Title
-                level={1}
-                style={{ fontFamily: "Poppins", fontWeight: 400 }}
-              >
-                Produtos que podem te interessar...
-              </Typography.Title>
-              <Carousel
-                dots={false}
-                arrows={true}
-                className="carousel-produtos"
-                slidesToShow={5} // Quantidade padrão de slides
-                slidesToScroll={1}
-                autoplay={true}
-                responsive={[
-                  {
-                    breakpoint: 1500, // Até 1500px de largura
-                    settings: {
-                      slidesToShow: 3,
-                    },
-                  },
-                  {
-                    breakpoint: 1200, // Até 1200px de largura
-                    settings: {
-                      slidesToShow: 2,
-                    },
-                  },
-                  {
-                    breakpoint: 992, // Até 992px de largura
-                    settings: {
-                      slidesToShow: 3,
-                    },
-                  },
-                  {
-                    breakpoint: 768, // Até 768px de largura
-                    settings: {
-                      slidesToShow: 2,
-                    },
-                  },
-                  {
-                    breakpoint: 576, // Até 576px de largura
-                    settings: {
-                      slidesToShow: 1,
-                    },
-                  },
-                ]}
-              >
-                {produtosRecomendados.map((produto, index) => (
-                  <div key={index} style={{ padding: "0 10px" }}>
-                    <Card
-                      onClick={() => adicionarProduto(produto)}
-                      bordered={false}
-                      cover={
-                        <img
-                          alt={produto.nome}
-                          src={"https://via.placeholder.com/150"}
-                        />
-                      }
-                      style={{ marginRight: "20px" }}
-                    >
-                      <Flex vertical>
-                        <label
-                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
-                        >
-                          {produto.nome}
-                        </label>
-                        <label
-                          style={{
-                            fontFamily: "Poppins",
-                            fontWeight: "600",
-                            color: "#ABABAB",
-                            fontSize: 12,
-                          }}
-                        >
-                          {produto.unidade}
-                        </label>
-                      </Flex>
-                    </Card>
-                  </div>
-                ))}
-              </Carousel>
-            </Col>
+            {produtosRecomendados.length > 0 ? (
+              <>
+                <Col span={20}>
+                  <Typography.Title
+                    level={1}
+                    style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                  >
+                    Produtos que podem te interessar...
+                  </Typography.Title>
 
-            <Col span={20}>
-              <Typography.Title
-                level={1}
-                style={{ fontFamily: "Poppins", fontWeight: 400 }}
-              >
-                Outros produtos...
-              </Typography.Title>
-              <Carousel
-                dots={false}
-                arrows={true}
-                className="carousel-produtos"
-                slidesToShow={5}
-                slidesToScroll={1}
-                autoplay={true} // Desabilita o autoplay
-                responsive={[
-                  {
-                    breakpoint: 1500, // Até 1500px de largura
-                    settings: {
-                      slidesToShow: 3,
-                    },
-                  },
-                  {
-                    breakpoint: 1200, // Até 1200px de largura
-                    settings: {
-                      slidesToShow: 2,
-                    },
-                  },
-                  {
-                    breakpoint: 992, // Até 992px de largura
-                    settings: {
-                      slidesToShow: 3,
-                    },
-                  },
-                  {
-                    breakpoint: 768, // Até 768px de largura
-                    settings: {
-                      slidesToShow: 2,
-                    },
-                  },
-                  {
-                    breakpoint: 576, // Até 576px de largura
-                    settings: {
-                      slidesToShow: 1,
-                    },
-                  },
-                ]}
-              >
-                {produtosRecomendados.map((produto, index) => (
-                  <div key={index} style={{ padding: "0 10px" }}>
-                    <Card
-                      onClick={() => adicionarProduto(produto)}
-                      bordered={false}
-                      cover={
-                        <img
-                          alt={produto.nome}
-                          src={"https://via.placeholder.com/150"}
-                        />
-                      }
-                      style={{ marginRight: "20px" }} // Define o espaçamento entre os cartões
-                    >
-                      <Flex vertical>
-                        <label
-                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                  <Carousel
+                    dots={false}
+                    arrows={true}
+                    className="carousel-produtos"
+                    slidesToShow={5} // Quantidade padrão de slides
+                    slidesToScroll={1}
+                    autoplay={true}
+                    responsive={[
+                      {
+                        breakpoint: 1500, // Até 1500px de largura
+                        settings: {
+                          slidesToShow: 3,
+                        },
+                      },
+                      {
+                        breakpoint: 1200, // Até 1200px de largura
+                        settings: {
+                          slidesToShow: 2,
+                        },
+                      },
+                      {
+                        breakpoint: 992, // Até 992px de largura
+                        settings: {
+                          slidesToShow: 3,
+                        },
+                      },
+                      {
+                        breakpoint: 768, // Até 768px de largura
+                        settings: {
+                          slidesToShow: 2,
+                        },
+                      },
+                      {
+                        breakpoint: 576, // Até 576px de largura
+                        settings: {
+                          slidesToShow: 1,
+                        },
+                      },
+                    ]}
+                  >
+                    {produtosRecomendados.map((produto, index) => (
+                      <div key={index} style={{ padding: "0 10px" }}>
+                        <Card
+                          onClick={() => adicionarProduto(produto)}
+                          bordered={false}
+                          cover={
+                            <img
+                              alt={produto.nome}
+                              src={"https://via.placeholder.com/150"}
+                            />
+                          }
+                          style={{ marginRight: "20px" }}
                         >
-                          {produto.nome}
-                        </label>
-                        <label
-                          style={{
-                            fontFamily: "Poppins",
-                            fontWeight: "600",
-                            color: "#ABABAB",
-                            fontSize: 12,
-                          }}
+                          <Flex vertical>
+                            <label
+                              style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                            >
+                              {produto.nome}
+                            </label>
+                            <label
+                              style={{
+                                fontFamily: "Poppins",
+                                fontWeight: "600",
+                                color: "#ABABAB",
+                                fontSize: 12,
+                              }}
+                            >
+                              {produto.unidade}
+                            </label>
+                          </Flex>
+                        </Card>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Col>
+
+                <Col span={20}>
+                  <Typography.Title
+                    level={1}
+                    style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                  >
+                    Outros produtos...
+                  </Typography.Title>
+                  <Carousel
+                    dots={false}
+                    arrows={true}
+                    className="carousel-produtos"
+                    slidesToShow={5}
+                    slidesToScroll={1}
+                    autoplay={true} // Desabilita o autoplay
+                    responsive={[
+                      {
+                        breakpoint: 1500, // Até 1500px de largura
+                        settings: {
+                          slidesToShow: 3,
+                        },
+                      },
+                      {
+                        breakpoint: 1200, // Até 1200px de largura
+                        settings: {
+                          slidesToShow: 2,
+                        },
+                      },
+                      {
+                        breakpoint: 992, // Até 992px de largura
+                        settings: {
+                          slidesToShow: 3,
+                        },
+                      },
+                      {
+                        breakpoint: 768, // Até 768px de largura
+                        settings: {
+                          slidesToShow: 2,
+                        },
+                      },
+                      {
+                        breakpoint: 576, // Até 576px de largura
+                        settings: {
+                          slidesToShow: 1,
+                        },
+                      },
+                    ]}
+                  >
+                    {produtosRecomendados.map((produto, index) => (
+                      <div key={index} style={{ padding: "0 10px" }}>
+                        <Card
+                          onClick={() => adicionarProduto(produto)}
+                          bordered={false}
+                          cover={
+                            <img
+                              alt={produto.nome}
+                              src={"https://via.placeholder.com/150"}
+                            />
+                          }
+                          style={{ marginRight: "20px" }} // Define o espaçamento entre os cartões
                         >
-                          {produto.unidade}
-                        </label>
-                      </Flex>
-                    </Card>
-                  </div>
-                ))}
-              </Carousel>
-            </Col>
+                          <Flex vertical>
+                            <label
+                              style={{ fontFamily: "Poppins", fontWeight: 400 }}
+                            >
+                              {produto.nome}
+                            </label>
+                            <label
+                              style={{
+                                fontFamily: "Poppins",
+                                fontWeight: "600",
+                                color: "#ABABAB",
+                                fontSize: 12,
+                              }}
+                            >
+                              {produto.unidade}
+                            </label>
+                          </Flex>
+                        </Card>
+                      </div>
+                    ))}
+                  </Carousel>
+                </Col>
+              </>
+            ) : (
+              <StatusSemDados msg="Não existe produtos recomendados até o momento! Continue usando o aplicativo." />
+            )}
           </Row>
         </Col>
 

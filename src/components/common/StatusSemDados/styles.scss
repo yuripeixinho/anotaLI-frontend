@@ -1,0 +1,9 @@
+.container-mensagem-sem-dados {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span {
+    font-size: 14px;
+  }
+}

@@ -8,6 +8,7 @@ import {
   YAxis,
 } from "recharts";
 import "./styles.scss";
+import StatusSemDados from "../../../../components/common/StatusSemDados";
 
 export default function ItemPorFeiraGrafico({ dados }) {
   const data = dados?.reduce((acc, item) => {
@@ -38,15 +39,21 @@ export default function ItemPorFeiraGrafico({ dados }) {
     <div className="grafico-item-por-feira-container">
       <h3>Itens por feira</h3>
 
-      <ResponsiveContainer width="100%" height={200}>
-        <BarChart width={730} height={250} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Bar dataKey="produtos" fill="#74bade" />
-        </BarChart>
-      </ResponsiveContainer>
+      {chartData?.length > 0 ? (
+        <>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart width={730} height={250} data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="produtos" fill="#74bade" />
+            </BarChart>
+          </ResponsiveContainer>
+        </>
+      ) : (
+        <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
+      )}
     </div>
   );
 }
