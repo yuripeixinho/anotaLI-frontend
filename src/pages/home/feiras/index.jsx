@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Button, Card, Carousel, Col, Modal, Row, Typography } from "antd";
 import { Formik, Form, Field } from "formik";
@@ -24,9 +25,7 @@ import {
 } from "recharts";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import FeiraService from "../../../services/feira.service";
-import { CloseOutlined } from "@ant-design/icons";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
-import StatusSemDados from "../../../components/common/StatusSemDados";
 
 const FeiraSchema = Yup.object().shape({
   nome: Yup.string().required("Nome é obrigatório"),
@@ -42,6 +41,7 @@ export default function Feiras() {
   const [isModalVisible, setIsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
   const [loadingDelete, setLoadingDelete] = useState(false); // Estado para controlar o loading da requisição DELETE
   const [isVertical, setIsVertical] = useState(true);
+  const [dadosCategorias, setDadosCategorias] = useState();
 
   const navigate = useNavigate();
 
@@ -71,12 +71,21 @@ export default function Feiras() {
         contaID
       );
 
-      // Filtrar os produtos recomendados para remover aqueles que já estão na lista de produtos
+      // Cria um Set para armazenar os nomes dos produtos já inseridos na lista de produtos da feira
+      const nomesInseridos = new Set(
+        responsePerfilContaService.map((produto) => produto.nome)
+      );
+
+      // Filtra os produtos recomendados para garantir que não haja duplicatas (pelo nome)
       const produtosRecomendadosUnicos = responsePerfilContaProdutos.filter(
-        (produtoRecomendado) =>
-          !responsePerfilContaService.some(
-            (produto) => produto.nome === produtoRecomendado.nome
-          )
+        (produtoRecomendado) => {
+          // Verifica se o nome do produto não está presente na lista da feira atual
+          if (!nomesInseridos.has(produtoRecomendado.nome)) {
+            nomesInseridos.add(produtoRecomendado.nome); // Adiciona o nome ao Set
+            return true; // Produto é único e pode ser adicionado
+          }
+          return false; // Produto duplicado (mesmo nome), não adiciona
+        }
       );
 
       setProdutosRecomendados(produtosRecomendadosUnicos);
@@ -98,10 +107,10 @@ export default function Feiras() {
     setProdutosRecomendados(produtosFiltrados);
   }, [produtos]);
 
-  const calcularDadosCategorias = (dados) => {
-    const categorias = {};
-
-    if (dados) {
+  useEffect(() => {
+    // Recalcular dados das categorias sempre que o estado 'produtos' for atualizado
+    const calcularDadosCategorias = (dados) => {
+      const categorias = {};
       dados.forEach((produto) => {
         const { categoria } = produto;
         const categoriaID = categoria.categoriaID;
@@ -113,12 +122,13 @@ export default function Feiras() {
           categorias[categoriaID].quantidade += 1;
         }
       });
-    }
 
-    return Object.values(categorias);
-  };
+      return Object.values(categorias);
+    };
 
-  const dadosCategorias = calcularDadosCategorias(produtos);
+    const novosDadosCategorias = calcularDadosCategorias(produtos);
+    setDadosCategorias(novosDadosCategorias); // Atualiza o estado com os novos dados
+  }, [produtos]);
 
   const COLORS = [
     "#74bade", // Azul principal
@@ -206,66 +216,59 @@ export default function Feiras() {
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <div className="bar-chart-container">
                 <h3>Itens por feira</h3>
-                {transformedData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={transformedData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      {profiles.map((profile, index) => (
-                        <Bar
-                          key={profile}
-                          dataKey={profile}
-                          stackId="a"
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
-                )}
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={transformedData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    {profiles.map((profile, index) => (
+                      <Bar
+                        key={profile}
+                        dataKey={profile}
+                        stackId="a"
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </Col>
 
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={10}>
               <div className="container-grafico-torta">
                 <h3>Itens por categoria</h3>
-                {transformedData.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={200}>
-                    <PieChart width={400} height={250}>
-                      <Pie
-                        data={dadosCategorias}
-                        dataKey="quantidade"
-                        nameKey="nome"
-                        cx="50%"
-                        cy="40%"
-                        outerRadius="86%"
-                        fill="#8884d8"
-                      >
-                        {dadosCategorias.map((_, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
 
-                      <Legend
-                        layout="vertical"
-                        align="left"
-                        verticalAlign="top"
-                        className="custom-legend"
-                      />
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart width={400} height={250}>
+                    <Pie
+                      data={dadosCategorias}
+                      dataKey="quantidade"
+                      nameKey="nome"
+                      cx="50%"
+                      cy="40%"
+                      outerRadius="86%"
+                      fill="#8884d8"
+                    >
+                      {dadosCategorias?.map((_, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
 
-                      <Tooltip />
-                    </PieChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
-                )}
+                    <Legend
+                      layout="vertical"
+                      align="left"
+                      verticalAlign="top"
+                      className="custom-legend"
+                    />
+
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
             </Col>
 
@@ -342,7 +345,7 @@ export default function Feiras() {
                   </h1>
                 </div>
                 <ConfigProvider locale={ptBR}>
-                  <TabelaFeira data={produtos} />
+                  <TabelaFeira data={produtos} setData={setProdutos} />
                 </ConfigProvider>
               </div>
             </Col>
@@ -362,93 +365,87 @@ export default function Feiras() {
               Produtos que podem te interessar...
             </Typography.Title>
 
-            {produtosRecomendados.length > 0 ? (
-              <Carousel
-                vertical={isVertical}
-                className="carousel-produtos"
-                slidesToShow={3}
-                slidesToScroll={3}
-                dots={false}
-                arrows={true}
-                autoplay={true}
-                responsive={[
-                  {
-                    breakpoint: 1500,
-                    settings: {
-                      slidesToShow: 3,
-                    },
+            <Carousel
+              vertical={isVertical}
+              className="carousel-produtos"
+              slidesToShow={3}
+              slidesToScroll={3}
+              dots={false}
+              arrows={true}
+              autoplay={true}
+              responsive={[
+                {
+                  breakpoint: 1500,
+                  settings: {
+                    slidesToShow: 3,
                   },
-                  {
-                    breakpoint: 1200,
-                    settings: {
-                      slidesToShow: 4,
-                    },
+                },
+                {
+                  breakpoint: 1200,
+                  settings: {
+                    slidesToShow: 4,
                   },
-                  {
-                    breakpoint: 992,
-                    settings: {
-                      slidesToShow: 3,
-                    },
+                },
+                {
+                  breakpoint: 992,
+                  settings: {
+                    slidesToShow: 3,
                   },
-                  {
-                    breakpoint: 768,
-                    settings: {
-                      slidesToShow: 2,
-                    },
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
+                    slidesToShow: 2,
                   },
-                  {
-                    breakpoint: 576,
-                    settings: {
-                      slidesToShow: 1,
-                    },
+                },
+                {
+                  breakpoint: 576,
+                  settings: {
+                    slidesToShow: 1,
                   },
-                ]}
-              >
-                {produtosRecomendados.map((produto, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      padding: "10px 0",
-                      margin: "0 auto",
-                    }}
+                },
+              ]}
+            >
+              {produtosRecomendados.map((produto, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "10px 0",
+                    margin: "0 auto",
+                  }}
+                >
+                  <Card
+                    onClick={() => handleCriarProduto(produto)}
+                    bordered={false}
+                    cover={
+                      <img
+                        alt={produto.nome}
+                        src={
+                          produto.imagem || "https://via.placeholder.com/150"
+                        }
+                      />
+                    }
+                    style={{ borderRadius: "10px" }}
                   >
-                    <Card
-                      onClick={() => handleCriarProduto(produto)}
-                      bordered={false}
-                      cover={
-                        <img
-                          alt={produto.nome}
-                          src={
-                            produto.imagem || "https://via.placeholder.com/150"
-                          }
-                        />
-                      }
-                      style={{ borderRadius: "10px" }}
-                    >
-                      <div className="product-info">
-                        <label
-                          style={{ fontFamily: "Poppins", fontWeight: 400 }}
-                        >
-                          {produto.nome}
-                        </label>
-                        <label
-                          style={{
-                            fontFamily: "Poppins",
-                            fontWeight: 600,
-                            color: "#ABABAB",
-                            fontSize: 12,
-                          }}
-                        >
-                          {produto.unidade}
-                        </label>
-                      </div>
-                    </Card>
-                  </div>
-                ))}
-              </Carousel>
-            ) : (
-              <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
-            )}
+                    <div className="product-info">
+                      <label style={{ fontFamily: "Poppins", fontWeight: 400 }}>
+                        {produto.nome}
+                      </label>
+                      <label
+                        style={{
+                          fontFamily: "Poppins",
+                          fontWeight: 600,
+                          color: "#ABABAB",
+                          fontSize: 12,
+                        }}
+                      >
+                        {produto.unidade}
+                      </label>
+                    </div>
+                  </Card>
+                </div>
+              ))}
+            </Carousel>
           </div>
         </Col>
       </Row>

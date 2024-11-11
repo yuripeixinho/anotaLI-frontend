@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { UserOutlined } from "@ant-design/icons";
 import { EditableProTable } from "@ant-design/pro-components";
 import { Avatar, Dropdown, Input, InputNumber, Menu, Select } from "antd";
@@ -9,7 +10,7 @@ import PerfilContaService from "../../../services/perfilConta.service";
 import ProdutoService from "../../../services/produto.service";
 import { useParams } from "react-router-dom";
 
-export default function TabelaFeira({ data }) {
+export default function TabelaFeira({ data, setData }) {
   const { contaID, feiraID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
@@ -35,7 +36,7 @@ export default function TabelaFeira({ data }) {
 
     init();
     setDataSource(data);
-  }, [data]);
+  }, [contaID, data]);
 
   async function handleCriarProduto(values) {
     values.feiraID = feiraID;
@@ -93,7 +94,8 @@ export default function TabelaFeira({ data }) {
 
     // quando nao troca seleciona a categoria, ele retorna como um objeto
     if (typeof values.categoria === "object") {
-      const categoriaID = (updatedValues.categoriaID = updatedValues.categoria.categoriaID);
+      const categoriaID = (updatedValues.categoriaID =
+        updatedValues.categoria.categoriaID);
 
       await _produtoService
         .editarProduto(contaID, values.id, updatedValues)
@@ -154,6 +156,7 @@ export default function TabelaFeira({ data }) {
         setDataSource((prevData) =>
           prevData.filter((item) => item.id !== record.id)
         );
+        setData((prevData) => prevData.filter((item) => item.id !== record.id));
       })
       .catch((err) => {
         console.error("Erro ao deletar o produto:", err);
@@ -192,10 +195,7 @@ export default function TabelaFeira({ data }) {
       render: (perfilConta) => (
         <div className="produto-container">
           {console.log(perfilConta)}
-          <Avatar
-            size="large"
-            src={perfilConta?.imagemPerfil?.caminhoImagem}
-          />
+          <Avatar size="large" src={perfilConta?.imagemPerfil?.caminhoImagem} />
           <div className="produto-info">
             <span className="nome-produto">
               {perfilConta ? perfilConta.nome : "N/A"}

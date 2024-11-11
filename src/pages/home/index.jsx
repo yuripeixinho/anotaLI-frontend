@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { Col, Flex, Row, Typography } from "antd";
-import ProdutoService from "../../services/produto.service";
-
 import "./styles.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import MeuCalendario from "./calendar";
-import PerfilContaService from "../../services/perfilConta.service";
 import FeiraService from "../../services/feira.service";
 import {
   Cell,
@@ -16,77 +13,43 @@ import {
   Tooltip,
 } from "recharts";
 import { formatarDataDDMMYY } from "../../utils/converterDataParaDDMMYY";
-import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
 import { CalendarMonth } from "@mui/icons-material";
 import GraficoPerfis from "./listagemPerfis";
 import StatusSemDados from "../../components/common/StatusSemDados";
 
 export default function Home() {
   const { contaID } = useParams();
-  const [produtos, setProdutos] = useState([]);
-  const [perfis, setPerfis] = useState([]);
   const [feiras, setFeiras] = useState([]);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // Adicionado estado de loading
 
   useEffect(() => {
-    setLoading(true); // Inicia o loading
-
-    const _produtoService = new ProdutoService();
-    const _perfilContaService = new PerfilContaService();
     const _feiraService = new FeiraService();
 
     async function init() {
-      const perfilConta = await _perfilContaService.listSub(contaID);
-
       const responseFeiraService = await _feiraService.listSub(contaID);
       setFeiras(responseFeiraService);
-
-      setPerfis(perfilConta);
-
-      const responsePerfilContaService = await _produtoService.listByConta(
-        contaID
-      );
-      setProdutos(responsePerfilContaService);
     }
 
     init();
-    setLoading(false); // Finaliza o loading
   }, [contaID]);
 
   const calcularDadosCategorias = (dados) => {
-    debugger;
     const categorias = {};
 
     if (dados) {
       dados.forEach((evento) => {
-        debugger;
-        // Usamos um Set para registrar as categorias únicas de cada evento
-        const categoriasEvento = new Set();
-
         if (evento.produtos) {
-          debugger;
-
-          evento?.produtos.forEach((produto) => {
-            debugger;
-
+          evento.produtos.forEach((produto) => {
             const { categoria } = produto;
             const categoriaID = categoria.categoriaID;
             const nomeCategoria = categoria.nome;
 
-            // Adiciona a categoria ao Set para garantir que contamos apenas uma vez por evento
-            categoriasEvento.add(categoriaID);
-
             // Inicializa a categoria caso não exista ainda
             if (!categorias[categoriaID]) {
-              categorias[categoriaID] = { nome: nomeCategoria, quantidade: 1 };
+              categorias[categoriaID] = { nome: nomeCategoria, quantidade: 0 };
             }
-          });
 
-          // Incrementa a quantidade para cada categoria única no evento
-          categoriasEvento.forEach((categoriaID) => {
-            debugger;
-
+            // Incrementa a quantidade de produtos dessa categoria
             categorias[categoriaID].quantidade += 1;
           });
         }
@@ -95,6 +58,7 @@ export default function Home() {
 
     return Object.values(categorias); // Converte o objeto para um array
   };
+
   const COLORS = [
     "#74bade", // Azul principal
     "#9bc9d6", // Azul claro
@@ -105,8 +69,6 @@ export default function Home() {
   ];
 
   const dadosCategorias = calcularDadosCategorias(feiras);
-
-  console.log(dadosCategorias);
 
   return (
     <Row justify={"space-between"} gutter={[24]} className="container-home">
