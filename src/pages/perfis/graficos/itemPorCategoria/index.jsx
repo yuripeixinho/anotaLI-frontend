@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "recharts";
 import "./styles.scss";
+import StatusSemDados from "../../../../components/common/StatusSemDados";
 
 export default function ItemPorCategoriaGrafico({ dados }) {
   // Processamento dos dados para agrupá-los por categoria
@@ -47,35 +48,38 @@ export default function ItemPorCategoriaGrafico({ dados }) {
     <div className="grafico-item-por-categoria-container">
       <h3>Itens por categoria</h3>
 
-      <ResponsiveContainer width="100%" height={200}>
-        <PieChart width={400} height={250}>
-          <Pie
-            dataKey="value"
-            isAnimationActive={false}
-            data={chartData}
-            cx="50%"
-            cy="40%"
-            outerRadius="86%"
-          >
-            {/* Aplicando as cores com o loop */}
-            {chartData?.map((_, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]} // Aplicando a cor correspondente
-              />
-            ))}
-          </Pie>
+      {chartData?.length > 0 ? (
+        <ResponsiveContainer width="100%" height={200}>
+          <PieChart width={400} height={250}>
+            <Pie
+              dataKey="value"
+              isAnimationActive={false}
+              data={chartData}
+              cx="50%"
+              cy="40%"
+              outerRadius="86%"
+            >
+              {chartData?.map((_, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
 
-          <Legend
-            layout="vertical"
-            align="left"
-            verticalAlign="top"
-            className="custom-legend"
-          />
+            <Legend
+              layout="vertical"
+              align="left"
+              verticalAlign="top"
+              className="custom-legend"
+            />
 
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <StatusSemDados msg="Não existe métricas ainda! Continue usando o aplicativo" />
+      )}
     </div>
   );
 }

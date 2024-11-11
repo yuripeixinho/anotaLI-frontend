@@ -19,6 +19,7 @@ import { formatarDataDDMMYY } from "../../utils/converterDataParaDDMMYY";
 import CallMissedOutgoingIcon from "@mui/icons-material/CallMissedOutgoing";
 import { CalendarMonth } from "@mui/icons-material";
 import GraficoPerfis from "./listagemPerfis";
+import StatusSemDados from "../../components/common/StatusSemDados";
 
 export default function Home() {
   const { contaID } = useParams();
@@ -26,8 +27,11 @@ export default function Home() {
   const [perfis, setPerfis] = useState([]);
   const [feiras, setFeiras] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // Adicionado estado de loading
 
   useEffect(() => {
+    setLoading(true); // Inicia o loading
+
     const _produtoService = new ProdutoService();
     const _perfilContaService = new PerfilContaService();
     const _feiraService = new FeiraService();
@@ -45,7 +49,9 @@ export default function Home() {
       );
       setProdutos(responsePerfilContaService);
     }
+
     init();
+    setLoading(false); // Finaliza o loading
   }, [contaID]);
 
   const calcularDadosCategorias = (dados) => {
@@ -138,34 +144,38 @@ export default function Home() {
                 </Typography>
               </Col>
               <Col xs={24}>
-                <Row className="proximas-feiras-flex">
-                  {feiras.slice(0, 3).map((feira) => (
-                    <div
-                      key={feira.id}
-                      className="proximas-feiras-card"
-                      onClick={() => {
-                        navigate(`/home/${contaID}/${feira.id}`);
-                      }}
-                    >
-                      <Row align="middle">
-                        <Col span={14}>
-                          <Flex align="center" gap={10}>
-                            <Typography className="titulo-proximas-feiras">
-                              {feira.title}
-                            </Typography>
-                          </Flex>
-                        </Col>
+                {feiras.length > 0 ? (
+                  <Row className="proximas-feiras-flex">
+                    {feiras.slice(0, 3).map((feira) => (
+                      <div
+                        key={feira.id}
+                        className="proximas-feiras-card"
+                        onClick={() => {
+                          navigate(`/home/${contaID}/${feira.id}`);
+                        }}
+                      >
+                        <Row align="middle">
+                          <Col span={14}>
+                            <Flex align="center" gap={10}>
+                              <Typography className="titulo-proximas-feiras">
+                                {feira.title}
+                              </Typography>
+                            </Flex>
+                          </Col>
 
-                        <Col span={10} className="icon-container">
-                          <CalendarMonth className="icon-feiras" />
-                          <Typography className="data-feira">
-                            {formatarDataDDMMYY(feira.start)}
-                          </Typography>
-                        </Col>
-                      </Row>
-                    </div>
-                  ))}
-                </Row>
+                          <Col span={10} className="icon-container">
+                            <CalendarMonth className="icon-feiras" />
+                            <Typography className="data-feira">
+                              {formatarDataDDMMYY(feira.start)}
+                            </Typography>
+                          </Col>
+                        </Row>
+                      </div>
+                    ))}
+                  </Row>
+                ) : (
+                  <StatusSemDados msg="Não existe feira agendadas. Cadastre uma nova feira no calendário lado." />
+                )}
               </Col>
             </Row>
           </Col>
@@ -190,36 +200,39 @@ export default function Home() {
                 </Typography>
               </Col>
 
-              <ResponsiveContainer width="100%" height={200}>
-                <PieChart width={400} height={250} margin={{ bottom: 40 }}>
-                  <Pie
-                    isAnimationActive={false}
-                    data={dadosCategorias} // Usando os dados agregados
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={"100%"}
-                    dataKey="quantidade"
-                    nameKey="nome"
-                  >
-                    {/* Aplica cores dinamicamente para cada fatia */}
-                    {dadosCategorias?.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]} // Usando as cores da paleta
-                      />
-                    ))}
-                  </Pie>
+              {dadosCategorias.length > 0 ? (
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart width={400} height={250} margin={{ bottom: 40 }}>
+                    <Pie
+                      isAnimationActive={false}
+                      data={dadosCategorias} // Usando os dados agregados
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={"100%"}
+                      dataKey="quantidade"
+                      nameKey="nome"
+                    >
+                      {dadosCategorias?.map((_, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
 
-                  <Legend
-                    layout="vertical"
-                    align="left"
-                    verticalAlign="top"
-                    className="custom-legend"
-                  />
+                    <Legend
+                      layout="vertical"
+                      align="left"
+                      verticalAlign="top"
+                      className="custom-legend"
+                    />
 
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <StatusSemDados msg="Não existe produtos para métricas" />
+              )}
             </Row>
           </Col>
         </Row>
