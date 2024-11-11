@@ -18,7 +18,7 @@ import {
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import FeiraService from "../../../../services/feira.service";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { DeleteOutlined } from "@ant-design/icons";
 import ProdutoService from "../../../../services/produto.service";
@@ -39,6 +39,7 @@ export default function ModalCriarFeira({
   const [produtosRecomendados, setProdutosRecomendados] = useState([]);
 
   const formikRef = useRef(); // Crie uma referência para o Formik
+  const navigate = useNavigate();
 
   useEffect(() => {
     const _produtoService = new ProdutoService();

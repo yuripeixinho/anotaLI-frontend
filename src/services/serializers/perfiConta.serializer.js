@@ -6,9 +6,8 @@ export default class PerfilContaSerializer {
   }
 
   fromJson(json) {
-    debugger;
     const conta = {};
-    debugger;
+
     Object.assign(
       conta,
       json.perfilContaID && { id: json.perfilContaID },
@@ -31,7 +30,6 @@ export default class PerfilContaSerializer {
 
   toJson(conta) {
     const contaToJson = {};
-    debugger;
     Object.assign(
       contaToJson,
       conta.nome && { nome: conta.nome },
