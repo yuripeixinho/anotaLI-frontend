@@ -31,6 +31,7 @@ export default class FeiraSerializer {
   }
 
   toJson(conta) {
+    debugger;
     const contaToJson = {};
     debugger;
     Object.assign(
