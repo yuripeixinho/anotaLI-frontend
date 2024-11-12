@@ -1,14 +1,8 @@
-// src/components/AvatarDropdown.js
 import React, { useEffect, useState } from "react";
 import { Avatar, Dropdown, Menu } from "antd";
-import {
-  UserOutlined,
-  SettingOutlined,
-  LogoutOutlined,
-  CaretDownOutlined,
-} from "@ant-design/icons";
+import { CaretDownOutlined } from "@ant-design/icons";
 import { useAuth } from "../../../context/anotaLiAuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Logout, SwitchAccount } from "@mui/icons-material";
 import PerfilContaService from "../../../services/perfilConta.service";
 
@@ -28,6 +22,7 @@ const AvatarDropdown = () => {
     }
 
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleMenuClick = (e) => {

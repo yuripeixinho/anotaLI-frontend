@@ -1,31 +1,14 @@
 import { UserOutlined } from "@ant-design/icons";
 import { EditableProTable } from "@ant-design/pro-components";
-import { Avatar, Dropdown, Input, InputNumber, Menu, Select } from "antd";
+import { Avatar } from "antd";
 import React, { useEffect, useState } from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import "./styles.scss";
-import CategoriaService from "../../../services/categoria.service";
-import ProdutoService from "../../../services/produto.service";
-import { useParams } from "react-router-dom";
 
 export default function TabelaPerfil({ data }) {
-  const { contaID } = useParams();
   const [editableKeys, setEditableRowKeys] = useState([]);
   const [dataSource, setDataSource] = useState(data || []);
-  const [categoriaSelect, setCategoriaSelect] = useState([]);
-
-  const _produtoService = new ProdutoService();
 
   useEffect(() => {
-    const _categoriaService = new CategoriaService();
-
-    async function init() {
-      const responseCategoriaService =
-        await _categoriaService.listCategoriasNaoVinculadas();
-      setCategoriaSelect(responseCategoriaService);
-    }
-
-    init();
     setDataSource(data);
   }, [data]);
 

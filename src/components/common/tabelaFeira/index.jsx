@@ -39,7 +39,6 @@ export default function TabelaFeira({ data, setData }) {
   }, [contaID, data]);
 
   async function handleCriarProduto(values) {
-    debugger;
     values.feiraID = feiraID;
 
     delete values.id;
@@ -52,7 +51,7 @@ export default function TabelaFeira({ data, setData }) {
             ...values,
             id: res.id,
             categoria: categoriaSelect.find(
-              (cat) => cat.categoriaID === values.categoria
+              (cat) => cat.categoriaID === values.categoriaID
             ),
             perfilConta: perfilSelect.find(
               (pc) => pc.id === values.perfilContaID
@@ -66,8 +65,8 @@ export default function TabelaFeira({ data, setData }) {
   }
 
   async function handleEditarProduto(values) {
-    debugger;
     values.feiraID = feiraID;
+    delete values.perfilConta;
 
     let perfilConta;
 
@@ -181,9 +180,10 @@ export default function TabelaFeira({ data, setData }) {
       title: "Usuário",
       key: "perfilContaID",
       dataIndex: "perfilConta",
+      width: "15%", // Ajuste proporcional
+
       render: (perfilConta) => (
         <div className="produto-container">
-          {console.log(perfilConta)}
           <Avatar size="large" src={perfilConta?.imagemPerfil?.caminhoImagem} />
           <div className="produto-info">
             <span className="nome-produto">
@@ -192,33 +192,31 @@ export default function TabelaFeira({ data, setData }) {
           </div>
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Select
-            showSearch
-            value={value ? value.perfilContaID : undefined}
-            optionFilterProp="label"
-            onChange={(val) => onChange?.(val)}
-            placeholder="Selecione o perfil"
-            options={perfilSelect}
-          />
-        );
-      },
+      formItemProps: () => ({
+        rules: [{ required: true, message: "Perfil é obrigatório" }],
+      }),
+      renderFormItem: (item, { value, onChange }) => (
+        <Select
+          showSearch
+          value={value ? value.perfilContaID : undefined}
+          optionFilterProp="label"
+          onChange={(val) => onChange?.(val)}
+          placeholder="Selecione o perfil"
+          options={perfilSelect}
+        />
+      ),
     },
     {
       title: "Produto",
       key: "nome",
       dataIndex: "nome",
-      width: "20%",
-      formItemProps: (form, { rowIndex }) => {
-        return {
-          rules: [
-            { required: true, message: "Campo obrigatório" },
-            { max: 30, message: "Campo deve ter no máximo 30 caracteres" },
-          ],
-        };
-      },
-
+      width: "20%", // Ajuste proporcional
+      formItemProps: () => ({
+        rules: [
+          { required: true, message: "Campo obrigatório" },
+          { max: 30, message: "Campo deve ter no máximo 30 caracteres" },
+        ],
+      }),
       render: (nome) => (
         <div className="produto-container">
           <Avatar size="large" icon={<UserOutlined />} />
@@ -227,39 +225,36 @@ export default function TabelaFeira({ data, setData }) {
           </div>
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Nome do produto"
-          />
-        );
-      },
+      renderFormItem: (item, { value, onChange }) => (
+        <Input
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          placeholder="Nome do produto"
+        />
+      ),
     },
-
     {
       title: "Descrição",
       dataIndex: "descricao",
       key: "descricao",
+      width: "15%", // Ajuste proporcional
       render: (descricao) => <span>{descricao}</span>,
       formItemProps: () => ({
         rules: [{ max: 60, message: "Campo deve ter no máximo 60 caracteres" }],
       }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Descrição"
-          />
-        );
-      },
+      renderFormItem: (item, { value, onChange }) => (
+        <Input
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          placeholder="Descrição"
+        />
+      ),
     },
     {
-      title: "Quantidade",
+      title: "Qtd",
       dataIndex: "quantidade",
       key: "quantidade",
+      width: "7%", // Ajuste proporcional
       render: (quantidade) => (
         <div className="unidade-container">{quantidade}</div>
       ),
@@ -273,78 +268,72 @@ export default function TabelaFeira({ data, setData }) {
           },
         ],
       }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <InputNumber
-            style={{
-              width: "100%",
-            }}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Quantidade"
-          />
-        );
-      },
+      renderFormItem: (item, { value, onChange }) => (
+        <InputNumber
+          style={{ width: "100%" }}
+          value={value}
+          onChange={(val) => onChange?.(val)}
+          placeholder="Quantidade"
+        />
+      ),
     },
     {
-      title: "Unidade",
+      title: "Un",
       dataIndex: "unidade",
       key: "unidade",
+      width: "7%", // Ajuste proporcional
       render: (unidade) => <div className="unidade-container">{unidade}</div>,
       formItemProps: () => ({
         rules: [{ max: 10, message: "Campo deve ter no máximo 10 caracteres" }],
       }),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Input
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
-            placeholder="Unidade"
-          />
-        );
-      },
+      renderFormItem: (item, { value, onChange }) => (
+        <Input
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          placeholder="Unidade"
+        />
+      ),
     },
     {
       title: "Categoria",
       key: "categoriaID",
       dataIndex: "categoria",
+      width: "15%", // Ajuste proporcional
       render: (categoria) => (
         <div className="unidade-container">
           {categoria ? categoria.nome : "N/A"}
         </div>
       ),
-      renderFormItem: (item, { value, onChange }) => {
-        return (
-          <Select
-            showSearch
-            value={value ? value.categoriaID : undefined}
-            optionFilterProp="label"
-            onChange={(val) => onChange?.(val)}
-            placeholder="Selecione a categoria"
-            options={categoriaSelect}
-          />
-        );
-      },
+      formItemProps: () => ({
+        rules: [{ required: true, message: "Categoria é obrigatória" }],
+      }),
+      renderFormItem: (item, { value, onChange }) => (
+        <Select
+          showSearch
+          value={value ? value.categoriaID : undefined}
+          optionFilterProp="label"
+          onChange={(val) => onChange?.(val)}
+          placeholder="Selecione a categoria"
+          options={categoriaSelect}
+        />
+      ),
     },
     {
       title: "",
       dataIndex: "",
       key: "",
-      width: "5%",
-      render: (text, record, _, action) => {
-        return (
-          <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
-            <span onClick={(e) => e.preventDefault()}>
-              <MoreVertIcon className="more-vert-icon categoria-more-icon" />
-            </span>
-          </Dropdown>
-        );
-      },
-      renderFormItem: (item, { value, onChange }) => {
-        return null;
-      },
+      width: "3%", // Ajuste proporcional
+      render: (text, record, _, action) => (
+        <Dropdown overlay={menu(text, record, _, action)} trigger={["click"]}>
+          <span onClick={(e) => e.preventDefault()}>
+            <MoreVertIcon className="more-vert-icon categoria-more-icon" />
+          </span>
+        </Dropdown>
+      ),
+      renderFormItem: () => null,
     },
     {
+      width: "14%", // Ajuste proporcional para opções
       title: "",
       valueType: "option",
     },

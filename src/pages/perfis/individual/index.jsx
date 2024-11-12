@@ -7,7 +7,6 @@ import TabelaPerfil from "../../../components/common/tabelaPerfil";
 import PerfilContaService from "../../../services/perfilConta.service";
 import ItemPorFeiraGrafico from "../graficos/itemPorFeira";
 import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
-import { useAuth } from "../../../context/anotaLiAuthContext";
 
 export default function MeuPerfil() {
   const { perfilContaID } = useParams();

@@ -136,7 +136,7 @@ export default function Home() {
                     ))}
                   </Row>
                 ) : (
-                  <StatusSemDados msg="Não existe feira agendadas. Cadastre uma nova feira no calendário lado." />
+                  <StatusSemDados msg="Não existem feira agendadas. Cadastre uma nova feira no calendário lado" />
                 )}
               </Col>
             </Row>
@@ -193,7 +193,7 @@ export default function Home() {
                   </PieChart>
                 </ResponsiveContainer>
               ) : (
-                <StatusSemDados msg="Não existe produtos para métricas" />
+                <StatusSemDados msg="Não existem produtos para métricas" />
               )}
             </Row>
           </Col>

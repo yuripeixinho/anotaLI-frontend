@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment-timezone"; // Importa moment-timezone
 import "moment/locale/pt-br";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -19,7 +19,7 @@ const localizer = momentLocalizer(moment);
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
-export default function MeuCalendario({feiras, setFeiras}) {
+export default function MeuCalendario({ feiras, setFeiras }) {
   const { contaID } = useParams();
   const [modalCriarFeiraAberto, setModalCriarFeiraAberto] = useState(false);
   const [draggedEvent, setDraggedEvent] = useState(null);
@@ -35,6 +35,7 @@ export default function MeuCalendario({feiras, setFeiras}) {
     };
 
     init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contaID]);
 
   const handleSelectSlot = ({ start }) => {
@@ -46,8 +47,7 @@ export default function MeuCalendario({feiras, setFeiras}) {
     setFeiras((prevFeiras) => [...prevFeiras, novaFeira]); // Adiciona a nova feira ao estado
   };
 
-  useEffect(() => {
-  }, [feiras]); // Dependência no estado 'feiras'
+  useEffect(() => {}, [feiras]); // Dependência no estado 'feiras'
 
   const moveEvent = useCallback(
     async ({ event, start, end }) => {
@@ -78,12 +78,10 @@ export default function MeuCalendario({feiras, setFeiras}) {
         setModalCriarFeiraAberto(false);
         aoSalvarNovaFeira(res); // Passa a nova feira para o componente pai
       } catch (err) {
-        const message =
-          err?.response?.data?.Message ||
-          "Erro interno. Tente novamente mais tarde.";
-        // setErrorMsg(message); // Você pode habilitar isso se tiver um estado de erro
+        console.log(err?.response?.data?.Message);
       }
-    },
+    },  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [feiras, contaID, aoSalvarNovaFeira]
   );
 
@@ -99,6 +97,7 @@ export default function MeuCalendario({feiras, setFeiras}) {
       setFeiras((prev) => [...prev, newEvent]);
       setDraggedEvent(null);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [draggedEvent]
   );
 

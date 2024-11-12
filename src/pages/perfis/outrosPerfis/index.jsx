@@ -8,7 +8,6 @@ import TabelaPerfil from "../../../components/common/tabelaPerfil";
 import PerfilContaService from "../../../services/perfilConta.service";
 import ItemPorFeiraGrafico from "../graficos/itemPorFeira";
 import ItemPorCategoriaGrafico from "../graficos/itemPorCategoria";
-import avatarGeneric from "../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 
 import "./styles.scss";
 

@@ -18,7 +18,6 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginHeader from "./header";
 import LoginFooter from "./footer";
 import { Field, Form, Formik } from "formik";
-import ContaService from "../../../services/conta.service";
 import { useAuth } from "../../../context/anotaLiAuthContext";
 import { useState } from "react";
 import AuthService from "../../../services/auth.service";
@@ -50,7 +49,6 @@ export default function Login() {
         navigate(`/${res.contaID}/perfis`);
       })
       .catch((err) => {
-
         const message =
           err?.response?.data?.Message ||
           "Erro interno. Tente novamente mais tarde.";

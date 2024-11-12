@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import SelecionarPerfis from "../pages/perfis/selecionarPerfis";
 import LayoutApp from "../components/layout/layout/layout";
 import ProtectedRoute from "./protectedRoute";
@@ -6,7 +6,6 @@ import Login from "../pages/auth/login";
 import Cadastro from "../pages/auth/cadastro";
 import EditarPerfil from "../pages/perfis/selecionarPerfis/alterar-perfil/editarPerfil";
 import Home from "../pages/home";
-import PerfilUsuario from "../pages/perfis/individual";
 import Feiras from "../pages/home/feiras";
 import OutrosPerfis from "../pages/perfis/outrosPerfis";
 import Perfis from "../pages/perfis";
