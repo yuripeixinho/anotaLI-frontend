@@ -212,7 +212,7 @@ export default function Feiras() {
       <h1>Visualização de feira</h1>
 
       <Row gutter={80} className="container-feiras">
-        <Col xs={24} sm={24} md={24} lg={24} xl={19} xxl={19}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={18}>
           <Row gutter={[40, 48]}>
             <Col xs={24} sm={24} md={24} lg={12} xl={12} xxl={14}>
               <div className="bar-chart-container">
@@ -360,7 +360,7 @@ export default function Feiras() {
           </Row>
         </Col>
 
-        <Col xs={24} sm={24} md={24} lg={24} xl={5} xxl={5}>
+        <Col xs={24} sm={24} md={24} lg={24} xl={6}>
           <div className="right-container">
             <Typography.Title
               level={4}
