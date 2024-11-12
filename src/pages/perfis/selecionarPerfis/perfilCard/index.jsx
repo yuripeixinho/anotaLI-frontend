@@ -82,6 +82,7 @@ export default function PerfilCard({
       });
   };
 
+  console.log(perfil);
   return (
     <Flex gap="middle" vertical className="profile-card">
       <div className="avatar-container">
@@ -98,14 +99,14 @@ export default function PerfilCard({
           }}
         />
 
-        {isEditing && (
+        {isEditing && !perfil.novoPerfil && (
           <EditIcon
             className="edit-icon"
             onClick={() => handleEditClick(perfil.id, perfil.nome)}
           />
         )}
 
-        {isEditing && (
+        {isEditing && !perfil.novoPerfil && (
           <Delete
             className="delete-icon"
             onClick={() => {

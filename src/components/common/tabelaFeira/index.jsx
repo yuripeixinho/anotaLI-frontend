@@ -184,7 +184,13 @@ export default function TabelaFeira({ data, setData }) {
 
       render: (perfilConta) => (
         <div className="produto-container">
-          <Avatar size="large" src={perfilConta?.imagemPerfil?.caminhoImagem} />
+          <Avatar
+            size="large"
+            src={
+              perfilConta?.imagemPerfil?.caminhoImagem ||
+              "/assets/imagens/perfis/default/defaultAvatar.png"
+            }
+          />
           <div className="produto-info">
             <span className="nome-produto">
               {perfilConta ? perfilConta.nome : "N/A"}
