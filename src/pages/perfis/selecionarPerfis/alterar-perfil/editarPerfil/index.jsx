@@ -1,18 +1,30 @@
 import { Col, Row, Avatar, Carousel, Flex, Typography } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import userPicture from "../../../../../assets/predefinedUsersPictures/genericDesignSystem/avatar-veiaco-card-1.png";
 import "./styles.scss";
 import { useAuth } from "../../../../../context/anotaLiAuthContext";
 import PerfilContaService from "../../../../../services/perfilConta.service";
+import { useEffect, useState } from "react";
 
 export default function EditarPerfil() {
   const { perfilId } = useParams();
   const { usuario } = useAuth();
 
-  // Dentro do seu componente EditarPerfil
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   const nome = query.get("nome");
+  const [perfilConta, setPerfilConta] = useState({});
+
+  useEffect(() => {
+    const _perfilContaService = new PerfilContaService();
+
+    async function init() {
+      const responsePerfilConta = await _perfilContaService.read(perfilId);
+      setPerfilConta(responsePerfilConta);
+    }
+
+    init();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigate = useNavigate();
 
@@ -29,9 +41,6 @@ export default function EditarPerfil() {
         .then((res) => {
           navigate(`/${usuario.id}/perfis`);
         });
-
-      // Atualiza a lista de perfis com a resposta do serviço
-      // updateProfileList(res);
     } catch (err) {
       // Lida com o erro
       const message =
@@ -90,7 +99,13 @@ export default function EditarPerfil() {
             <Col>
               <Flex justify="space-between" align="center" gap={10}>
                 <Typography className="usuario-nome">{nome}</Typography>
-                <Avatar src={userPicture} size={50} />
+                <Avatar
+                  src={
+                    perfilConta?.imagemPerfil?.caminhoImagem ||
+                    "/assets/imagens/perfis/default/defaultAvatar.png"
+                  }
+                  size={50}
+                />
               </Flex>
             </Col>
           </Row>

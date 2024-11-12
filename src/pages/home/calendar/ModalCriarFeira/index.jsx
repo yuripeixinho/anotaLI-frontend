@@ -142,14 +142,15 @@ export default function ModalCriarFeira({
       values.dataFim = dataFimComHora;
     }
 
+    debugger;
     // Mapeia os produtos selecionados para o formato esperado
     const produtosParaAdicionar = produtosSelecionados.map((produto) => ({
       nome: produto.nome,
       quantidade: produto.quantidade, // Aqui você pode ajustar a lógica para capturar a quantidade que deseja
       unidade: produto.unidade,
       // categoria: { categoriaID: produto.categoriaID },
-      categoriaID: produto.categoriaID, // Ajuste conforme sua lógica de categorias
-      perfilID: produto.perfilID, // Presumindo que seja o ID do perfil
+      categoriaID: produto.categoria.categoriaID, // Ajuste conforme sua lógica de categorias
+      perfilContaID: produto.perfilContaID, // Presumindo que seja o ID do perfil
       // feiraID: perfilId, // Ou ajuste conforme necessário
     }));
 
@@ -184,6 +185,7 @@ export default function ModalCriarFeira({
 
   const adicionarProduto = (produto) => {
     setProdutosSelecionados((prevSelecionados) => {
+      debugger;
       // Adiciona o produto à lista de selecionados
       const novosSelecionados = [...prevSelecionados, produto];
 
