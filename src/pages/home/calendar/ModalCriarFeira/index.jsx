@@ -23,6 +23,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import ProdutoService from "../../../../services/produto.service";
 import "./styles.scss";
 import StatusSemDados from "../../../../components/common/StatusSemDados";
+import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -229,7 +230,7 @@ export default function ModalCriarFeira({
       footer={false}
       onCancel={handleCancel}
       width="90%"
-      style={{ height: "800px" }} // Definindo a altura aqui
+      style={{ height: "96%" }} // Definindo a altura aqui
     >
       {errorMsg && (
         <Alert
@@ -285,8 +286,8 @@ export default function ModalCriarFeira({
                           value={
                             values.dataInicio && values.dataFim
                               ? [
-                                  moment(values.dataInicio),
-                                  moment(values.dataFim),
+                                  dayjs(values.dataInicio),
+                                  dayjs(values.dataFim),
                                 ]
                               : null
                           }
@@ -632,7 +633,7 @@ export default function ModalCriarFeira({
                 </Col>
               </>
             ) : (
-              <StatusSemDados msg="Não existe produtos recomendados até o momento! Continue usando o aplicativo." />
+              <StatusSemDados msg="Não existem produtos recomendados até o momento! Continue usando o aplicativo." />
             )}
           </Row>
         </Col>
