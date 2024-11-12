@@ -166,9 +166,9 @@ export default function Cadastro() {
                           }}
                         />
                         {errors?.perfilConta?.nome &&
-                          touched.perfilConta.nome && (
+                          touched?.perfilConta?.nome && (
                             <div className="error-message">
-                              {errors.perfilConta.nome}
+                              {errors?.perfilConta?.nome}
                             </div>
                           )}
                       </Flex>
