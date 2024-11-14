@@ -58,6 +58,19 @@ export default function TabelaFeira({ data, setData }) {
             ),
           },
         ]);
+        setData((prevData) => [
+          ...prevData,
+          {
+            ...values,
+            id: res.id,
+            categoria: categoriaSelect.find(
+              (cat) => cat.categoriaID === values.categoriaID
+            ),
+            perfilConta: perfilSelect.find(
+              (pc) => pc.id === values.perfilContaID
+            ),
+          },
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -68,72 +81,65 @@ export default function TabelaFeira({ data, setData }) {
     values.feiraID = feiraID;
     delete values.perfilConta;
 
-    let perfilConta;
+    let perfilContaID;
 
-    // quando nao troca o perfil contaID, ele retorna um objeto
+    // Corrige o perfilContaID se necessário
     if (typeof values.perfilContaID === "object") {
-      perfilConta = values.perfilContaID = values.perfilContaID.perfilContaID;
+      perfilContaID = values.perfilContaID.perfilContaID;
     } else {
-      perfilConta = values.perfilContaID;
+      perfilContaID = values.perfilContaID;
     }
 
     const updatedValues = {
       ...values,
-      perfilContaID: perfilConta,
+      perfilContaID: perfilContaID,
     };
 
-    // quando nao troca seleciona a categoria, ele retorna como um objeto
+    // Corrige o categoriaID se necessário
     if (typeof values.categoriaID === "object") {
-      const categoriaID = (updatedValues.categoriaID =
-        updatedValues.categoria.categoriaID);
+      updatedValues.categoriaID = values.categoriaID.categoriaID;
+    }
 
-      await _produtoService
-        .editarProduto(contaID, values.id, updatedValues)
-        .then((res) => {
-          setDataSource((prevData) =>
-            prevData.map((item) =>
-              item.id === res.id
-                ? {
-                    ...item,
-                    ...values,
-                    categoria: categoriaSelect.find(
-                      (cat) => cat.categoriaID === categoriaID
-                    ),
-                    perfilConta: perfilSelect.find(
-                      (pc) => pc.id === perfilConta
-                    ),
-                  }
-                : item
-            )
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      await _produtoService
-        .editarProduto(contaID, values.id, updatedValues)
-        .then((res) => {
-          setDataSource((prevData) =>
-            prevData.map((item) =>
-              item.id === res.id
-                ? {
-                    ...item,
-                    ...values,
-                    categoria: categoriaSelect.find(
-                      (cat) => cat.categoriaID === updatedValues.categoriaID
-                    ),
-                    perfilConta: perfilSelect.find(
-                      (pc) => pc.id === perfilConta
-                    ),
-                  }
-                : item
-            )
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    try {
+      const res = await _produtoService.editarProduto(
+        contaID,
+        values.id,
+        updatedValues
+      );
+
+      // Atualiza o estado `dataSource` para refletir as mudanças no item editado
+      setDataSource((prevData) =>
+        prevData.map((item) =>
+          item.id === res.id
+            ? {
+                ...item,
+                ...values,
+                categoria: categoriaSelect.find(
+                  (cat) => cat.categoriaID === updatedValues.categoriaID
+                ),
+                perfilConta: perfilSelect.find((pc) => pc.id === perfilContaID),
+              }
+            : item
+        )
+      );
+
+      // Atualiza `setData` somente se o item já existir, evitando duplicação
+      setData((prevData) =>
+        prevData.map((item) =>
+          item.id === res.id
+            ? {
+                ...item,
+                ...values,
+                categoria: categoriaSelect.find(
+                  (cat) => cat.categoriaID === updatedValues.categoriaID
+                ),
+                perfilConta: perfilSelect.find((pc) => pc.id === perfilContaID),
+              }
+            : item
+        )
+      );
+    } catch (err) {
+      console.log(err);
     }
   }
 

@@ -232,7 +232,7 @@ export default function ModalCriarFeira({
       footer={false}
       onCancel={handleCancel}
       width="90%"
-      style={{ height: "96%" }} // Definindo a altura aqui
+      centered
     >
       {errorMsg && (
         <Alert
